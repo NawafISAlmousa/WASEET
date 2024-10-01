@@ -1,0 +1,175 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main</title>
+    <link rel="stylesheet" href="{% static static/main-style.css %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <img src="/FrontEnd/images/SmallLogo.png" alt="Logo" class="navbar-logo">
+            <button class="logout-button">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Dynamic Content Section -->
+    <div class="content-container">
+        <h1>Services Near You</h1>
+        <div class="controls">
+            <div class="sort-container">
+                <label for="sort">Sort by:</label>
+                <select id="sort" class="sort-select">
+                    <option value="rating">Rating</option>
+                    <option value="distance">Distance</option>
+                    <option value="popularity">Popularity</option>
+                </select>
+            </div>
+            <div class="search-container">
+                <input type="text" placeholder="Search..." class="search-input">
+                <button class="search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Toggle Buttons -->
+        <div class="toggle-container">
+            <button class="toggle-option active" id="providers">Providers</button>
+            <button class="toggle-option" id="events">Events</button>
+            <button class="toggle-option" id="map">Map</button>
+            <div class="toggle-slider"></div>
+        </div>
+
+        <!-- Dynamic Content View -->
+    </div>
+    <div class="dynamic-content" id="dynamicContent">
+        <div class="card" >
+            <div class="card-header">
+                <img src="/FrontEnd/images/SmallLogo.png" alt="Provider Logo" class="provider-logo">
+                <div class="top-right">
+                    <div> <i class="fa-regular fa-bookmark fa-xl" style="color: #00796b; margin-bottom: 25px;"></i></div>
+                     <div class="card-distance"><span class="span-km">100km</span> away from you</div>
+                 </div>
+            </div>
+            <div class="card-info">
+                <h2>Style Shears</h2>
+                <p class="card-description">Lorem ipsum dolor sit amet consectetur adsrhh aefsaefsdfs wswrgsrfge5 etherethrythrtg rdgsetg</p>
+                <p class="card-rating">4.5 <i class="fa-solid fa-star" style="color:  #00796b;"></i></p>
+                <div class="provider-buttons" id="that">
+                    <button class="map-button">Check on map</button>
+                    <button class="more-button">See more</button>
+                </div>
+            </div>
+        </div>
+        <div class="card" >
+            <div class="card-header">
+                <img src="/FrontEnd/images/SmallLogo.png" alt="Provider Logo" class="provider-logo">
+                <div class="top-right">
+                    <div> <i class="fa-regular fa-bookmark fa-xl" style="color: #00796b; margin-bottom: 25px;"></i></div>
+                     <div class="card-distance"><span class="span-km">100km</span> away from you</div>
+                 </div>
+            </div>
+            <div class="card-info">
+                <h2>Style Shears</h2>
+                <p class="card-description">Lorem ipsum dolor sit amet consectetur adsrhh aefsaefsdfs wswrgsrfge5 etherethrythrtg rdgsetg</p>
+                <p class="card-rating">4.5 <i class="fa-solid fa-star" style="color:  #00796b;"></i></p>
+                <div class="provider-buttons" id="that">
+                    <button class="map-button">Check on map</button>
+                    <button class="more-button">See more</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" >
+            <div class="card-header">
+                <img src="/FrontEnd/images/SmallLogo.png" alt="Provider Logo" class="provider-logo">
+                <div class="top-right">
+                    <div> <i class="fa-regular fa-bookmark fa-xl" style="color: #00796b; margin-bottom: 25px;"></i></div>
+                     <div class="card-distance"><span class="span-km">100km</span> away from you</div>
+                 </div>
+            </div>
+            <div class="card-info">
+                <h2>Style Shears</h2>
+                <p class="card-description">Lorem ipsum dolor sit amet consectetur adsrhh aefsaefsdfs wswrgsrfge5 etherethrythrtg rdgsetg</p>
+                <p class="card-rating">4.5 <i class="fa-solid fa-star" style="color:  #00796b;"></i></p>
+                <div class="provider-buttons" id="that">
+                    <button class="map-button">Check on map</button>
+                    <button class="more-button">See more</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" >
+            <div class="card-header">
+                <img src="/FrontEnd/images/SmallLogo.png" alt="Provider Logo" class="provider-logo">
+                <div class="top-right">
+                    <div> <i class="fa-regular fa-bookmark fa-xl" style="color: #00796b; margin-bottom: 25px;"></i></div>
+                     <div class="card-distance"><span class="span-km">100km</span> away from you</div>
+                 </div>
+            </div>
+            <div class="card-info">
+                <h2>Style Shears</h2>
+                <p class="card-description">Lorem ipsum dolor sit amet consectetur adsrhh aefsaefsdfs wswrgsrfge5 etherethrythrtg rdgsetg</p>
+                <p class="card-rating">4.5 <i class="fa-solid fa-star" style="color:  #00796b;"></i></p>
+                <div class="provider-buttons" id="that">
+                    <button class="map-button">Check on map</button>
+                    <button class="more-button">See more</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" >>
+            <div class="card-header">
+                <img src="/FrontEnd/images/SmallLogo.png" alt="Provider Logo" class="provider-logo">
+                <div class="top-right">
+                    <div> <i class="fa-regular fa-bookmark fa-xl" style="color: #00796b; margin-bottom: 25px;"></i></div>
+                     <div class="card-distance"><span class="span-km">100km</span> away from you</div>
+                 </div>
+            </div>
+            <div class="card-info">
+                <h2>Style Shears</h2>
+                <p class="card-description">Lorem ipsum dolor sit amet consectetur adsrhh aefsaefsdfs wswrgsrfge5 etherethrythrtg rdgsetg</p>
+                <p class="card-rating">4.5 <i class="fa-solid fa-star" style="color:  #00796b;"></i></p>
+                <div class="provider-buttons" id="that">
+                    <button class="map-button">Check on map</button>
+                    <button class="more-button">See more</button>
+                </div>
+            </div>
+        </div>
+        <div class="card" >
+            <div class="card-header">
+                <img src="/FrontEnd/images/SmallLogo.png" alt="Provider Logo" class="provider-logo">
+                <div class="top-right">
+                    <div> <i class="fa-regular fa-bookmark fa-xl" style="color: #00796b; margin-bottom: 25px;"></i></div>
+                     <div class="card-distance"><span class="span-km">100km</span> away from you</div>
+                 </div>
+            </div>
+            <div class="card-info">
+                <h2>Style Shears</h2>
+                <p class="card-description">Lorem ipsum dolor sit amet consectetur adsrhh aefsaefsdfs wswrgsrfge5 etherethrythrtg rdgsetg</p>
+                <p class="card-rating">4.5 <i class="fa-solid fa-star" style="color:  #00796b;"></i></p>
+                <div class="provider-buttons" id="that">
+                    <button class="map-button">Check on map</button>
+                    <button class="more-button">See more</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="{% static 'static/main-script.js' %}"></script>
+</body>
+
+</html>
