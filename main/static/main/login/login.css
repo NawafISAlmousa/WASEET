@@ -1,0 +1,166 @@
+/* General Styles */
+* {
+    font-family: "Jost", sans-serif;
+}
+
+body {
+    margin: 0;
+    background-color: #f8f8f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.centering {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+
+.login-container {
+    position: relative;
+}
+
+.back-button {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    font-size: 24px;
+    text-decoration: none;
+    color: #00796b;
+}
+
+/* Card Styling */
+.login-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    width: 350px;
+    text-align: center;
+}
+
+.logo {
+    width: 80px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 22px;
+    color: #333;
+}
+
+/* Toggle Button Styles */
+.toggle-container {
+    display: flex;
+    position: relative;
+    width: 200px;
+    height: 35px;
+    /* Made the container shorter */
+    background-color: #e0e0e0;
+    border-radius: 25px;
+    margin: 0 auto 20px;
+    padding: 3px;
+}
+
+.toggle-option {
+    flex: 1;
+    border: none;
+    border-radius: 25px;
+    background: transparent;
+    color: #333;
+    cursor: pointer;
+    font-size: 14px;
+    outline: none;
+    z-index: 2;
+    position: relative;
+    transition: color 0.3s;
+    /* Smooth transition for text color */
+}
+
+.toggle-slider {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 47%;
+    height: 35px;
+    /* Adjust height to fit shorter container */
+    background: #00796b;
+    /* Default highlight color for Customer */
+    border-radius: 25px;
+    transition: left 0.3s, background-color 0.3s;
+    /* Smooth sliding effect */
+    z-index: 1;
+}
+
+#customerBtn {
+    color: white;
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+label {
+    text-align: left;
+    font-size: 14px;
+    color: #666;
+}
+
+input[type="text"],
+input[type="password"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #00796b;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.login-button {
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    background: #00796b;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.login-button:hover {
+    background: #005f54;
+}
+
+.register-link {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #333;
+}
+
+.register-link a {
+    color: #00796b;
+    text-decoration: none;
+}
