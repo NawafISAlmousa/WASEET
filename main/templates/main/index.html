@@ -6,170 +6,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main</title>
-    <link rel="stylesheet" href="{% static static/main-style.css %}">
+    <link rel="stylesheet" href="{% static 'main/main-page/main-style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="navbar-container">
-            <img src="/FrontEnd/images/SmallLogo.png" alt="Logo" class="navbar-logo">
-            <button class="logout-button">Logout</button>
-        </div>
-    </nav>
+    <header>
+        <img src="{% static 'main/assets/SmallLogo.png'%}" alt="Small WASEET Logo">
+        <nav>
+            <a href="#" class="About">About
+                Us</a>
+            <a href="#" class="Contact">Contact
+                Us</a>
+            <a href="#" class="arabic-btn">Arabic</a>
+            <a href="{%url 'main:login'%}" class="login-btn">Log in</a>
 
-    <!-- Dynamic Content Section -->
-    <div class="content-container">
-        <h1>Services Near You</h1>
-        <div class="controls">
-            <div class="sort-container">
-                <label for="sort">Sort by:</label>
-                <select id="sort" class="sort-select">
-                    <option value="rating">Rating</option>
-                    <option value="distance">Distance</option>
-                    <option value="popularity">Popularity</option>
-                </select>
+        </nav>
+    </header>
+    <main>
+        <section class="main">
+            <div class="main-logo">
+                <img src="{% static 'main/assets/BigLogo.png'%}" alt="Big WASEET Logo">
             </div>
-            <div class="search-container">
-                <input type="text" placeholder="Search..." class="search-input">
-                <button class="search-button">
-                    <i class="fas fa-search"></i>
-                </button>
+            <div class="main-content">
+                <p>Your trusted bridge between local services and customers,<br> making it easier to find the right
+                    professionals <br>in your community.</p>
+                <div class="tagline">Connecting Communities, One Service at a Time.</div>
+                <a href="#" class="join-btn">Join us</a>
             </div>
-        </div>
-
-        <!-- Toggle Buttons -->
-        <div class="toggle-container">
-            <button class="toggle-option active" id="providers">Providers</button>
-            <button class="toggle-option" id="events">Events</button>
-            <button class="toggle-option" id="map">Map</button>
-            <div class="toggle-slider"></div>
-        </div>
-
-        <!-- Dynamic Content View -->
-    </div>
-    <div class="dynamic-content" id="dynamicContent">
-        <div class="card" >
-            <div class="card-header">
-                <img src="/FrontEnd/images/SmallLogo.png" alt="Provider Logo" class="provider-logo">
-                <div class="top-right">
-                    <div> <i class="fa-regular fa-bookmark fa-xl" style="color: #00796b; margin-bottom: 25px;"></i></div>
-                     <div class="card-distance"><span class="span-km">100km</span> away from you</div>
-                 </div>
-            </div>
-            <div class="card-info">
-                <h2>Style Shears</h2>
-                <p class="card-description">Lorem ipsum dolor sit amet consectetur adsrhh aefsaefsdfs wswrgsrfge5 etherethrythrtg rdgsetg</p>
-                <p class="card-rating">4.5 <i class="fa-solid fa-star" style="color:  #00796b;"></i></p>
-                <div class="provider-buttons" id="that">
-                    <button class="map-button">Check on map</button>
-                    <button class="more-button">See more</button>
+        </section>
+        <section class="part2">
+            <div class="aboutUs">
+                <h1 class="aboutUs-header">About Us</h1>
+                <p>WASEET acts as a connection between the service provider and the customer in need.</p>
+                <div class="container">
+                    <div class="customer">
+                        <h1><i class="fa-solid fa-user" style="color: #ffffff;"></i><br>Customers</h1>
+                        <p>Looking for local services? Our platform makes it easy to find and compare businesses near
+                            you. Search by location, price, or service type, and discover the best options in your area.
+                            It's all about making your search simple and connecting you with your community.</p>
+                    </div>
+                    <div class="line"></div>
+                    <div class="provider">
+                        <h1><i class="fa-solid fa-store" style="color: #ffffff;"></i><br>Providers</h1>
+                        <p>Our platform helps local businesses connect with nearby customers. It's a simple space where
+                            you can showcase your services, reach more people, and grow your presence in the community.
+                            With easy-to-use mapping features, your business is always just a search away.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="card" >
-            <div class="card-header">
-                <img src="/FrontEnd/images/SmallLogo.png" alt="Provider Logo" class="provider-logo">
-                <div class="top-right">
-                    <div> <i class="fa-regular fa-bookmark fa-xl" style="color: #00796b; margin-bottom: 25px;"></i></div>
-                     <div class="card-distance"><span class="span-km">100km</span> away from you</div>
-                 </div>
-            </div>
-            <div class="card-info">
-                <h2>Style Shears</h2>
-                <p class="card-description">Lorem ipsum dolor sit amet consectetur adsrhh aefsaefsdfs wswrgsrfge5 etherethrythrtg rdgsetg</p>
-                <p class="card-rating">4.5 <i class="fa-solid fa-star" style="color:  #00796b;"></i></p>
-                <div class="provider-buttons" id="that">
-                    <button class="map-button">Check on map</button>
-                    <button class="more-button">See more</button>
-                </div>
-            </div>
-        </div>
+        </section>
 
-        <div class="card" >
-            <div class="card-header">
-                <img src="/FrontEnd/images/SmallLogo.png" alt="Provider Logo" class="provider-logo">
-                <div class="top-right">
-                    <div> <i class="fa-regular fa-bookmark fa-xl" style="color: #00796b; margin-bottom: 25px;"></i></div>
-                     <div class="card-distance"><span class="span-km">100km</span> away from you</div>
-                 </div>
+    </main>
+    <footer>
+        <h2>Get in Touch</h2>
+        <p class="footer-text">We would love to hear your feedback, so do not hesitate!</p>
+        <div class="social-icons">
+            <a href="https://www.linkedin.com/in/nawaf-almousa-05130b230/"><i class="fab fa-linkedin"></i> Nawaf, </a>
+            <a href="https://www.linkedin.com/in/nawaf-almousa-05130b230/"> Abdullah, </a>
+            <a href="https://www.linkedin.com/in/nawaf-almousa-05130b230/"> Ahmed</a>
+            <a href="https://x.com/UseWASEET"><i class="fab fa-twitter"></i> @UseWASEET</a>
+        </div>
+        <div class="footer-container">
+            <div class="contact-card">
+                <i class="fa-solid fa-headset" style="color: #ffffff;"></i>
+                <a href="https://dribbble.com/example">Customer Service</a>
             </div>
-            <div class="card-info">
-                <h2>Style Shears</h2>
-                <p class="card-description">Lorem ipsum dolor sit amet consectetur adsrhh aefsaefsdfs wswrgsrfge5 etherethrythrtg rdgsetg</p>
-                <p class="card-rating">4.5 <i class="fa-solid fa-star" style="color:  #00796b;"></i></p>
-                <div class="provider-buttons" id="that">
-                    <button class="map-button">Check on map</button>
-                    <button class="more-button">See more</button>
-                </div>
+            <div class="contact-card">
+                <i class="fas fa-envelope"></i>
+                <a href="mailto:ContactWASEET@Gmail.com">ContactWASEET@Gmail.com</a>
             </div>
         </div>
-        
-        <div class="card" >
-            <div class="card-header">
-                <img src="/FrontEnd/images/SmallLogo.png" alt="Provider Logo" class="provider-logo">
-                <div class="top-right">
-                    <div> <i class="fa-regular fa-bookmark fa-xl" style="color: #00796b; margin-bottom: 25px;"></i></div>
-                     <div class="card-distance"><span class="span-km">100km</span> away from you</div>
-                 </div>
-            </div>
-            <div class="card-info">
-                <h2>Style Shears</h2>
-                <p class="card-description">Lorem ipsum dolor sit amet consectetur adsrhh aefsaefsdfs wswrgsrfge5 etherethrythrtg rdgsetg</p>
-                <p class="card-rating">4.5 <i class="fa-solid fa-star" style="color:  #00796b;"></i></p>
-                <div class="provider-buttons" id="that">
-                    <button class="map-button">Check on map</button>
-                    <button class="more-button">See more</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="card" >>
-            <div class="card-header">
-                <img src="/FrontEnd/images/SmallLogo.png" alt="Provider Logo" class="provider-logo">
-                <div class="top-right">
-                    <div> <i class="fa-regular fa-bookmark fa-xl" style="color: #00796b; margin-bottom: 25px;"></i></div>
-                     <div class="card-distance"><span class="span-km">100km</span> away from you</div>
-                 </div>
-            </div>
-            <div class="card-info">
-                <h2>Style Shears</h2>
-                <p class="card-description">Lorem ipsum dolor sit amet consectetur adsrhh aefsaefsdfs wswrgsrfge5 etherethrythrtg rdgsetg</p>
-                <p class="card-rating">4.5 <i class="fa-solid fa-star" style="color:  #00796b;"></i></p>
-                <div class="provider-buttons" id="that">
-                    <button class="map-button">Check on map</button>
-                    <button class="more-button">See more</button>
-                </div>
-            </div>
-        </div>
-        <div class="card" >
-            <div class="card-header">
-                <img src="/FrontEnd/images/SmallLogo.png" alt="Provider Logo" class="provider-logo">
-                <div class="top-right">
-                    <div> <i class="fa-regular fa-bookmark fa-xl" style="color: #00796b; margin-bottom: 25px;"></i></div>
-                     <div class="card-distance"><span class="span-km">100km</span> away from you</div>
-                 </div>
-            </div>
-            <div class="card-info">
-                <h2>Style Shears</h2>
-                <p class="card-description">Lorem ipsum dolor sit amet consectetur adsrhh aefsaefsdfs wswrgsrfge5 etherethrythrtg rdgsetg</p>
-                <p class="card-rating">4.5 <i class="fa-solid fa-star" style="color:  #00796b;"></i></p>
-                <div class="provider-buttons" id="that">
-                    <button class="map-button">Check on map</button>
-                    <button class="more-button">See more</button>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <script src="{% static 'static/main-script.js' %}"></script>
+    </footer>
 </body>
+<script src="{% static 'main/main-page/main-script.js' %}"></script>
 
 </html>

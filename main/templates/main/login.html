@@ -1,0 +1,49 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'main/login/login.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="centering">
+        <div class="login-container">
+            <div class="login-card">
+                <a href="{% url 'main:index'%}" class="back-button">←</a>
+                <img src="{% static 'main/assets/SmallLogo.png'%}" alt="Logo" class="logo">
+                <h2>Welcome to WASEET!</h2>
+                <div class="toggle-container">
+                    <button id="customerBtn" class="toggle-option active">Customer</button>
+                    <button id="providerBtn" class="toggle-option">Provider</button>
+                    <div class="toggle-slider"></div>
+                </div>
+                <form action="#" method="POST" id="loginForm">
+                    <label for="username" id="usernameLabel">User Name:</label>
+                    <input type="text" id="username" name="username" placeholder="Enter customer username">
+
+                    <label for="password" id="passwordLabel">Password:</label>
+                    <input type="password" id="password" name="password" placeholder="Enter customer password">
+
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember">Remember me</label>
+                    </div>
+
+                    <button type="submit" class="login-button" id="submitButton">Login</button>
+                </form>
+                <p class="register-link">New to WASEET? <a href="#">Register Now!</a></p>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="{% static 'main/login/login.js'%}"></script>
+</body>
+
+</html>

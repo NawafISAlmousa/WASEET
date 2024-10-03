@@ -1,0 +1,321 @@
+/* General Styles */
+body {
+    font-family: "jost", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 50px;
+    background-color: white;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: top 0.3s;
+}
+
+header img {
+    height: 60px;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+}
+
+nav a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #00796b;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+nav a.login-btn {
+    background-color: #00796b;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+}
+
+.login-btn:hover {
+    animation: switch 0.5s forwards;
+}
+
+.main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-bottom: 100px;
+}
+
+.main-content {
+    max-width: 50%;
+}
+
+.main-content h1 {
+    font-size: 48px;
+    color: #333;
+}
+
+.main-content p {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #555;
+}
+
+img[alt="Big WASEET Logo"] {
+    width: 500px;
+}
+
+.main-content .tagline {
+    margin-top: 30px;
+    font-size: 18px;
+    color: #00796b;
+    font-style: italic;
+}
+
+.join-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 15px 30px;
+    background-color: #00796b;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+@keyframes switch {
+    0% {
+        box-shadow: 0;
+    }
+
+    100% {
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    }
+}
+
+.join-btn:hover {
+    animation: switch 0.5s forwards;
+}
+
+.part2 {
+    background: #00796b;
+    height: auto;
+    padding-top: 100px;
+    padding-bottom: 60px;
+    color: white;
+}
+
+.aboutUs {
+    max-width: 1500px;
+    margin: auto;
+    text-align: center;
+}
+
+.aboutUs-header {
+    font-size: 75px;
+    margin: 0;
+}
+
+.container {
+    margin: auto;
+    display: flex;
+    justify-content: space-around;
+}
+
+.line {
+    width: 2px;
+    height: auto;
+    background: rgba(9, 67, 61, 0.3);
+}
+
+.container div {
+    max-width: 25%;
+}
+
+
+.customer h1,
+.provider h1 {
+    font-size: 45px;
+}
+
+.customer p,
+.provider p {
+    font-size: 20px;
+    font-style: italic;
+}
+
+.aboutUs>p {
+    font-size: 20px;
+}
+
+/* Footer section */
+
+footer {
+    background-color: #ffffff;
+    color: #00796b;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.footer-container div {
+    flex: 1;
+    min-width: 250px;
+}
+
+.footer-text {
+    font-size: 17px;
+    margin: 20px 0;
+    color: #00796b;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.social-icons a {
+    color: #00796b;
+    font-size: 20px;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.social-icons a:hover {
+    color: #4aaba0;
+}
+
+.contact-info {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.contact-card {
+    background-color: #00796b;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    color: #ffffff;
+}
+
+.contact-card a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    header {
+        padding: 0px 20px;
+    }
+
+    .main {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .main-content {
+        max-width: 100%;
+        margin-top: 20px;
+    }
+
+    .main-content h1 {
+        font-size: 36px;
+    }
+
+    img[alt="Big WASEET Logo"] {
+        width: 300px;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .aboutUs-header {
+        font-size: 50px;
+    }
+
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .line {
+        display: none;
+    }
+
+    .container div {
+        max-width: 100%;
+        margin-bottom: 40px;
+    }
+
+    .customer h1,
+    .provider h1 {
+        font-size: 30px;
+    }
+
+    .customer p,
+    .provider p {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 576px) {
+    nav a {
+        font-size: 14px;
+    }
+
+    .join-btn {
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+
+    .aboutUs-header {
+        font-size: 40px;
+    }
+
+    .customer h1,
+    .provider h1 {
+        font-size: 24px;
+    }
+
+    .customer p,
+    .provider p {
+        font-size: 16px;
+    }
+
+    footer {
+        padding: 20px 10px;
+    }
+
+    .footer-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-container div {
+        max-width: 100%;
+    }
+}
