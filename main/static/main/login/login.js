@@ -7,7 +7,6 @@ const submitButton = document.getElementById('submitButton');
 const usernameInput = document.getElementById("username")
 const passwordInput = document.getElementById("password")
 const registerLink = document.querySelector(".register-link a")
-
 // Function to activate Customer option
 customerBtn.addEventListener('click', function () {
     toggleSlider.style.left = '3px'; // Move slider to the left
@@ -21,7 +20,7 @@ customerBtn.addEventListener('click', function () {
     usernameInput.placeholder = 'Enter customer username'
     passwordInput.placeholder = 'Enter customer password'
     registerLink.style.color = '#00796b'
-    registerLink.href = "https://www.google.com/search?q=customer&sca_esv=12afcb07d421cd6c&sca_upv=1&hl=en&sxsrf=ADLYWIJL7dF_CrxiJAyhWgvUBbqmaVZNaQ%3A1725565103064&source=hp&ei=rwjaZt7mAcy6hbIPtKmR8Qg&iflsig=AL9hbdgAAAAAZtoWv-cWclyr6rKhfC-OxG3PR2YwwmRD&ved=0ahUKEwie-oL4xqyIAxVMXUEAHbRUJI4Q4dUDCBc&uact=5&oq=customer&gs_lp=Egdnd3Mtd2l6IghjdXN0b21lcjINEAAYgAQYsQMYQxiKBTINEAAYgAQYsQMYQxiKBTIQEAAYgAQYsQMYQxiDARiKBTIKEAAYgAQYQxiKBTIFEAAYgAQyCBAAGIAEGLEDMggQABiABBixAzIFEAAYgAQyBRAAGIAEMgUQABiABEibEFClBliTDnABeACQAQCYAdoBoAGmDqoBBTAuOC4yuAEDyAEA-AEBmAIKoAKKDagCCsICBxAjGCcY6gLCAgcQLhgnGOoCwgIKECMYgAQYJxiKBcICChAuGIAEGCcYigXCAhYQLhiABBixAxjRAxhDGIMBGMcBGIoFwgIOEAAYgAQYsQMYgwEYigXCAgsQABiABBixAxiDAcICBRAuGIAEwgIQEC4YgAQY0QMYQxjHARiKBcICChAuGIAEGEMYigXCAggQLhiABBixA8ICCxAuGIAEGNEDGMcBwgINEC4YgAQYsQMYQxiKBcICExAuGIAEGLEDGEMYgwEY1AIYigWYAwaSBwUxLjcuMqAHxVA&sclient=gws-wiz"
+    registerLink.href = customerUrl
 });
 
 // Function to activate Provider option

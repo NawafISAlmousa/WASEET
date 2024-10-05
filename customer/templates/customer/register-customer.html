@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'customer/register-customer/register-customer.css' %}">
+    <title>Register as a Customer</title>
+</head>
+<body>
+    <div class="main-container">
+        <div class="form-container">
+            <header>
+                <img src="{% static 'main/assets/SmallLogo.png' %} " alt="Logo" class="logo">
+                <h1>Register as a Customer</h1>
+            </header>
+            <form class="register-form">
+                <div class="form-flex">
+                    <div class="form-left">
+                        <label for="customer-name">Username:</label>
+                        <input type="text" id="customer-name" name="customer-name" required>
+
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required>
+
+                        <label for="confirm-password">Confirm Password:</label>
+                        <input type="password" id="confirm-password" name="confirm-password" required>
+                    </div>
+                    <div class="dividing-line"></div>
+                    <div class="form-right">
+                        <div class="full-name">
+                            <div class="first-name">
+                                <label for="first-name">First Name:</label>
+                                <input type="text" id="first-name" name="first-name" required>
+                            </div>
+                            <div class="last-name">
+                                <label for="last-name" >Last Name:</label>
+                                <input type="text" id="last-name" name="last-name" required>
+                            </div>
+                        </div>
+                        <label for="customer-number">Phone Number:</label>
+                        <input type="tel" id="customer-number" name="customer-number" required>
+
+                        <label>Gender:</label>
+                        <div class="radio-button">
+                            
+                            <input id='radio-1' type="radio" name='r-group-1' checked='checked' />
+                            <label for="radio-1">Male</label>
+                            
+                            <input id='radio-2' type="radio" name='r-group-1' />
+                            <label for="radio-2">Female</label>
+                        </div>
+                        
+                        <label for="DOB">Date of Birth:</label>
+                        <input type="date" min="1920-01-01" >
+
+                    </div>
+                </div>
+                <div class="register-button-container">
+                    <button type="submit" class="register-button">Register</button>
+                </div>
+            </form>
+
+            <footer>
+                <p>Already a Customer? <a href="{%url 'main:login'%}">Login Now!</a></p>
+                <p><a href="#">Register as a Provider instead</a></p>
+            </footer>
+        </div>
+    </div>
+</body>
+</html>

@@ -21,5 +21,5 @@ from . import views
 app_name = "customer"
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('register-customer/', views.registerCustomer, name='register-customer'),
 ]

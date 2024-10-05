@@ -1,0 +1,297 @@
+/* General Styles */
+*{
+    font-family: "Jost", sans-serif;
+}
+
+body {
+    margin: 0;
+    background-color: #ffffff; /* White background for the whole body */
+}
+
+.navbar {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: top 0.3s;
+    z-index: 10;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.navbar-logo {
+    height: 40px;
+}
+
+.logout-button {
+    padding: 8px 16px;
+    background-color: #00796b;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+    background-color: #005f54;
+}
+
+/* Dynamic Content Container */
+.content-container {
+    padding: 20px;
+}
+
+h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.controls {
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.sort-container, .search-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-container{
+    /* padding-right: 30%; */
+    margin: auto;
+}
+
+.sort-select, .search-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    outline: none;
+}
+
+.search-input {
+    width: 500px; /* Make the search bar larger */
+}
+
+.search-button {
+    background-color: #00796b;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+/* Toggle Button Styles */
+.toggle-container {
+    display: flex;
+    position: relative;
+    width: 260px;
+    height: 35px;
+    background-color: #e0e0e0;
+    border-radius: 25px;
+    margin: 0 auto 20px;
+    padding: 3px;
+}
+
+.toggle-option {
+    flex: 1;
+    border: none;
+    border-radius: 25px;
+    background: transparent;
+    color: #333;
+    cursor: pointer;
+    font-size: 14px;
+    outline: none;
+    z-index: 2;
+    position: relative;
+    transition: color 0.3s;
+}
+
+.toggle-slider {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 33%;
+    height: 34px;
+    background: #00796b;
+    border-radius: 25px;
+    transition: left 0.3s, background-color 0.3s;
+    z-index: 1;
+}
+
+.toggle-option.active {
+    color: white;
+}
+
+.dynamic-content{
+    padding: 25px 25px 57px 25px;
+    background-color: #61a69f;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 20px;
+    box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Provider Card Styles */
+.provider-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.provider-card {
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.provider-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.provider-info {
+    font-size: 14px;
+    color: #333;
+}
+
+.provider-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.map-button, .more-button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    background-color: #00796b;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.map-button:hover, .more-button:hover {
+    background-color: #005f54;
+}
+
+
+.provider-logo {
+    width: 90px;
+}
+
+.card {
+    width: 380px;
+    height: 280px;
+    margin: auto;
+    background-color: #DFDBDB;
+    padding: 25px;
+    border-radius: 25px;
+    box-shadow: 0 1px 4px;
+    transition: transform 0.3s ease;
+}
+
+.card:hover{
+    transform: scale(1.05);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+
+
+}
+
+h2 {
+    margin: 0;
+}
+
+.card-info {
+    text-align: center;
+}
+
+
+.top-right{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    
+}
+
+
+.provider-buttons {
+    margin-top: 45px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.provider-buttons button {
+    border: none;
+    background-color: #00796b;
+    color: #ffff;
+    padding: 10px;
+    width: 120px;
+    border-radius: 5px;
+}
+
+.card-description{
+    display: none;
+    margin: 0;
+}
+
+
+
+@keyframes description {
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+    
+}
+
+.span-km {
+    color: #00796b;
+}
+
+.card-rating {
+    font-weight: bold;
+}
+
+
+
+
+
+.provider-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.error-message{
+    margin: 150px;
+    color: black;
+}
