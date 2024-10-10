@@ -35,15 +35,17 @@
                         <label for="remember">Remember me</label>
                     </div>
 
-                    <button type="submit" class="login-button" id="submitButton">Login</button>
+                    <button type="submit" class="login-button" id="submitButton">Login as Customer</button>
                 </form>
-                <p class="register-link">New to WASEET? <a href="{% url 'customer:register-customer' %}">Register Now!</a></p>
+                <p class="register-link">New to WASEET? <a href="{% url 'customer:register-customer' %}">Register
+                        Now!</a></p>
             </div>
         </div>
     </div>
 
     <script>
         const customerUrl = "{% url 'customer:register-customer' %}";
+        const providerUrl = '{% url "provider:registerProvider"%}'
     </script>
     <script src="{% static 'main/login/login.js'%}"></script>
 </body>

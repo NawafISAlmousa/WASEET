@@ -1,0 +1,146 @@
+*{
+    font-family: "Jost", sans-serif;
+}
+
+body {
+    margin: 10px;
+    padding: 0;
+    background-color: #ffffff; /* Main background color */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.form-container {
+    background-color: #ffffff; /* Form background color */
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    padding: 20px 40px;
+    max-width: 800px;
+    width: 90%;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo {
+    height: 50px;
+    margin-bottom: 10px;
+}
+
+.register-form {
+    margin: auto;
+}
+
+.form-left,
+.form-right {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    padding-top: 60px;
+}
+
+.form-flex{
+    display: flex;
+    justify-content: space-between;
+}
+
+.dividing-line{
+    width: 1px;
+    height: auto;
+    background-color: rgb(170, 170, 170);
+}
+
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+textarea {
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+}
+
+input[type="file"] {
+    margin-bottom: 15px;
+    font-family: "Jost", sans-serif;
+}
+
+.register-button {
+    background-color: #296879;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 35%;
+    margin: auto 10px;
+    
+}
+
+.register-button-container {
+    display: flex;
+    justify-content: center; /* Center the button horizontally */
+    margin-top: 20px;
+}
+
+.register-button:hover {
+    background-color: #296879;
+}
+
+.upload-logo{
+    display: flex;
+}
+
+.logo-input{
+    width: 90px;
+    display: block;
+    margin-top: 10px;
+}
+
+/* Image preview styles */
+.logo-preview-container {
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.logo-preview {
+    display: none;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+footer a {
+    color: #296879;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}

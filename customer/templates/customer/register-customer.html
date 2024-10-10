@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,6 +13,7 @@
     <link rel="stylesheet" href="{% static 'customer/register-customer/register-customer.css' %}">
     <title>Register as a Customer</title>
 </head>
+
 <body>
     <div class="main-container">
         <div class="form-container">
@@ -42,7 +44,7 @@
                                 <input type="text" id="first-name" name="first-name" required>
                             </div>
                             <div class="last-name">
-                                <label for="last-name" >Last Name:</label>
+                                <label for="last-name">Last Name:</label>
                                 <input type="text" id="last-name" name="last-name" required>
                             </div>
                         </div>
@@ -51,16 +53,16 @@
 
                         <label>Gender:</label>
                         <div class="radio-button">
-                            
+
                             <input id='radio-1' type="radio" name='r-group-1' checked='checked' />
                             <label for="radio-1">Male</label>
-                            
+
                             <input id='radio-2' type="radio" name='r-group-1' />
                             <label for="radio-2">Female</label>
                         </div>
-                        
+
                         <label for="DOB">Date of Birth:</label>
-                        <input type="date" min="1920-01-01" >
+                        <input type="date" min="1920-01-01">
 
                     </div>
                 </div>
@@ -71,9 +73,10 @@
 
             <footer>
                 <p>Already a Customer? <a href="{%url 'main:login'%}">Login Now!</a></p>
-                <p><a href="#">Register as a Provider instead</a></p>
+                <p><a href="{% url 'provider:registerProvider'%}">Register as a Provider instead</a></p>
             </footer>
         </div>
     </div>
 </body>
+
 </html>
