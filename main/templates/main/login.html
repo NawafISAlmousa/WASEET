@@ -23,7 +23,8 @@
                     <button id="providerBtn" class="toggle-option">Provider</button>
                     <div class="toggle-slider"></div>
                 </div>
-                <form action="#" method="POST" id="loginForm">
+                <form action="{% url 'main:login'%}" method="POST" id="loginForm">
+                    {% csrf_token %}
                     <label for="username" id="usernameLabel">User Name:</label>
                     <input type="text" id="username" name="username" placeholder="Enter customer username">
 
@@ -35,6 +36,10 @@
                         <label for="remember">Remember me</label>
                     </div>
 
+                    <!-- to check the type of user -->
+                    <input type="hidden" id="userType" name="userType" value="customer">
+
+
                     <button type="submit" class="login-button" id="submitButton">Login as Customer</button>
                 </form>
                 <p class="register-link">New to WASEET? <a href="{% url 'customer:register-customer' %}">Register
@@ -43,7 +48,18 @@
         </div>
     </div>
 
+    <!-- alert for incorect pass -->
+
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check if the error_message variable is passed from the view
+            var errorMessage = "{{ error }}";
+            if (errorMessage) {
+                // If there's an error message, display an alert with the message
+                alert(errorMessage);
+            }
+        });
+
         const customerUrl = "{% url 'customer:register-customer' %}";
         const providerUrl = '{% url "provider:registerProvider"%}'
     </script>

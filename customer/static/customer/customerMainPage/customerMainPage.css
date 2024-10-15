@@ -1,11 +1,12 @@
 /* General Styles */
-*{
+* {
     font-family: "Jost", sans-serif;
 }
 
 body {
     margin: 0;
-    background-color: #ffffff; /* White background for the whole body */
+    background-color: #ffffff;
+    /* White background for the whole body */
 }
 
 .navbar {
@@ -56,23 +57,25 @@ h1 {
 
 .controls {
     display: flex;
-    justify-content:space-between;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
 }
 
-.sort-container, .search-container {
+.sort-container,
+.search-container {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.search-container{
+.search-container {
     /* padding-right: 30%; */
     margin: auto;
 }
 
-.sort-select, .search-input {
+.sort-select,
+.search-input {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -81,7 +84,8 @@ h1 {
 }
 
 .search-input {
-    width: 500px; /* Make the search bar larger */
+    width: 500px;
+    /* Make the search bar larger */
 }
 
 .search-button {
@@ -137,7 +141,7 @@ h1 {
     color: white;
 }
 
-.dynamic-content{
+.dynamic-content {
     padding: 25px 25px 57px 25px;
     background-color: #61a69f;
     display: flex;
@@ -183,7 +187,8 @@ h1 {
     margin-top: 10px;
 }
 
-.map-button, .more-button {
+.map-button,
+.more-button {
     padding: 8px 12px;
     border: none;
     border-radius: 5px;
@@ -193,7 +198,8 @@ h1 {
     transition: background-color 0.3s;
 }
 
-.map-button:hover, .more-button:hover {
+.map-button:hover,
+.more-button:hover {
     background-color: #005f54;
 }
 
@@ -213,7 +219,7 @@ h1 {
     transition: transform 0.3s ease;
 }
 
-.card:hover{
+.card:hover {
     transform: scale(1.05);
 }
 
@@ -233,11 +239,11 @@ h2 {
 }
 
 
-.top-right{
+.top-right {
     display: flex;
     flex-direction: column;
     align-items: end;
-    
+
 }
 
 
@@ -256,7 +262,7 @@ h2 {
     border-radius: 5px;
 }
 
-.card-description{
+.card-description {
     display: none;
     margin: 0;
 }
@@ -264,13 +270,14 @@ h2 {
 
 
 @keyframes description {
-    0%{
+    0% {
         opacity: 0;
     }
-    100%{
+
+    100% {
         opacity: 1;
     }
-    
+
 }
 
 .span-km {
@@ -291,7 +298,7 @@ h2 {
     gap: 15px;
 }
 
-.error-message{
+.error-message {
     margin: 150px;
     color: black;
 }

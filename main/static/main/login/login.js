@@ -7,6 +7,9 @@ const submitButton = document.getElementById('submitButton');
 const usernameInput = document.getElementById("username")
 const passwordInput = document.getElementById("password")
 const registerLink = document.querySelector(".register-link a")
+const userType = document.getElementById('userType')
+
+
 // Function to activate Customer option
 customerBtn.addEventListener('click', function () {
     toggleSlider.style.left = '3px'; // Move slider to the left
@@ -21,6 +24,7 @@ customerBtn.addEventListener('click', function () {
     passwordInput.placeholder = 'Enter customer password'
     registerLink.style.color = '#00796b'
     registerLink.href = customerUrl
+    userType.value = 'customer';
 });
 
 // Function to activate Provider option
@@ -37,4 +41,5 @@ providerBtn.addEventListener('click', function () {
     passwordInput.placeholder = 'Enter provider password'
     registerLink.style.color = '#296879'
     registerLink.href = providerUrl
+    userType.value = 'provider';
 });

@@ -291,26 +291,3 @@ class ReviewResponses(models.Model):
         managed = False
         db_table = 'review_responses'
         unique_together = (('reviewid', 'customerid', 'providerid'),)
-
-
-
-# VIEWS 
-
-class LocationRatings(models.Model):
-    providerid = models.IntegerField(db_column='ProviderID')  # Match your MySQL column
-    locationid = models.IntegerField(db_column='LocationID')  # Match your MySQL column
-    locationrating = models.FloatField(db_column='LocationRating')  # Match your MySQL column
-
-    class Meta:
-        managed = False  # This tells Django not to try and create or manage this table/view
-        db_table = 'LocationRatings'  # The name of your MySQL view
-
-
-
-class ProviderRatings(models.Model):
-    providerid = models.IntegerField(db_column='ProviderID')
-    providerrating = models.FloatField(db_column='ProviderRating')
-
-    class Meta:
-        managed = False  # Tells Django not to manage or create this table
-        db_table = 'ProviderRatings'  # Name of the MySQL view

@@ -164,3 +164,11 @@ input[type="password"]:focus {
     color: #00796b;
     text-decoration: none;
 }
+
+
+.error-container {
+    width: 350px;
+    padding: 15px 25px;
+    background-color: lightcoral;
+    color: red;
+}

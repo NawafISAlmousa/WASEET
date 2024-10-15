@@ -22,4 +22,5 @@ app_name = "customer"
 
 urlpatterns = [
     path('register-customer/', views.registerCustomer, name='register-customer'),
+    path('mainPage/',views.mainPage,name='mainPage')
 ]

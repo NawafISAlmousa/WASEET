@@ -24,53 +24,63 @@ console.log(dynamicContent.childElementCount)
 
 
 //Fetch providers from API and render cards
-async function fetchProviders() {
+function fetchProviders() {
     try {
         // Replace with your API endpoint
-        const response = await fetch('https://api.example.com/providers');
-        const data = await response.json();
-        renderProviderCards(data);
-        
+        // const response = await fetch(`/provider/providers/`);
+        // const data = await response.json();
+        // 
+        // renderProviderCards(data);
+
+        fetch(`/provider/providers/`)
+            .then(response => response.json())
+            .then(data => {
+
+
+            })
+
+
+
     } catch (error) {
         console.error('Error fetching providers:', error);
     }
 }
 
 // Render provider cards
-function renderProviderCards(providers) {
-    dynamicContent.innerHTML = "";
-    providers.forEach(provider => {
-        const card = document.createElement('div');
-        card.classList.add('provider-card');
-        card.innerHTML = `
-               <div class="card" >
-            <div class="card-header">
-                <img src="${provider.logo}" alt="Provider Logo" class="provider-logo">
-               <div class="top-right">
-                    <div> <i class="fa-regular fa-bookmark fa-xl" style="color: #00796b; margin-bottom: 25px;"></i></div>
-                     <div class="card-distance"><span class="span-km">${provider.distance}km</span> away from you</div>
-                 </div>
-            </div>
-            <div class="card-info">
-                <h2>${provider.name}</h2>
-                <p class="card-description">${provider.description}</p>
-                <p class="card-rating">${provider.rating} <i class="fa-solid fa-star" style="color:  #00796b;"></i></p>
-                <div class="provider-buttons" id="that">
-                    <button class="map-button">Check on map</button>
-                    <button class="more-button">See more</button>
-                </div>
-            </div>
-        </div>
-        `;
-        providerCardsContainer.appendChild(card);
-    });
-    if(dynamicContent.childElementCount === 0){
-        const message = document.createElement('h1');
-        message.classList.add('error-message')
-        message.innerHTML = "Sorry, we could not find anything!"
-        dynamicContent.appendChild(message);
-     }
-}
+// function renderProviderCards(providers) {
+//     dynamicContent.innerHTML = "";
+//     providers.forEach(provider => {
+//         const card = document.createElement('div');
+//         card.classList.add('provider-card');
+//         card.innerHTML = `
+//                <div class="card" >
+//             <div class="card-header">
+//                 <img src="${'#'}" alt="Provider Logo" class="provider-logo">
+//                <div class="top-right">
+//                     <div> <i class="fa-regular fa-bookmark fa-xl" style="color: #00796b; margin-bottom: 25px;"></i></div>
+//                      <div class="card-distance"><span class="span-km">${provider.distance}km</span> away from you</div>
+//                  </div>
+//             </div>
+//             <div class="card-info">
+//                 <h2>${provider.name}</h2>
+//                 <p class="card-description">${provider.description}</p>
+//                 <p class="card-rating">${provider.rating} <i class="fa-solid fa-star" style="color:  #00796b;"></i></p>
+//                 <div class="provider-buttons" id="that">
+//                     <button class="map-button">Check on map</button>
+//                     <button class="more-button">See more</button>
+//                 </div>
+//             </div>
+//         </div >
+//         `;
+//         providerCardsContainer.appendChild(card);
+//     });
+//     if (dynamicContent.childElementCount === 0) {
+//         const message = document.createElement('h1');
+//         message.classList.add('error-message')
+//         message.innerHTML = "Sorry, we could not find anything!"
+//         dynamicContent.appendChild(message);
+//     }
+// }
 
 
 // Infinite scroll to load more cards
@@ -82,7 +92,7 @@ window.addEventListener('scroll', () => {
 });
 
 // Initialize
-fetchProviders();
+// fetchProviders();
 
 // Toggle buttons behavior
 toggleButtons.forEach((button, index) => {

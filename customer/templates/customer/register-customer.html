@@ -21,7 +21,8 @@
                 <img src="{% static 'main/assets/SmallLogo.png' %} " alt="Logo" class="logo">
                 <h1>Register as a Customer</h1>
             </header>
-            <form class="register-form">
+            <form class="register-form" action="{% url 'customer:register-customer' %}" method="POST">
+                {% csrf_token %}
                 <div class="form-flex">
                     <div class="form-left">
                         <label for="customer-name">Username:</label>
@@ -41,28 +42,29 @@
                         <div class="full-name">
                             <div class="first-name">
                                 <label for="first-name">First Name:</label>
-                                <input type="text" id="first-name" name="first-name" required>
+                                <input type="text" id="first-name" name="first-name" required pattern="[A-Za-z]+">
                             </div>
                             <div class="last-name">
                                 <label for="last-name">Last Name:</label>
-                                <input type="text" id="last-name" name="last-name" required>
+                                <input type="text" id="last-name" name="last-name" required pattern="[A-Za-z]+">
                             </div>
                         </div>
                         <label for="customer-number">Phone Number:</label>
-                        <input type="tel" id="customer-number" name="customer-number" required>
+                        <input type="tel" id="customer-number" name="customer-number" required
+                            pattern="(\+9665[0-9]{8})|(05[0-9]{8})">
 
                         <label>Gender:</label>
                         <div class="radio-button">
 
-                            <input id='radio-1' type="radio" name='r-group-1' checked='checked' />
+                            <input id='radio-1' type="radio" name='gender' checked='checked' value="M" />
                             <label for="radio-1">Male</label>
 
-                            <input id='radio-2' type="radio" name='r-group-1' />
+                            <input id='radio-2' type="radio" name='gender' value="F" />
                             <label for="radio-2">Female</label>
                         </div>
 
                         <label for="DOB">Date of Birth:</label>
-                        <input type="date" min="1920-01-01">
+                        <input type="date" min="1920-01-01" name="DOB">
 
                     </div>
                 </div>
@@ -77,6 +79,23 @@
             </footer>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            errorMessage = '{{error}}'
+            if (errorMessage)
+                alert(errorMessage)
+        })
+
+        document.getElementById('registrationForm').addEventListener('submit', function (event) {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match.');
+                event.preventDefault();  // Prevent form submission
+            }
+        });
+    </script>
 </body>
 
 </html>

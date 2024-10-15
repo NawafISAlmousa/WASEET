@@ -22,4 +22,5 @@ app_name = "provider"
 
 urlpatterns = [
     path('registerProvider/', views.registerProvider, name='registerProvider'),
+    path('providers/',views.fetchProvider,name='fetchProviders')
 ]
