@@ -17,10 +17,8 @@ window.addEventListener('scroll', () => {
 const toggleButtons = document.querySelectorAll('.toggle-option');
 const toggleSlider = document.querySelector('.toggle-slider');
 const dynamicContent = document.getElementById('dynamicContent');
-const providerCardsContainer = document.getElementById('providerCards');
+// const providerCardsContainer = document.getElementById('providerCards');
 const cards = document.querySelectorAll('.card');
-
-console.log(dynamicContent.childElementCount)
 
 
 //Fetch providers from API and render cards
@@ -35,8 +33,8 @@ function fetchProviders() {
         fetch(`/provider/providers/`)
             .then(response => response.json())
             .then(data => {
-
-
+                console.log(data)
+                renderProviderCards(data)
             })
 
 
@@ -47,40 +45,41 @@ function fetchProviders() {
 }
 
 // Render provider cards
-// function renderProviderCards(providers) {
-//     dynamicContent.innerHTML = "";
-//     providers.forEach(provider => {
-//         const card = document.createElement('div');
-//         card.classList.add('provider-card');
-//         card.innerHTML = `
-//                <div class="card" >
-//             <div class="card-header">
-//                 <img src="${'#'}" alt="Provider Logo" class="provider-logo">
-//                <div class="top-right">
-//                     <div> <i class="fa-regular fa-bookmark fa-xl" style="color: #00796b; margin-bottom: 25px;"></i></div>
-//                      <div class="card-distance"><span class="span-km">${provider.distance}km</span> away from you</div>
-//                  </div>
-//             </div>
-//             <div class="card-info">
-//                 <h2>${provider.name}</h2>
-//                 <p class="card-description">${provider.description}</p>
-//                 <p class="card-rating">${provider.rating} <i class="fa-solid fa-star" style="color:  #00796b;"></i></p>
-//                 <div class="provider-buttons" id="that">
-//                     <button class="map-button">Check on map</button>
-//                     <button class="more-button">See more</button>
-//                 </div>
-//             </div>
-//         </div >
-//         `;
-//         providerCardsContainer.appendChild(card);
-//     });
-//     if (dynamicContent.childElementCount === 0) {
-//         const message = document.createElement('h1');
-//         message.classList.add('error-message')
-//         message.innerHTML = "Sorry, we could not find anything!"
-//         dynamicContent.appendChild(message);
-//     }
-// }
+function renderProviderCards(providers) {
+    dynamicContent.innerHTML = "";
+    providers.forEach(provider => {
+        const card = document.createElement('div');
+        // card.classList.add('procard');
+        card.innerHTML = `
+                <div class="card">
+            <div class="card-header">
+                <img src="${'#'}" alt="Provider Logo" class="provider-logo">
+                <div class="top-right">
+                    <div> <i class="fa-regular fa-bookmark fa-xl" style="color: #00796b; margin-bottom: 25px;"></i>
+                    </div>
+                    <div class="card-distance"><span class="span-km">${provider.location__coordinates}</span> away from you</div>
+                </div>
+            </div>
+            <div class="card-info">
+                <h2>${provider.name}</h2>
+                <p class="card-description">${provider.description}</p>
+                <p class="card-rating">${Math.round(provider.providerrating * 100) / 100 }<i class="fa-solid fa-star" style="color:  #00796b;"></i></p>
+                <div class="provider-buttons" id="that">
+                    <button class="map-button">Check on map</button>
+                    <button class="more-button">See more</button>
+                </div>
+            </div>
+        </div>
+        `;
+        dynamicContent.appendChild(card);
+    });
+    if (dynamicContent.childElementCount === 0) {
+        const message = document.createElement('h1');
+        message.classList.add('error-message')
+        message.innerHTML = "Sorry, we could not find anything!"
+        dynamicContent.appendChild(message);
+    }
+}
 
 
 // Infinite scroll to load more cards
@@ -92,7 +91,7 @@ window.addEventListener('scroll', () => {
 });
 
 // Initialize
-// fetchProviders();
+fetchProviders();
 
 // Toggle buttons behavior
 toggleButtons.forEach((button, index) => {

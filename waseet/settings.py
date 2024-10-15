@@ -79,9 +79,9 @@ WSGI_APPLICATION = 'waseet.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME':  'wasset',
-        'USER': 'root',
-        'PASSWORD':'Suad2002@',
+        'NAME':  'waseet',
+        'USER': 'Admin',
+        'PASSWORD':'WASEET2025',
         'HOST':'localhost',
         'PORT':'3307'
     }

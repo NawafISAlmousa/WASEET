@@ -35,12 +35,20 @@ def login(request):
             
         # need more work here
         elif userType == 'provider':
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-               
-                return HttpResponse("Logged in as Provider!")
+            try:
+                # check if the user exsits
+                provider = models.Provider.objects.get(username=username)
+            except models.Provider.DoesNotExist:
+                return render(request, 'main/login.html',{
+                    'error':'Invalid credentials'
+                })
+                # match the hash password with password the user entered
+            if password == provider.password:
+                    return redirect("provider:providerPage")
             else:
-                return HttpResponse("Invalid Provider credentials.")
+                    return render(request, 'main/login.html',{
+                    'error':'Invalid credentials'
+                })
     else:      
         return render(request, 'main/login.html')
 
@@ -51,18 +59,18 @@ def login(request):
 
 
 
-def dbCheck(request):
-    q = models.Customer.objects.all()
-    response = "<h1>Customer List</h1><ul>"
+# def dbCheck(request):
+#     q = models.Customer.objects.all()
+#     response = "<h1>Customer List</h1><ul>"
     
-    # Loop through customers and append them to the response
-    for customer in q:
-        response += f"<li>{customer.firstname} - {customer.email}</li>"
+#     # Loop through customers and append them to the response
+#     for customer in q:
+#         response += f"<li>{customer.firstname} - {customer.email}</li>"
     
-    # If no customers found
-    if not q:
-        response += "<li>No customers found.</li>"
+#     # If no customers found
+#     if not q:
+#         response += "<li>No customers found.</li>"
     
-    response += "</ul>"
-    return HttpResponse(response)
+#     response += "</ul>"
+#     return HttpResponse(response)
 

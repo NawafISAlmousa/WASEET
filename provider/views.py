@@ -10,6 +10,8 @@ from django.db.models import Subquery, OuterRef
 def registerProvider(request):
     return render(request , 'provider/register-provider.html')
 
+def providerPage(request):
+    return render(request,'provider/provider-page.html')
 
 def fetchProvider(request):
 
@@ -20,7 +22,7 @@ def fetchProvider(request):
     ).prefetch_related('location').values(
     'name', 'description', 'location__coordinates', 'location__phonenumber', 'providerrating'
     )
-
+    
     data = list(providers_with_location_and_ratings)
     
     return JsonResponse(data,safe=False)

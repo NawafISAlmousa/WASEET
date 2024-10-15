@@ -1,0 +1,428 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static 'provider/provider-page/provider-page.css' %}">
+    <link rel="stylesheet" href="{% static 'provider/provider-page/provider-page-profile.css' %}">
+    <link rel="stylesheet" href="{% static 'provider/provider-page/provider-page-locations.css' %}">
+    <link rel="stylesheet" href="{% static 'provider/provider-page/provider-page-items.css' %}">
+    <link rel="stylesheet" href="{% static 'provider/provider-page/provider-page-events.css' %}">
+
+
+
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <title>Provider Main Page</title>
+</head>
+<body>
+    <header class="header">
+        <img src="{% static 'main/assets/SmallLogo.png'%}" alt="WASEET Logo" class="logo">
+        <nav class="nav-bar">
+            <div class="toggle-container">
+                <button class="toggle-option active" data-section="profile">Profile</button>
+                <button class="toggle-option" data-section="locations">Locations</button>
+                <button class="toggle-option" data-section="items">Items</button>
+                <button class="toggle-option" data-section="events">Events</button>
+                <div class="toggle-slider"></div>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="nav-link">Direct Messages</a>
+                <a class="logout-button" href="{% url 'main:index'%}">Logout</a>
+            </div>
+        </nav>
+    </header>
+    <main class="content">
+        <section id="profile" class="content-section active">
+           <div class="profile-main-container">
+            <div class="edit-profile-form-container">
+                <form class="edit-profile-form">
+                
+                    <div class="hidden-logo-input">
+                        <input class="logo-input" type="file" id="upload-logo" name="upload-logo" accept="image/png, image/jpg, image/jpeg">
+                    </div>
+                    <!-- Image preview container -->
+                    <div class="logo-container">
+                        <div class="change-logo">
+                            <img class="logo-preview" id="logo" src="{% static 'main/assets/BigLogo.png'%}" alt="Logo Preview">
+                        </div>
+                    </div>
+    
+                    <div class="form-flex">
+                        <div class="form-left">
+                            <label for="provider-name">Provider Name:</label>
+                            <input type="text" id="provider-name" name="provider-name" required>
+    
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" required>
+    
+                            <label for="password">Password:</label>
+                            <input type="password" id="password" name="password" required>
+    
+                            <label for="confirm-password">Confirm Password:</label>
+                            <input type="password" id="confirm-password" name="confirm-password" required>
+                        </div>
+                        <div class="dividing-line"></div>
+                        <div class="form-right">
+                            <label for="provider-number">Phone Number:</label>
+                            <input type="tel" id="provider-number" name="provider-number" required>
+    
+                            <label for="description">Description:</label>
+                            <textarea id="description" name="description" rows="4"></textarea>
+    
+                            <label for="tags">Tags:</label>
+                            <input type="text" id="tags" name="tags">
+                        </div>
+                    </div>
+                    <div class="save-button-container">
+                        <button type="submit" class="save-button">Save</button>
+                    </div>
+                </form>
+            </div>
+           </div>
+            
+            
+        </section>
+
+<!-- ===================================Location=========================================================== -->
+
+        <section id="locations" class="content-section">
+            <div class="locations-container">
+                <div class="locations-list">
+                    <h1 class="locations-list-header">Current Locations</h1>
+                    <div class="breaking-line"></div>
+                    <ul class="location-unordered-list">
+                        <li>
+                            <div class="loc-container">
+                                <div class="loc-logo-holder">
+                                    <img src="{% static '/main/assets/location-dot-solid.svg'%}" alt="" class="loc-logo">
+                                </div>
+                                <div class="loc-info">
+                                    <h1>DeLonghi</h1>
+                                    <p>0535001317</p>
+                                </div>
+                                <div class="edit-delete-btn">
+                                    <i class="fa-solid fa-trash"></i>
+                                    <i class="fa-solid fa-pen-to-square" ></i>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="loc-container">
+                                <div class="loc-logo-holder">
+                                    <img src="{% static '/main/assets/location-dot-solid.svg'%}" alt="" class="loc-logo">
+                                </div>
+                                <div class="loc-info">
+                                    <h1>DeLonghi</h1>
+                                    <p>0535001317</p>
+                                </div>
+                                <div class="edit-delete-btn">
+                                    <i class="fa-solid fa-trash"></i>
+                                    <i class="fa-solid fa-pen-to-square" ></i>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="loc-container">
+                                <div class="loc-logo-holder">
+                                    <img src="{% static '/main/assets/location-dot-solid.svg'%}" alt="" class="loc-logo">
+                                </div>
+                                <div class="loc-info">
+                                    <h1>DeLonghi</h1>
+                                    <p>0535001317</p>
+                                </div>
+                                <div class="edit-delete-btn">
+                                    <i class="fa-solid fa-trash"></i>
+                                    <i class="fa-solid fa-pen-to-square" ></i>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <button class="add-button">Add New Location</button>
+                </div>
+                <div class="edit-location-form">
+                    <div class="location-map" id="map"></div>
+                    <form action="" class="location-form-container">
+                        
+                        <div>
+                            <div class="form-group">
+                                <label for="location-name">Location name:</label>
+                                <input type="text" id="location-name" name="location-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="location-number">Phone Number:</label>
+                                <input type="tel" id="location-number" name="location-number" required>
+                            </div>
+                        </div>
+                       
+                        <div class="save-button-container">
+                            <button>Save</button>
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+
+            <div class="pop-up-shadow"></div>
+            <div class="pop-up">
+                <div class="form-wrapper">
+                    <div id="map" class="map-container"></div>
+                    <form class="location-form" action="#">
+                        <div class="form-group">
+                            <label for="locationName" class="form-label">Location name:</label>
+                            <input type="text" id="locationName" name="locationName" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phoneNumber" class="form-label">Phone Number:</label>
+                            <input type="tel" id="phoneNumber" name="phoneNumber" class="form-input" required>
+                        </div>
+                        <button type="submit" class="form-button">Save</button>
+                    </form>
+                </div>
+            </div>
+
+        </section>
+
+<!-- ============================================================================================== -->
+
+<section id="items" class="content-section">
+    <div class="items-container">
+        <div class="items-list">
+            <h1 class="items-list-header">Current items</h1>
+            <div class="breaking-line"></div>
+            <ul class="item-unordered-list">
+                <li>
+                    <div class="item-container">
+                        <div class="item-logo-holder">
+                            <img src="https://files.sitebuilder.name.tools/14/d7/14d78357-0d51-4e88-bf3c-50d99d7c1e3a.jpg" alt="" class="item-logo">
+                        </div>
+                        <div class="item-info">
+                            <div class="item-info-header">
+                                <h1>DeLonghi</h1> 
+                                <p class="price" style="color: #6ee665;">23.99 SAR</p>
+                            </div>
+                            
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea maxime iure illo ipsa quidem! Eaque quos nihil laboriosam, minima aut voluptates perspiciatis voluptatum omnis velit nostrum ex, architecto cupiditate id.</p>
+                            <div class="item-locations">
+                                <p>loa</p> <p>loa2</p> <p>loa4</p> <p>loa al-sultan</p> <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates possimus deleniti qui a obcaecati est cupiditate, ut consequatur ullam? Mollitia iste ab labore enim nulla! Dolore nesciunt harum error in.</p>
+                            </div>
+                        </div>
+                        <div class="edit-delete-btn">
+                            <i class="fa-solid fa-trash"></i>
+                            <i class="fa-solid fa-pen-to-square" ></i>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-container">
+                        <div class="item-logo-holder">
+                            <img src="{% static '/main/assets/item-dot-solid.svg'%}" alt="" class="item-logo">
+                        </div>
+                        <div class="item-info">
+                            <h1>DeLonghi</h1>
+                            <p>0535001317</p>
+                        </div>
+                        <div class="edit-delete-btn">
+                            <i class="fa-solid fa-trash"></i>
+                            <i class="fa-solid fa-pen-to-square" ></i>
+                        </div>
+                        
+                    </div>
+                </li>
+                <li>
+                    <div class="item-container">
+                        <div class="item-logo-holder">
+                            <img src="{% static '/main/assets/item-dot-solid.svg'%}" alt="" class="item-logo">
+                        </div>
+                        <div class="item-info">
+                            <h1>DeLonghi</h1>
+                            <p>0535001317</p>
+                        </div>
+                        <div class="edit-delete-btn">
+                            <i class="fa-solid fa-trash"></i>
+                            <i class="fa-solid fa-pen-to-square" ></i>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <button class="add-button">Add New item</button>
+        </div>
+        <div class="edit-item-form">
+            
+            <form action="" class="item-form-container">
+
+                <div class="hidden-logo-input">
+                    <input class="logo-input" type="file" id="upload-logo" name="upload-logo" accept="image/png, image/jpg, image/jpeg">
+                </div>
+                <!-- Image preview container -->
+                <div class="logo-container">
+                    <div class="change-logo">
+                        <img class="logo-preview" id="logo" src="{% static '/main/assets/BigLogo.png'%}" alt="Logo Preview">
+                    </div>
+                </div>
+
+                <div>
+                    <div class="form-group">
+                        <label for="item-name">Item name:</label>
+                        <input type="text" id="item-name" name="item-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="item-number">Price:</label>
+                        <input type="number" id="item-number" name="item-number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="item-name">Description:</label>
+                        <textarea type="text" id="item-name" name="item-name" required style="resize: none;"></textarea>
+                    </div>
+                      <div class="form-group">
+                        <label for="item-name">Locations:</label>
+                        <input type="text" id="item-name" name="item-name" required>
+                    </div>
+                    
+                </div>
+               
+                <div class="save-button-container">
+                    <button>Save</button>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+    <!-- pop up section -->
+    <div class="pop-up-shadow"></div>
+    <div class="pop-up">
+        <div class="form-wrapper">
+    
+            <form class="item-form" action="#">
+                <div class="form-group">
+                    <label for="itemName" class="form-label">item name:</label>
+                    <input type="text" id="itemName" name="itemName" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="phoneNumber" class="form-label">Phone Number:</label>
+                    <input type="tel" id="phoneNumber" name="phoneNumber" class="form-input" required>
+                </div>
+                <button type="submit" class="form-button">Save</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================================================== -->
+
+
+        <section id="events" class="content-section"><div class="events-container">
+            <div class="events-list">
+                <h1 class="events-list-header">Current events</h1>
+                <div class="breaking-line"></div>
+                <ul class="event-unordered-list">
+                    <li>
+                        <div class="event-container">
+                            <div class="event-logo-holder">
+                                <img src="https://files.sitebuilder.name.tools/14/d7/14d78357-0d51-4e88-bf3c-50d99d7c1e3a.jpg" alt="" class="event-logo">
+                            </div>
+                            <div class="event-info">
+                                <div class="event-info-header">
+                                    <h1>DeLonghi</h1> 
+                                </div>
+                                
+                                <div class="event-details">
+                                    <div class="event-date">
+                                        <i class="fa-regular fa-calendar"></i><p>8/12/24 - 8/15/24</p>
+                                    </div>
+
+                                    <div class="event-time">
+                                        <i class="fa-regular fa-clock"></i><p>13:00 - 20:00</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="edit-delete-btn">
+                                <i class="fa-solid fa-trash"></i>
+                                <i class="fa-solid fa-pen-to-square" ></i>
+                            </div>
+                        </div>
+                    </li>
+            
+                </ul>
+                <button class="add-button">Add New event</button>
+            </div>
+            <div class="edit-event-form">
+                
+                <form action="" class="event-form-container">
+        
+                    <div class="hidden-logo-input">
+                        <input class="logo-input" type="file" id="upload-logo" name="upload-logo" accept="image/png, image/jpg, image/jpeg">
+                    </div>
+                    <!-- Image preview container -->
+                    <div class="logo-container">
+                        <div class="change-logo">
+                            <img class="logo-preview" id="logo" src="{% static '/main/assets/BigLogo.png'%}" alt="Logo Preview">
+                        </div>
+                    </div>
+        
+                    <div>
+                        <div class="form-group">
+                            <label for="event-name">Event name:</label>
+                            <input type="text" id="event-name" name="event-name" required>
+                        </div>
+                        <div class="form-group date-container">
+                            <label for="event-number">Start date:</label>
+                            <input type="date" id="event-number" name="event-start-date" required>
+                            <label for="event-number">End date:</label>
+                            <input type="date" id="event-number" name="event-end-date" required>
+                        </div>
+                        <div class="form-group time-container">
+                            <label for="event-number">Start time:</label>
+                            <input type="time" id="event-number" name="event-start-time" required>
+                            <label for="event-number">End time:</label>
+                            <input type="time" id="event-number" name="event-end-time" required>
+                        </div>
+                          <div class="form-group">
+                            <label for="event-name">Locations:</label>
+                            <input type="text" id="event-name" name="event-name" required>
+                        </div>
+                        
+                    </div>
+                   
+                    <div class="save-button-container">
+                        <button>Save</button>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+        <!-- pop up section -->
+        <div class="pop-up-shadow"></div>
+        <div class="pop-up">
+            <div class="form-wrapper">
+        
+                <form class="event-form" action="#">
+                    <div class="form-group">
+                        <label for="eventName" class="form-label">event name:</label>
+                        <input type="text" id="eventName" name="eventName" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNumber" class="form-label">Phone Number:</label>
+                        <input type="tel" id="phoneNumber" name="phoneNumber" class="form-input" required>
+                    </div>
+                    <button type="submit" class="form-button">Save</button>
+                </form>
+            </div>
+        </div></section>
+    </main>
+    
+
+    <script src="{% static 'provider/provider-page/provider-page.js'%}"></script>
+</body>
+</html>
