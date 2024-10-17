@@ -238,6 +238,7 @@ class Provider(models.Model):
     username = models.CharField(db_column='Username', unique=True, max_length=25, blank=True, null=True)  # Field name made lowercase.
     password = models.CharField(db_column='Password', max_length=100, blank=True, null=True)  # Field name made lowercase.
     description = models.TextField(blank=True, null=True)
+    phonenumber = models.CharField(db_column='PhoneNumber', max_length=14, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -245,13 +246,13 @@ class Provider(models.Model):
 
 
 class ProvidersTags(models.Model):
-    tag = models.CharField(db_column='Tag', primary_key=True, max_length=20)  # Field name made lowercase. The composite primary key (Tag, ProviderID) found, that is not supported. The first column is selected.
+    tagid = models.OneToOneField('Tags', models.DO_NOTHING, db_column='TagID', primary_key=True)  # Field name made lowercase. The composite primary key (TagID, ProviderID) found, that is not supported. The first column is selected.
     providerid = models.ForeignKey(Provider, models.DO_NOTHING, db_column='ProviderID')  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'providers_tags'
-        unique_together = (('tag', 'providerid'),)
+        unique_together = (('tagid', 'providerid'),)
 
 
 class Report(models.Model):
@@ -293,8 +294,13 @@ class ReviewResponses(models.Model):
         unique_together = (('reviewid', 'customerid', 'providerid'),)
 
 
+class Tags(models.Model):
+    tagid = models.AutoField(db_column='TagID', primary_key=True)  # Field name made lowercase.
+    name = models.CharField(db_column='Name', max_length=50, blank=True, null=True)  # Field name made lowercase.
 
-# VIEWS 
+    class Meta:
+        managed = False
+        db_table = 'tags'
 
 class LocationRatings(models.Model):
     providerid = models.IntegerField(db_column='ProviderID')  # Match your MySQL column

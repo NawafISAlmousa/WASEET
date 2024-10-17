@@ -53,7 +53,7 @@ function renderProviderCards(providers) {
         card.innerHTML = `
                 <div class="card">
             <div class="card-header">
-                <img src="${'#'}" alt="Provider Logo" class="provider-logo">
+                <img src="/media/${provider.username}/logo.png" alt="Provider Logo" class="provider-logo">
                 <div class="top-right">
                     <div> <i class="fa-regular fa-bookmark fa-xl" style="color: #00796b; margin-bottom: 25px;"></i>
                     </div>

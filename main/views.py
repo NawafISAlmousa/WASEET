@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate
 from django.http import HttpResponse
-from . import models
+from main import models
 from django.contrib.auth.hashers import check_password
 
 def index(request):

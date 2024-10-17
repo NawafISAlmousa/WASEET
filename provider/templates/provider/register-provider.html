@@ -21,11 +21,15 @@
                 <img src="{% static 'main/assets/SmallLogo.png' %}" alt="Logo" class="logo">
                 <h1>Register as a Provider</h1>
             </header>
-            <form class="register-form">
+            <form class="register-form" id="provider-form">
+                {% csrf_token %}
                 <div class="form-flex">
                     <div class="form-left">
                         <label for="provider-name">Provider Name:</label>
                         <input type="text" id="provider-name" name="provider-name" required>
+
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" required>
 
                         <label for="email">Email:</label>
                         <input type="email" id="email" name="email" required>
@@ -50,7 +54,7 @@
                             <div>
                                 <label>Upload a Logo:</label>
                                 <input class="logo-input" type="file" id="upload-logo" name="upload-logo"
-                                    accept="image/png, image/jpg, image/jpeg" onchange="previewLogo(event)">
+                                    accept="image/png" onchange="previewLogo(event)">
                             </div>
                             <!-- Image preview container -->
                             <div class="logo-preview-container">
@@ -72,16 +76,7 @@
         </div>
     </div>
 
-    <script>
-        function previewLogo(event) {
-            const [file] = event.target.files;
-            if (file) {
-                const preview = document.getElementById('logo-preview');
-                preview.src = URL.createObjectURL(file);
-                preview.style.display = 'block';
-            }
-        }
-    </script>
+    <script src="{% static 'provider/register-provider/register-provider.js' %}"></script>
 </body>
 
 </html>
