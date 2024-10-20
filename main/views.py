@@ -57,20 +57,3 @@ def login(request):
 
 
 
-
-
-# def dbCheck(request):
-#     q = models.Customer.objects.all()
-#     response = "<h1>Customer List</h1><ul>"
-    
-#     # Loop through customers and append them to the response
-#     for customer in q:
-#         response += f"<li>{customer.firstname} - {customer.email}</li>"
-    
-#     # If no customers found
-#     if not q:
-#         response += "<li>No customers found.</li>"
-    
-#     response += "</ul>"
-#     return HttpResponse(response)
-
