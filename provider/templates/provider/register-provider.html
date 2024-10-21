@@ -39,6 +39,10 @@
 
                         <label for="confirm-password">Confirm Password:</label>
                         <input type="password" id="confirm-password" name="confirm-password" required>
+                        <div>
+                            <input type="checkbox" id="showpass" name="showpass">
+                            <label for="showpass">Show Password</label>
+                        </div>
                     </div>
                     <div class="dividing-line"></div>
                     <div class="form-right">
@@ -76,7 +80,10 @@
         </div>
     </div>
 
-    <script src="{% static 'provider/register-provider/register-provider.js' %}?v={{ timestamp }}"></script>
+    <script src="{% static 'provider/register-provider/register-provider.js' %}?v={{ time.time|floatformat:0 }}"></script>
+    <script>
+        const loginurl = "{% url 'main:login' %}";
+    </script>
 </body>
 
 </html>
