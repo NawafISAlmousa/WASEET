@@ -11,11 +11,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="{% static 'provider/provider-page/provider-page.css' %}">
-    <link rel="stylesheet" href="{% static 'provider/provider-page/provider-page-profile.css' %}">
-    <link rel="stylesheet" href="{% static 'provider/provider-page/provider-page-locations.css' %}">
-    <link rel="stylesheet" href="{% static 'provider/provider-page/provider-page-items.css' %}">
-    <link rel="stylesheet" href="{% static 'provider/provider-page/provider-page-events.css' %}">
+    <link rel="stylesheet" href="{% static 'provider/provider-page/provider-page.css' %}?v={{ timestamp }}">
+    <link rel="stylesheet" href="{% static 'provider/provider-page/provider-page-profile.css' %}?v={{ timestamp }}">
+    <link rel="stylesheet" href="{% static 'provider/provider-page/provider-page-locations.css' %}?v={{ timestamp }}">
+    <link rel="stylesheet" href="{% static 'provider/provider-page/provider-page-items.css' %}?v={{ timestamp }}">
+    <link rel="stylesheet" href="{% static 'provider/provider-page/provider-page-events.css' %}?v={{ timestamp }}">
 
 
 
@@ -426,6 +426,6 @@
     </main>
     
 
-    <script src="{% static 'provider/provider-page/provider-page.js'%}"></script>
+    <script src="{% static 'provider/provider-page/provider-page.js'%}?v={{ timestamp }}"></script>
 </body>
 </html>

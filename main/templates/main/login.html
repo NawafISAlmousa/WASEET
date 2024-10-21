@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="{% static 'main/login/login.css' %}">
+    <link rel="stylesheet" href="{% static 'main/login/login.css' %}?v={{ timestamp }}">
     <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
 </head>
@@ -63,7 +63,7 @@
         const customerUrl = "{% url 'customer:register-customer' %}";
         const providerUrl = '{% url "provider:registerProvider"%}'
     </script>
-    <script src="{% static 'main/login/login.js'%}"></script>
+    <script src="{% static 'main/login/login.js'%}?v={{ timestamp }}"></script>
 </body>
 
 </html>
