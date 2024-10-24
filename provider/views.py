@@ -1,49 +1,75 @@
 from django.shortcuts import render,redirect
 from django.http import JsonResponse
-from main.models import Provider, Location, ProviderRatings
+from main.models import Provider, Location, ProviderRatings, Tags, ProvidersTags
 import time,os
 from django.db.models import Subquery, OuterRef
 from django.conf import settings
+import json
 
 
 # Create your views here.
 
-
 def registerProvider(request):
     if request.method == 'POST':
+        print(request.POST)  # Debugging print
+
+        # Collect form data
         username = request.POST.get('username')
         name = request.POST.get('provider-name')
         email = request.POST.get('email')
         password = request.POST.get('password')
         phonenumber = request.POST.get('provider-number')
         description = request.POST.get('description')
-        # tags = request.POST.get("tags")
-        image = request.FILES.get('upload-logo')
 
+        # Convert the tags string into a list
+        tags = json.loads(request.POST.get("tags"))  # Ensure tags is a list
+        print(tags)  # Debugging print
+
+        # Handle image upload
+        image = request.FILES.get('upload-logo')
         provider_folder = os.path.join(settings.MEDIA_ROOT, username)
         os.makedirs(provider_folder, exist_ok=True)
 
-        # original_extension = os.path.splitext(image.name)[1]
-
-        # Save the image inside the provider's folder
+        # Save the uploaded image
         image_path = os.path.join(provider_folder, 'logo.png')
-        with open(image_path, 'wb+') as destination:
-            for chunk in image.chunks():
-                destination.write(chunk)
+        if image:
+            with open(image_path, 'wb+') as destination:
+                for chunk in image.chunks():
+                    destination.write(chunk)
 
-        # Save provider info in the database (without storing image path)
-        provider = Provider(name = name, email = email, password = password,description=description,username=username)
+        # Save provider info in the database
+        provider = Provider(
+            name=name, email=email, password=password,
+            description=description, username=username, phonenumber=phonenumber
+        )
         provider.save()
-        
+
+        # Link tags to the provider
+        for tag_name in tags:
+            tag = Tags.objects.filter(name=tag_name).first()
+            if tag:  # Only create a link if the tag exists
+                link = ProvidersTags(tagid=tag, providerid=provider)
+                link.save()
+            else:
+                print(f"Tag '{tag_name}' not found.")  # Debugging print
+
         return redirect('main:login')
-    
-    return render(request , 'provider/register-provider.html')
+
+    return render(request, 'provider/register-provider.html')
 
 
 
 
-def providerPage(request):
-    return render(request,'provider/provider-page.html')
+def providerPage(request, provider_id):
+    if request.session.get('user_type') != 'provider' or request.session.get('user_id') != provider_id:
+        request.session.flush()
+        return redirect('main:login')  # Redirect unauthorized access to login
+
+    # If authorized, render the provider's page
+    provider = Provider.objects.get(providerid=provider_id)
+    return render(request,'provider/provider-page.html', {
+        'provider': provider
+    })
 
 
 
@@ -63,3 +89,9 @@ def fetchProvider(request):
     
     return JsonResponse(data,safe=False)
     pass
+
+
+
+def tags_list(request):
+    tags = Tags.objects.all().values('name')
+    return JsonResponse(list(tags), safe=False)

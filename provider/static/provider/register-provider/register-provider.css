@@ -3,13 +3,11 @@
 }
 
 body {
-    margin: 100px;
     padding: 0;
     background-color: #ffffff; /* Main background color */
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
 }
 
 .main-container {
@@ -17,7 +15,6 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 90%;
 }
 
 .form-container {
@@ -25,13 +22,14 @@ body {
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Shadow effect */
     padding: 20px 40px;
-    max-width: 800px;
+    max-width: 1100px;
     width: 90%;
+    column-gap: 20px;
 }
 
 header {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .logo {
@@ -43,11 +41,13 @@ header {
 }
 
 .form-left,
-.form-right {
+.form-right,
+.form-middle {
     display: flex;
     flex-direction: column;
-    width: 40%;
-    padding-top: 60px;
+    width: 100%;
+    padding-top: 20px;
+    margin: 0 40px;
 }
 
 .form-flex{
@@ -76,6 +76,9 @@ textarea {
     border: 1px solid #ccc;
     border-radius: 4px;
     resize: none;
+}
+.showpass{
+    padding-bottom: 10px;
 }
 
 input[type="file"] {
@@ -122,7 +125,7 @@ input[type="file"] {
 }
 
 .logo-preview {
-    display: none;
+    display: block;
     width: 100px;
     height: 100px;
     object-fit: cover;
@@ -142,4 +145,59 @@ footer a {
 
 footer a:hover {
     text-decoration: underline;
+}
+
+.available-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-height: 150px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.tag {
+    padding: 5px 10px;
+    border-radius: 12px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.tag:hover {
+    background-color: #296879;
+    color: white;
+}
+
+.selected-tag {
+    display: flex;
+    align-items: center;
+    background-color: #296879;
+    color: white;
+    border-radius: 12px;
+    padding: 5px 10px;
+    gap: 5px;
+}
+
+.selected-tags{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.close-icon {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#tag-search {
+    width: 100%;
+    padding: 8px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }

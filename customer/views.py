@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from main import models
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
+from main.models import Customer
 
 
 
@@ -31,7 +32,15 @@ def registerCustomer(request):
             return redirect('main:login')
     return render(request,'customer/register-customer.html')
 
-def mainPage(request):
-    return render(request , 'customer/customerMainPage.html')
+def mainPage(request, customer_id):
+    if request.session.get('user_type') != 'customer' or request.session.get('user_id') != customer_id:
+        request.session.flush()
+        return redirect('main:login')  # Redirect unauthorized access to login
+
+    # If authorized, render the customer's page
+    customer = Customer.objects.get(customerid=customer_id)
+    return render(request , 'customer/customerMainPage.html',{
+        "customer":customer
+    })
 
 

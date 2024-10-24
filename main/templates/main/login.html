@@ -44,6 +44,11 @@
                 </form>
                 <p class="register-link">New to WASEET? <a href="{% url 'customer:register-customer' %}">Register
                         Now!</a></p>
+                    {% if error %}
+                        <div class="error-container">
+                            <p>{{ error }}</p>
+                        </div>
+                    {% endif %}
             </div>
         </div>
     </div>

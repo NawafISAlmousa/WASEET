@@ -24,11 +24,7 @@ document.addEventListener("DOMContentLoaded", function(){
     //Fetch providers from API and render cards
     function fetchProviders() {
         try {
-            // Replace with your API endpoint
-            // const response = await fetch(`/provider/providers/`);
-            // const data = await response.json();
-            // 
-            // renderProviderCards(data);
+
         
             fetch(`/provider/providers/`)
                 .then(response => response.json())

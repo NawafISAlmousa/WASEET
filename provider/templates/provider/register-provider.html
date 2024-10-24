@@ -34,35 +34,44 @@
                         <label for="email">Email:</label>
                         <input type="email" id="email" name="email" required>
 
+                        <label for="provider-number">Phone Number:</label>
+                        <input type="tel" id="provider-number" name="provider-number" required>
+                    </div>
+                    <div class="dividing-line"></div>
+                    <div class="form-middle">
                         <label for="password">Password:</label>
                         <input type="password" id="password" name="password" required>
 
                         <label for="confirm-password">Confirm Password:</label>
                         <input type="password" id="confirm-password" name="confirm-password" required>
-                        <div>
-                            <input type="checkbox" id="showpass" name="showpass">
+
+                        <div class="showpass">
+                            <input type="checkbox" id="showpass" name="showpass" >
                             <label for="showpass">Show Password</label>
                         </div>
+                        <label for="description">Description:</label>
+                        <textarea id="description" name="description" rows="4"></textarea>
                     </div>
                     <div class="dividing-line"></div>
                     <div class="form-right">
-                        <label for="provider-number">Phone Number:</label>
-                        <input type="tel" id="provider-number" name="provider-number" required>
+                        <label>Select up to 6 Tags:</label>
+                        <input type="text" id="tag-search" placeholder="Search tags...">
 
-                        <label for="description">Description:</label>
-                        <textarea id="description" name="description" rows="4"></textarea>
+                        <div id="available-tags" class="available-tags"></div>
 
-                        <label for="tags">Tags:</label>
-                        <input type="text" id="tags" name="tags">
+                        <div class="selected-tags-container">
+                            <label>Selected Tags:</label>
+                            <div id="selected-tags" class="selected-tags"></div>
+                        </div>
+
                         <div class="upload-logo">
                             <div>
                                 <label>Upload a Logo:</label>
                                 <input class="logo-input" type="file" id="upload-logo" name="upload-logo"
-                                    accept="image/png" onchange="previewLogo(event)">
+                                    accept="image/png, image/jpeg, image/jpg" onchange="previewLogo(event)">
                             </div>
-                            <!-- Image preview container -->
                             <div class="logo-preview-container">
-                                <img id="logo-preview" src="/FrontEnd/images/BigLogo.png" alt="Logo Preview"
+                                <img id="logo-preview" src="{% static '/main/assets/BigLogo.png'%}" alt="Logo Preview"
                                     class="logo-preview">
                             </div>
                         </div>
@@ -80,10 +89,11 @@
         </div>
     </div>
 
-    <script src="{% static 'provider/register-provider/register-provider.js' %}?v={{ time.time|floatformat:0 }}"></script>
     <script>
         const loginurl = "{% url 'main:login' %}";
     </script>
+
+    <script src="{% static 'provider/register-provider/register-provider.js' %}?v={{ time.time|floatformat:0 }}"></script>
 </body>
 
 </html>
