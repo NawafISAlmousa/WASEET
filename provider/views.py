@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import JsonResponse
-from main.models import Provider, Location, ProviderRatings, Tags, ProvidersTags
+from main.models import Provider, Location, ProviderRatings, Tags, ProvidersTags, Item, Event
 import time,os
 from django.db.models import Subquery, OuterRef
 from django.conf import settings
@@ -64,11 +64,33 @@ def providerPage(request, provider_id):
     if request.session.get('user_type') != 'provider' or request.session.get('user_id') != provider_id:
         request.session.flush()
         return redirect('main:login')  # Redirect unauthorized access to login
+    
+    if request.method == 'POST':
+        pass
 
     # If authorized, render the provider's page
     provider = Provider.objects.get(providerid=provider_id)
+    locations = Location.objects.filter(providerid=provider_id)
+    items = Item.objects.filter(providerid=provider_id)
+    selectedtags = ProvidersTags.objects.filter(providerid=provider_id)
+    # unselectedtags = Tags.objects.exclude(tagid__in=ProvidersTags.objects.values('tagid'))
+
+    events = []
+
+    for location in locations:
+        temp_events = Event.objects.filter(locationid=location.locationid)
+        for event in temp_events:
+            events.append(event)
+
+
+
     return render(request,'provider/provider-page.html', {
-        'provider': provider
+        'provider': provider,
+        'locations': locations,
+        'items': items,
+        'events': events,
+        'selectedtags': selectedtags
+
     })
 
 

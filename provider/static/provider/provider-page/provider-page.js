@@ -51,3 +51,92 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add a marker for Riyadh
     L.marker([48.858222, 2.294500]).addTo(map).bindPopup('Riyadh, Saudi Arabia').openPopup();
 });
+
+
+const availableTagsContainer = document.getElementById('available-tags');
+const selectedTagsContainer = document.getElementById('selected-tags');
+const tagSearchInput = document.getElementById('tag-search');
+let selectedTags = [];
+
+
+
+let allTags = []; // Store all tags here for easy filtering
+
+// Fetch tags from the backend only once
+async function fetchTags() {
+    try {
+        const response = await fetch(`/provider/tags/`);
+        if (!response.ok) throw new Error('Failed to fetch tags');
+        const tagsData = await response.json();
+        allTags = tagsData; // Store the fetched tags
+        displayAvailableTags(allTags); // Display all tags initially
+    } catch (error) {
+        console.error('Error fetching tags:', error);
+    }
+}
+
+// Filter and display tags based on search input
+tagSearchInput.addEventListener('input', () => {
+    const searchValue = tagSearchInput.value.toLowerCase();
+    const filteredTags = allTags.filter(tag =>
+        tag.name.toLowerCase().includes(searchValue)
+    );
+    displayAvailableTags(filteredTags);
+});
+
+// Display tags in the available tags container
+function displayAvailableTags(tags) {
+    availableTagsContainer.innerHTML = '';
+    tags.forEach(tag => {
+        const tagElement = document.createElement('div');
+        tagElement.classList.add('tag');
+        tagElement.textContent = tag.name;
+        tagElement.addEventListener('click', () => selectTag(tag.name));
+        availableTagsContainer.appendChild(tagElement);
+    });
+}
+
+// Initialize by fetching tags on page load
+fetchTags();
+
+
+function selectTag(tagName) {
+    if (selectedTags.includes(tagName)) return;
+    if (selectedTags.length >= 6) {
+        alert('You can only select up to 6 tags.');
+        return;
+    }
+    
+    selectedTags.push(tagName);
+    
+    displaySelectedTags();
+}
+
+function displaySelectedTags() {
+    selectedTagsContainer.innerHTML = '';
+    selectedTags.forEach(tag => {
+        const tagElement = document.createElement('div');
+        tagElement.classList.add('selected-tag');
+        tagElement.textContent = tag;
+
+        const closeIcon = document.createElement('span');
+        closeIcon.classList.add('close-icon');
+        closeIcon.textContent = '×';
+        closeIcon.addEventListener('click', () => removeTag(tag));
+
+        tagElement.appendChild(closeIcon);
+        selectedTagsContainer.appendChild(tagElement);
+    });
+}
+
+function removeTag(tag) {
+   
+    selectedTags = selectedTags.filter(t => t !== tag);
+    displaySelectedTags();
+}
+
+checkbox.addEventListener('click', () => {
+    const type = checkbox.checked ? 'text' : 'password';
+    pass.type = type;
+    confirmpass.type = type;
+});
