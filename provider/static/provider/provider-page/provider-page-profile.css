@@ -124,3 +124,60 @@ input[type="file"] {
     width: 100%;
     height: 100%;
 }
+
+
+
+.available-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-height: 150px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.tag {
+    padding: 5px 10px;
+    border-radius: 12px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.tag:hover {
+    background-color: #296879;
+    color: white;
+}
+
+.selected-tag {
+    display: flex;
+    align-items: center;
+    background-color: #296879;
+    color: white;
+    border-radius: 12px;
+    padding: 5px 10px;
+    gap: 5px;
+}
+
+.selected-tags{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.close-icon {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#tag-search {
+    width: 100%;
+    padding: 8px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}

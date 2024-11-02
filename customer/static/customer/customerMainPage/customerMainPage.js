@@ -22,18 +22,15 @@ document.addEventListener("DOMContentLoaded", function(){
     
     
     //Fetch providers from API and render cards
-    function fetchProviders() {
+   function fetchProviders() {
         try {
 
-        
             fetch(`/provider/providers/`)
                 .then(response => response.json())
                 .then(data => {
                     console.log(data)
                     renderProviderCards(data)
                 })
-            
-            
             
         } catch (error) {
             console.error('Error fetching providers:', error);

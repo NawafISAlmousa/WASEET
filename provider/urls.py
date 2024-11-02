@@ -22,7 +22,8 @@ app_name = "provider"
 
 urlpatterns = [
     path('registerProvider/', views.registerProvider, name='registerProvider'),
-    path('providers/',views.fetchProvider,name='fetchProviders'),
+    path('providers/', views.fetchProvider,name='fetchProviders'),
     path('tags/', views.tags_list, name='tags_list'),
-    path('<int:provider_id>/',views.providerPage,name='providerPage')
+    path('<int:provider_id>/', views.providerPage,name='providerPage'),
+    path('fetchData/<str:providerid>/', views.fetchData,name='fetchData')
 ]

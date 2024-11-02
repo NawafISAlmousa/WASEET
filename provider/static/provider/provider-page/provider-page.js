@@ -135,8 +135,69 @@ function removeTag(tag) {
     displaySelectedTags();
 }
 
-checkbox.addEventListener('click', () => {
-    const type = checkbox.checked ? 'text' : 'password';
-    pass.type = type;
-    confirmpass.type = type;
+// checkbox.addEventListener('click', () => {
+//     const type = checkbox.checked ? 'text' : 'password';
+//     pass.type = type;
+//     confirmpass.type = type;
+// });
+
+async function fetchProviderData(providerid){
+    try {
+        const response = await fetch(`/provider/fetchData/${providerid}`);
+        if (response.ok) {  
+            data = await response.json()
+            for(let tag of data[3]){
+                selectTag(tag.name)
+            }
+            displaySelectedTags()
+             
+            console.log()
+        } else {
+          alert('Error Fetching provider information.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+}
+
+
+
+
+fetchProviderData(providerid)
+
+document.getElementById('edit-profile-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target); // Collect form data
+    formData.append('tags', JSON.stringify(selectedTags));  // Add selected tags to form data
+
+    // Check if a new logo file has been uploaded
+    const fileInput = document.getElementById('upload-logo');
+    if (fileInput.files.length > 0) {
+        formData.append('upload-logo', fileInput.files[0]);
+    }
+
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    try {
+        const response = await fetch(`/provider/${providerid}/`, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': csrfToken,
+            },
+        });
+
+        if (response.ok) {
+            alert('Provider information submitted successfully!');
+            e.target.reset();
+            window.location.reload(); // Reloads the page to reflect updates
+        } else {
+            const errorMessage = await response.text();
+            console.error('Error submitting provider information:', errorMessage);
+            alert('Error submitting provider information.');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
 });

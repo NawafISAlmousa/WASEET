@@ -46,10 +46,10 @@
         <section id="profile" class="content-section active">
            <div class="profile-main-container">
             <div class="edit-profile-form-container">
-                <form class="edit-profile-form" action="{% url 'provider:providerPage' provider.providerid%}">
-            
+                <form class="edit-profile-form" id="edit-profile-form">
+                    {% csrf_token %}
                     <div class="hidden-logo-input">
-                        <input class="logo-input" type="file" id="upload-logo" name="upload-logo" accept="image/png, image/jpg, image/jpeg">
+                        <input class="logo-input" type="file" id="upload-logo" name="upload-logo" accept="image/png, image/jpg, image/jpeg" >
                     </div>
                     <!-- Image preview container -->
                     <div class="logo-container">
@@ -57,23 +57,28 @@
                             <img class="logo-preview" id="logo" src="/media/{{provider.username}}/logo.png" alt="Logo Preview">
                         </div>
                     </div>
-    
                     <div class="form-flex">
                         <div class="form-left">
                             <label for="provider-name">Provider Name:</label>
                             <input type="text" id="provider-name" name="provider-name" required value={{provider.name}}>
 
-                            <label for="username">Username:</label>
-                            <input type="text" id="username" name="username" required value = {{provider.username}}>
+                            <label for="provider-number">Phone Number:</label>
+                            <input type="tel" id="provider-number" name="provider-number" required value = {{provider.phonenumber}}>
     
-                            <label for="email">Email:</label>
-                            <input type="email" id="email" name="email" required value = {{provider.email}}>
+                            <label for="description">Description:</label>
+                            <textarea id="description" name="description" rows="4">{{provider.description}}</textarea>
     
-                            <label for="password">Password:</label>
+                    
+                            <input type="hidden" id="username" name="username" required value = {{provider.username}} >
+    
+                            {% comment %} <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" required value = {{provider.email}}> {% endcomment %}
+    
+                            {% comment %} <label for="password">Password:</label>
                             <input type="password" id="password" name="password" required >
     
                             <label for="confirm-password">Confirm Password:</label>
-                            <input type="password" id="confirm-password" name="confirm-password" required>
+                            <input type="password" id="confirm-password" name="confirm-password" required> {% endcomment %}
                         </div>
                         <div class="dividing-line"></div>
                         <div class="form-right">
@@ -88,13 +93,6 @@
                                 <div id="selected-tags" class="selected-tags"></div>
                             </div>
 
-                            <label for="provider-number">Phone Number:</label>
-                            <input type="tel" id="provider-number" name="provider-number" required value = {{provider.phonenumber}}>
-    
-                            <label for="description">Description:</label>
-                            <textarea id="description" name="description" rows="4" value = {{provider.description}}></textarea>
-    
-                    
                         </div>
                     </div>
                     <div class="save-button-container">
@@ -435,13 +433,10 @@
         </div></section>
     </main>
     
-    
-    <script src="{% static 'provider/provider-page/provider-page.js'%}?v={{ timestamp }}">
-    </script>
     <script>
-        {% for tag in selectedtags %}
-        selectTag({{tag}})
-        {% endfor %}
+        const providerid = {{provider.providerid}}
     </script>
+    <script src="{% static 'provider/provider-page/provider-page.js'%}?v={{ timestamp }}"></script>
+
 </body>
 </html>
