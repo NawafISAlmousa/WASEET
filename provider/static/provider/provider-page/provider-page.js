@@ -39,17 +39,55 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById(sectionId).classList.add('active');
         });
     });
-    // Initialize the map and set the view to Riyadh's coordinates
-    var map = L.map('map').setView([48.858222, 2.294500], 10); // Coordinates for Riyadh
+    // ======================= Map Functions ===============================
+    const fallbackLatitude = 24.7136;  // Riyadh's latitude
+    const fallbackLongitude = 46.6753; // Riyadh's longitude
+    const mapZoomLevel = 13;           // Default zoom level
 
-    // Add OpenStreetMap tiles to the map
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
+    // Function to initialize the map and add a draggable marker
+    function initializeMap(latitude, longitude) {
+        // Initialize map centered on given coordinates
+        const map = L.map('map').setView([latitude, longitude], mapZoomLevel);
 
-    // Add a marker for Riyadh
-    L.marker([48.858222, 2.294500]).addTo(map).bindPopup('Riyadh, Saudi Arabia').openPopup();
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Add a draggable marker and set its initial position
+        const marker = L.marker([latitude, longitude], { draggable: true }).addTo(map);
+
+        // Update hidden fields with initial position
+        document.getElementById('latitude').value = latitude;
+        document.getElementById('longitude').value = longitude;
+
+        // Event listener for marker movement
+        marker.on('dragend', function(event) {
+            const { lat, lng } = event.target.getLatLng();
+            document.getElementById('latitude').value = lat;
+            document.getElementById('longitude').value = lng;
+            console.log(`Marker moved to: ${lat}, ${lng}`);
+        });
+    }
+
+    // Try to get the user's current location
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            position => {
+                const { latitude, longitude } = position.coords;
+                initializeMap(latitude, longitude); // Use user's current location
+            },
+            error => {
+                console.warn("Geolocation error:", error);
+                alert("Could not access your location. Defaulting to Riyadh.");
+                initializeMap(fallbackLatitude, fallbackLongitude); // Fallback to Riyadh
+            }
+        );
+    } else {
+        alert("Geolocation is not supported by this browser. Defaulting to Riyadh.");
+        initializeMap(fallbackLatitude, fallbackLongitude); // Fallback to Riyadh
+    }
 });
 
 

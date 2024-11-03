@@ -128,42 +128,15 @@
                                 </div>
                             </div>
                         </li>
-                        <li>
-                            <div class="loc-container">
-                                <div class="loc-logo-holder">
-                                    <img src="{% static '/main/assets/location-dot-solid.svg'%}" alt="" class="loc-logo">
-                                </div>
-                                <div class="loc-info">
-                                    <h1>DeLonghi</h1>
-                                    <p>0535001317</p>
-                                </div>
-                                <div class="edit-delete-btn">
-                                    <i class="fa-solid fa-trash"></i>
-                                    <i class="fa-solid fa-pen-to-square" ></i>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="loc-container">
-                                <div class="loc-logo-holder">
-                                    <img src="{% static '/main/assets/location-dot-solid.svg'%}" alt="" class="loc-logo">
-                                </div>
-                                <div class="loc-info">
-                                    <h1>DeLonghi</h1>
-                                    <p>0535001317</p>
-                                </div>
-                                <div class="edit-delete-btn">
-                                    <i class="fa-solid fa-trash"></i>
-                                    <i class="fa-solid fa-pen-to-square" ></i>
-                                </div>
-                            </div>
-                        </li>
+                      
                     </ul>
                     <button class="add-button">Add New Location</button>
                 </div>
                 <div class="edit-location-form">
                     <div class="location-map" id="map"></div>
                     <form action="" class="location-form-container">
+                        <input type="hidden" id="latitude" name="latitude">
+                        <input type="hidden" id="longitude" name="longitude">
                         
                         <div>
                             <div class="form-group">
