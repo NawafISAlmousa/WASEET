@@ -4,7 +4,7 @@
 .edit-profile-form input[type="tel"],
 .edit-profile-form textarea {
     padding: 8px;
-    margin-bottom: 15px;
+    /* margin-bottom: 15px; */
     border: 1px solid #ccc;
     border-radius: 4px;
     resize: none;
@@ -180,4 +180,22 @@ input[type="file"] {
     margin-top: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+}
+
+/* Styles for the edit checkboxes */
+.edit-checkbox {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 10px;
+    margin-bottom: 20px;
+    margin-top: 5px;
+    font-size: 0.9em;
+    color: #555;
+}
+
+
+
+.edit-checkbox input[type="checkbox"] {
+    margin-right: 5px;
+    accent-color: #296879; /* Optional: customize the color of the checkbox */
 }

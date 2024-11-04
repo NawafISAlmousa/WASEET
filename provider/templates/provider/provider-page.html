@@ -61,12 +61,21 @@
                         <div class="form-left">
                             <label for="provider-name">Provider Name:</label>
                             <input type="text" id="provider-name" name="provider-name" required value={{provider.name}}>
-
+                            <label class="edit-checkbox" for="edit-provider-name">
+                                <input type="checkbox" id="edit-provider-name" name="edit-provider-name"> Edit
+                            </label>
+                            
                             <label for="provider-number">Phone Number:</label>
                             <input type="tel" id="provider-number" name="provider-number" required value = {{provider.phonenumber}}>
-    
+                            <label class="edit-checkbox" for="edit-provider-number">
+                                <input type="checkbox" id="edit-provider-number" name="edit-provider-number"> Edit
+                            </label>
+
                             <label for="description">Description:</label>
                             <textarea id="description" name="description" rows="4">{{provider.description}}</textarea>
+                            <label class="edit-checkbox" for="edit-description">
+                                <input type="checkbox" id="edit-description" name="edit-description"> Edit
+                            </label>
     
                     
                             <input type="hidden" id="username" name="username" required value = {{provider.username}} >

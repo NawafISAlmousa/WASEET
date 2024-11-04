@@ -239,3 +239,28 @@ document.getElementById('edit-profile-form').addEventListener('submit', async (e
         console.error('Error:', error);
     }
 });
+
+
+// =================== checkboxes ==================================================
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Function to toggle input enable/disable based on checkbox
+    function toggleInput(checkboxId, inputId) {
+        const checkbox = document.getElementById(checkboxId);
+        const input = document.getElementById(inputId);
+
+        // Initial state based on checkbox
+        input.disabled = !checkbox.checked;
+
+        // Add event listener for changes
+        checkbox.addEventListener("change", function() {
+            input.disabled = !checkbox.checked;
+        });
+    }
+
+    // Toggle each input based on its checkbox
+    toggleInput("edit-provider-name", "provider-name");
+    toggleInput("edit-provider-number", "provider-number");
+    toggleInput("edit-description", "description");
+});
