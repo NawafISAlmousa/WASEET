@@ -81,7 +81,7 @@
 
 .location-form-container{
     display: block;
-    height: 750px;
+    height: 250px;
 }
 
 .locations-list-header{
@@ -167,10 +167,7 @@
     padding: 0;
 }
 
-.location-form-container{
-    display: block;
-    height: 750px;
-}
+
 
 .locations-list-header{
     text-align: center;

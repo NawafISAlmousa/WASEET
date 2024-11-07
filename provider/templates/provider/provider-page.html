@@ -114,7 +114,7 @@
             
         </section>
 
-<!-- ===================================Location=========================================================== -->
+<!-- =================================== Location =========================================================== -->
 
         <section id="locations" class="content-section">
             <div class="locations-container">
@@ -186,7 +186,7 @@
 
         </section>
 
-<!-- ============================================================================================== -->
+<!-- ===================================  Items ============================================================== -->
 
 <section id="items" class="content-section">
     <div class="items-container">
@@ -206,40 +206,6 @@
                             </div>
                             
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea maxime iure illo ipsa quidem! Eaque quos nihil laboriosam, minima aut voluptates perspiciatis voluptatum omnis velit nostrum ex, architecto cupiditate id.</p>
-                            <div class="item-locations">
-                                <p>loa</p> <p>loa2</p> <p>loa4</p> <p>loa al-sultan</p> <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates possimus deleniti qui a obcaecati est cupiditate, ut consequatur ullam? Mollitia iste ab labore enim nulla! Dolore nesciunt harum error in.</p>
-                            </div>
-                        </div>
-                        <div class="edit-delete-btn">
-                            <i class="fa-solid fa-trash"></i>
-                            <i class="fa-solid fa-pen-to-square" ></i>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="item-container">
-                        <div class="item-logo-holder">
-                            <img src="{% static '/main/assets/item-dot-solid.svg'%}" alt="" class="item-logo">
-                        </div>
-                        <div class="item-info">
-                            <h1>DeLonghi</h1>
-                            <p>0535001317</p>
-                        </div>
-                        <div class="edit-delete-btn">
-                            <i class="fa-solid fa-trash"></i>
-                            <i class="fa-solid fa-pen-to-square" ></i>
-                        </div>
-                        
-                    </div>
-                </li>
-                <li>
-                    <div class="item-container">
-                        <div class="item-logo-holder">
-                            <img src="{% static '/main/assets/item-dot-solid.svg'%}" alt="" class="item-logo">
-                        </div>
-                        <div class="item-info">
-                            <h1>DeLonghi</h1>
-                            <p>0535001317</p>
                         </div>
                         <div class="edit-delete-btn">
                             <i class="fa-solid fa-trash"></i>
@@ -248,7 +214,7 @@
                     </div>
                 </li>
             </ul>
-            <button class="add-button">Add New item</button>
+            <button class="add-button" id="item-add-button">Add New item</button>
         </div>
         <div class="edit-item-form">
             
@@ -292,8 +258,8 @@
         </div>
     </div>
     <!-- pop up section -->
-    <div class="pop-up-shadow"></div>
-    <div class="pop-up">
+    <div class="pop-up-shadow" id="item-pop-up-shadow"></div>
+    <div class="pop-up"  id="item-pop-up">
         <div class="form-wrapper">
     
             <form class="item-form" action="#">
@@ -419,6 +385,9 @@
         const providerid = {{provider.providerid}}
     </script>
     <script src="{% static 'provider/provider-page/provider-page.js'%}?v={{ timestamp }}"></script>
+    <script src="{% static 'provider/provider-page/provider-page-items.js'%}?v={{ timestamp }}"></script>
+    <script src="{% static 'provider/provider-page/provider-page-events.js'%}?v={{ timestamp }}"></script>
+    <script src="{% static 'provider/provider-page/provider-page-locations.js'%}?v={{ timestamp }}"></script>
 
 </body>
 </html>
