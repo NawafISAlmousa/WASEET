@@ -148,7 +148,7 @@ providerDesc = document.getElementById("description")
 providerName = document.getElementById("provider-name")
 
 async function getGPTResponse() {
-    // const apiKey = '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';  // Replace with your actual API key
+    // const apiKey = '';  // Replace with your actual API key
     const modUserInput = `Generate a new short description about 300 characters long based on: 1-name: (${providerName.value}) 2-current description: (${providerDesc.value}) 3-tags: (${selectedTags}) without anything but the generated description please so no 'ofcourse' or 'got it' just the description alone and talk in first-person prespective. if it looks like a business is asking for the description use 'we' else if it looks like a singular provider, say a freelancer, is asking for the description use 'I'`;
     if(providerDesc.value.trim() !== ""){
         try {
