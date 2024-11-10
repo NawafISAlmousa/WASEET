@@ -25,5 +25,6 @@ urlpatterns = [
     path('providers/', views.fetchProvider,name='fetchProviders'),
     path('tags/', views.tags_list, name='tags_list'),
     path('<int:provider_id>/', views.providerPage,name='providerPage'),
-    path('fetchData/<str:providerid>/', views.fetchData,name='fetchData')
+    path('fetchData/<str:providerid>/', views.fetchData,name='fetchData'),
+    path('addItem/',views.addItem , name= 'addItem')
 ]

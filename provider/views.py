@@ -168,3 +168,35 @@ def fetchData(request,providerid):
     return JsonResponse(data,safe=False)
 
 
+
+def addItem(request):
+    if request.method == "POST":
+        itemName = request.POST.get('add-item-name')
+        itemPrice = request.POST.get('add-item-price')
+        itemDescription = request.POST.get('item-description')
+        providerid = Provider.objects.get(providerid=request.POST.get('providerid'))
+
+
+        item = Item(name = itemName, price = itemPrice, description = itemDescription, providerid= providerid)
+
+        item.save()
+
+
+        itemID = item.itemid
+
+        username = Provider.objects.filter(providerid = providerid.providerid).values('username')[0]['username']
+        print(username)
+
+        itemImage = request.FILES.get('add-item-logo-input')
+        provider_folder = os.path.join(settings.MEDIA_ROOT, username) # waseet/media/username
+        item_folder = os.path.join(provider_folder, 'items')
+        os.makedirs(item_folder, exist_ok=True)
+
+        # Save the uploaded image
+        image_path = os.path.join(item_folder, f'item#{itemID}.png')
+        if itemImage:
+            with open(image_path, 'wb+') as destination:
+                for chunk in itemImage.chunks():
+                    destination.write(chunk)
+        return redirect('provider:providerPage', provider_id = providerid.providerid)
+    pass 

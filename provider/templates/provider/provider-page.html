@@ -68,26 +68,17 @@
                             <label for="provider-number">Phone Number:</label>
                             <input type="tel" id="provider-number" name="provider-number" required value = {{provider.phonenumber}}>
                             <label class="edit-checkbox" for="edit-provider-number">
-                                <input type="checkbox" id="edit-provider-number" name="edit-provider-number"> Edit
+                                <input type="checkbox" id="edit-provider-number" name="edit-provider-number"> Edit 
                             </label>
 
                             <label for="description">Description:</label>
                             <textarea id="description" name="description" rows="4">{{provider.description}}</textarea>
                             <label class="edit-checkbox" for="edit-description">
-                                <input type="checkbox" id="edit-description" name="edit-description"> Edit
+                                <input type="checkbox" id="edit-description" name="edit-description"> Edit <button type="button" id="AIbutton" class="AIbutton">Modify Description Using AI</button>
                             </label>
     
                     
                             <input type="hidden" id="username" name="username" required value = {{provider.username}} >
-    
-                            {% comment %} <label for="email">Email:</label>
-                            <input type="email" id="email" name="email" required value = {{provider.email}}> {% endcomment %}
-    
-                            {% comment %} <label for="password">Password:</label>
-                            <input type="password" id="password" name="password" required >
-    
-                            <label for="confirm-password">Confirm Password:</label>
-                            <input type="password" id="confirm-password" name="confirm-password" required> {% endcomment %}
                         </div>
                         <div class="dividing-line"></div>
                         <div class="form-right">
@@ -191,7 +182,7 @@
 <section id="items" class="content-section">
     <div class="items-container">
         <div class="items-list">
-            <h1 class="items-list-header">Current items</h1>
+            <h1 class="items-list-header">Current Items</h1>
             <div class="breaking-line"></div>
             <ul class="item-unordered-list">
                 <li>
@@ -217,18 +208,21 @@
             <button class="add-button" id="item-add-button">Add New item</button>
         </div>
         <div class="edit-item-form">
+            <h1 class="items-list-header">Edit Item</h1>
+            <div class="breaking-line"></div>
             
             <form action="" class="item-form-container">
 
-                <div class="hidden-logo-input">
-                    <input class="logo-input" type="file" id="upload-logo" name="upload-logo" accept="image/png, image/jpg, image/jpeg">
-                </div>
-                <!-- Image preview container -->
-                <div class="logo-container">
-                    <div class="change-logo">
-                        <img class="logo-preview" id="logo" src="{% static '/main/assets/BigLogo.png'%}" alt="Logo Preview">
+                {% csrf_token %}
+                    <div class="hidden-logo-input">
+                        <input class="logo-input" type="file" id="item-logo-input" name="item-logo-input" accept="image/png, image/jpg, image/jpeg">
                     </div>
-                </div>
+                    <!-- Image preview container -->
+                    <div class="logo-container">
+                        <div class="change-logo" id="item-change-logo"> {% comment %} /media/{{provider.username}}/{{itemid}}logo.png {% endcomment %}
+                            <img class="logo-preview" id="item-logo" src="{% static '/main/assets/BigLogo.png'%}" alt="Logo Preview">
+                        </div>
+                    </div>
 
                 <div>
                     <div class="form-group">
@@ -242,10 +236,6 @@
                     <div class="form-group">
                         <label for="item-name">Description:</label>
                         <textarea type="text" id="item-name" name="item-name" required style="resize: none;"></textarea>
-                    </div>
-                      <div class="form-group">
-                        <label for="item-name">Locations:</label>
-                        <input type="text" id="item-name" name="item-name" required>
                     </div>
                     
                 </div>
@@ -262,17 +252,44 @@
     <div class="pop-up"  id="item-pop-up">
         <div class="form-wrapper">
     
-            <form class="item-form" action="#">
-                <div class="form-group">
-                    <label for="itemName" class="form-label">item name:</label>
-                    <input type="text" id="itemName" name="itemName" class="form-input" required>
-                </div>
-                <div class="form-group">
-                    <label for="phoneNumber" class="form-label">Phone Number:</label>
-                    <input type="tel" id="phoneNumber" name="phoneNumber" class="form-input" required>
-                </div>
-                <button type="submit" class="form-button">Save</button>
-            </form>
+            <div class="edit-item-form">
+                <h1 class="items-list-header">Edit Item</h1>
+                <div class="breaking-line"></div>
+                
+                <form action="#" class="item-form-container" id="add-item-form">
+    
+                    {% csrf_token %}
+                    <div class="hidden-logo-input">
+                        <input class="logo-input" type="file" id="add-item-logo-input" name="add-item-logo-input" accept="image/png, image/jpg, image/jpeg">
+                    </div>
+                    <!-- Image preview container -->
+                    <div class="logo-container">
+                        <div class="change-logo" id="add-item-change-logo"> {% comment %} /media/{{provider.username}}/{{itemid}}logo.png {% endcomment %}
+                            <img class="logo-preview" id="add-item-logo" src="{% static '/main/assets/BigLogo.png'%}" alt="Logo Preview">
+                        </div>
+                    </div>
+    
+                    <div>
+                        <div class="form-group">
+                            <label for="item-name">Item name:</label>
+                            <input type="text" id="add-item-name" name="add-item-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="item-number">Price:</label>
+                            <input type="number" id="add-item-price" name="add-item-price" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="item-name">Description:</label>
+                            <textarea type="text" id="add-item-description" name="add-item-description" required class="item-description"></textarea>
+                        </div>
+                    </div>
+                   
+                    <div class="save-button-container">
+                        <button>Save</button>
+                    </div>
+                    
+                </form>
+            </div>
         </div>
     </div>
 </section>

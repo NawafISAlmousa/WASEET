@@ -21,37 +21,55 @@
                 <img src="{% static 'main/assets/SmallLogo.png' %} " alt="Logo" class="logo">
                 <h1>Register as a Customer</h1>
             </header>
-            <form class="register-form" action="{% url 'customer:register-customer' %}" method="POST">
+            <form class="register-form" id="registrationForm" action="{% url 'customer:register-customer' %}"
+                method="POST">
                 {% csrf_token %}
                 <div class="form-flex">
                     <div class="form-left">
                         <label for="customer-name">Username:</label>
-                        <input type="text" id="customer-name" name="customer-name" required>
+                        <input type="text" id="customer-name" name="customer-name" required
+                            placeholder="Choose a unique username">
 
                         <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" required>
+                        <input type="email" id="email" name="email" required placeholder="e.g, example@example.com">
 
                         <label for="password">Password:</label>
-                        <input type="password" id="password" name="password" required>
+                        <input type="password" id="password" name="password" required
+                            pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                            placeholder="At least 8 letters including a number">
 
                         <label for="confirm-password">Confirm Password:</label>
-                        <input type="password" id="confirm-password" name="confirm-password" required>
+                        <input type="password" id="confirm-password" name="confirm-password"
+                            placeholder="At least 8 letters including a number" required
+                            pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$">
+
+                        <small id="password-error" style="color: red; display: none; margin-bottom: 5px;">Passwords do not match.</small>
+                            
+
+                        <div class="showpass">
+                            <input type="checkbox" id="showpass" name="showpass">
+                            <label for="showpass">Show Password</label>
+                        </div>
                     </div>
                     <div class="dividing-line"></div>
                     <div class="form-right">
                         <div class="full-name">
                             <div class="first-name">
                                 <label for="first-name">First Name:</label>
-                                <input type="text" id="first-name" name="first-name" required pattern="[A-Za-z]+">
+                                <input type="text" id="first-name" name="first-name"
+                                    title="You Cannot Add A Number In This Field" required
+                                    pattern="[A-Za-z]+" placeholder="Enter your First Name">
                             </div>
                             <div class="last-name">
                                 <label for="last-name">Last Name:</label>
-                                <input type="text" id="last-name" name="last-name" required pattern="[A-Za-z]+">
+                                <input type="text" id="last-name" name="last-name" required
+                                    title="You Cannot Add A Number In This Field" pattern="[A-Za-z]+"
+                                    placeholder="Enter your Last Name">
                             </div>
                         </div>
                         <label for="customer-number">Phone Number:</label>
                         <input type="tel" id="customer-number" name="customer-number" required
-                            pattern="(\+9665[0-9]{8})|(05[0-9]{8})">
+                            pattern="(\+9665[0-9]{8})|(05[0-9]{8})" placeholder="e.g., +966 5XXXXXXXX">
 
                         <label>Gender:</label>
                         <div class="radio-button">
@@ -64,7 +82,7 @@
                         </div>
 
                         <label for="DOB">Date of Birth:</label>
-                        <input type="date" min="1920-01-01" name="DOB">
+                        <input type="date" name="DOB" max="2012-12-30" min="1920-01-01" required>
 
                     </div>
                 </div>
@@ -81,20 +99,63 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+
             errorMessage = '{{error}}'
             if (errorMessage)
                 alert(errorMessage)
+            const pass = document.getElementById('password');
+            const confirmpass = document.getElementById('confirm-password');
+            const checkbox = document.getElementById('showpass');
+            const errorPass = document.getElementById("password-error");
+
+            checkbox.addEventListener('click', function () {
+                const type = checkbox.checked ? 'text' : 'password';
+                pass.type = type;
+                confirmpass.type = type;
+            });
+
+            document.getElementById('registrationForm').addEventListener('submit', function (event) {
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match.')
+                    console.log('rgaefaeaegegagea')
+                    event.preventDefault()  // Prevent form submission
+                }
+            });
+
+            confirmpass.addEventListener("input", function () {
+                p = pass.value;
+                confirmP = confirmpass.value;
+                if (confirmP.trim() !== '' && p.trim() !== '' ) {
+                    if (p !== confirmP) {
+                        this.setCustomValidity(" ");
+                        errorPass.style.display = "block";
+                    } else {
+                        this.setCustomValidity("");
+                        errorPass.style.display = "none";
+                    }
+                }
+
+            });
+            pass.addEventListener("input", function () {
+                p = pass.value;
+                confirmP = confirmpass.value;
+                if (confirmP.trim() !== '' && p.trim() !== '' ) {
+                        if (p !== confirmP.trim() && confirmP.trim() !== '') {
+                            this.setCustomValidity("");
+                            errorPass.style.display = "block";
+                        } else {
+                            this.setCustomValidity("");
+                            errorPass.style.display = "none";
+                        }
+                    }                            
+            })
+
         })
 
-        document.getElementById('registrationForm').addEventListener('submit', function (event) {
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
 
-            if (password !== confirmPassword) {
-                alert('Passwords do not match.');
-                event.preventDefault();  // Prevent form submission
-            }
-        });
     </script>
 </body>
 

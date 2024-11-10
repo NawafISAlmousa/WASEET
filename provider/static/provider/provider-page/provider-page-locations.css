@@ -89,12 +89,7 @@
     color: #296879;
 }
 
-.breaking-line{
-    width: 500px;
-    height: 2px;
-    background-color: #296879;
-    margin-bottom: 20px;
-}
+
 
 .location-map{
     width: 100%;
@@ -174,12 +169,6 @@
     color: #296879;
 }
 
-.breaking-line{
-    width: 500px;
-    height: 2px;
-    background-color: #296879;
-    margin-bottom: 20px;
-}
 
 .location-map{
     width: 100%;

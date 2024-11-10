@@ -86,6 +86,16 @@ input[type="file"] {
     font-family: "Jost", sans-serif;
 }
 
+
+.AIbutton {
+    background-color: #296879;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin-top: 0px;
+    cursor: pointer;
+}
+
 .register-button {
     background-color: #296879;
     color: white;

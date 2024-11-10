@@ -188,7 +188,7 @@ input[type="file"] {
     align-items: center;
     margin-left: 10px;
     margin-bottom: 20px;
-    margin-top: 5px;
+    margin-top: 10px;
     font-size: 0.9em;
     color: #555;
 }
@@ -198,4 +198,14 @@ input[type="file"] {
 .edit-checkbox input[type="checkbox"] {
     margin-right: 5px;
     accent-color: #296879; /* Optional: customize the color of the checkbox */
+}
+
+.AIbutton {
+    background-color: #296879;
+    color: white;
+    border: none;
+    padding: 10px 62px;
+    margin-left: 40px;
+    cursor: pointer;
+    border-radius: 4px;
 }
