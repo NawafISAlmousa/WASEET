@@ -224,21 +224,23 @@
                         </div>
                     </div>
 
-                <div>
-                    <div class="form-group">
-                        <label for="item-name">Item name:</label>
-                        <input type="text" id="item-name" name="item-name" required>
+                    <div>
+                        <div class="form-group">
+                            <label for="item-name">Item name:</label>
+                            <input type="text" id="item-name" name="item-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="item-number">Price:</label>
+                            <input type="number" id="item-price" name="item-price" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="item-name">Description:</label>
+                            <textarea type="text" id="item-description" name="item-description" required class="item-description"></textarea>
+                        </div>
+                        <div class="hidden-input">
+                            <input type="text" name="itemid" id="itemid">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="item-number">Price:</label>
-                        <input type="number" id="item-number" name="item-number" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="item-name">Description:</label>
-                        <textarea type="text" id="item-name" name="item-name" required style="resize: none;"></textarea>
-                    </div>
-                    
-                </div>
                
                 <div class="save-button-container">
                     <button>Save</button>
@@ -400,6 +402,8 @@
     
     <script>
         const providerid = {{provider.providerid}}
+        const defaultImage = '{%static "/main/assets/BigLogo.png"%}'
+        const providerUsername = "{{provider.username}}"
     </script>
     <script src="{% static 'provider/provider-page/provider-page.js'%}?v={{ timestamp }}"></script>
     <script src="{% static 'provider/provider-page/provider-page-items.js'%}?v={{ timestamp }}"></script>

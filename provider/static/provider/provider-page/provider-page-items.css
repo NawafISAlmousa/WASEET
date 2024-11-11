@@ -95,7 +95,9 @@
     margin: auto;
     position: relative;
 }
-
+.hidden-input{
+    display: none;
+}
 .pop-up{
     position: absolute;
     border-radius: 4px;

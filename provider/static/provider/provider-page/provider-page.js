@@ -179,12 +179,12 @@ function removeTag(tag) {
 //     confirmpass.type = type;
 // });
 
-async function fetchProviderData(providerid){
+async function fetchProvidertags(providerid){
     try {
         const response = await fetch(`/provider/fetchData/${providerid}`);
         if (response.ok) {  
             data = await response.json()
-            for(let tag of data[3]){
+            for(let tag of data){
                 selectTag(tag.name)
             }
             displaySelectedTags()
@@ -201,7 +201,7 @@ async function fetchProviderData(providerid){
 
 
 
-fetchProviderData(providerid)
+fetchProvidertags(providerid)
 
 document.getElementById('edit-profile-form').addEventListener('submit', async (e) => {
     e.preventDefault();

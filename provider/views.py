@@ -155,15 +155,15 @@ def tags_list(request):
     return JsonResponse(list(tags), safe=False)
 
 def fetchData(request,providerid):
-    locations = Location.objects.filter(providerid=providerid).values()
-    items = Item.objects.filter(providerid=providerid).values()
-    events = [event for location in locations for event in Event.objects.filter(locationid=location.id).values()]
+    # locations = Location.objects.filter(providerid=providerid).values()
+    # items = Item.objects.filter(providerid=providerid).values()
+    # events = [event for location in locations for event in Event.objects.filter(locationid=location.id).values()]
     tagids = ProvidersTags.objects.filter(providerid=providerid).values('tagid')
 
     selectedtags = [tagname for id in list(tagids) for tagname in Tags.objects.filter(tagid=id['tagid']).values('name')]
     
-    data = [list(locations), list(items), list(events), list(selectedtags)]
-    print(data) #Debugging
+    data = list(selectedtags)
+    # print(data) #Debugging
 
     return JsonResponse(data,safe=False)
 
@@ -173,7 +173,7 @@ def addItem(request):
     if request.method == "POST":
         itemName = request.POST.get('add-item-name')
         itemPrice = request.POST.get('add-item-price')
-        itemDescription = request.POST.get('item-description')
+        itemDescription = request.POST.get('add-item-description')
         providerid = Provider.objects.get(providerid=request.POST.get('providerid'))
 
 
@@ -185,7 +185,6 @@ def addItem(request):
         itemID = item.itemid
 
         username = Provider.objects.filter(providerid = providerid.providerid).values('username')[0]['username']
-        print(username)
 
         itemImage = request.FILES.get('add-item-logo-input')
         provider_folder = os.path.join(settings.MEDIA_ROOT, username) # waseet/media/username
@@ -193,7 +192,67 @@ def addItem(request):
         os.makedirs(item_folder, exist_ok=True)
 
         # Save the uploaded image
-        image_path = os.path.join(item_folder, f'item#{itemID}.png')
+        image_path = os.path.join(item_folder, f'item{itemID}.png')
+        if itemImage:
+            with open(image_path, 'wb+') as destination:
+                for chunk in itemImage.chunks():
+                    destination.write(chunk)
+        return redirect('provider:providerPage', provider_id = providerid.providerid)
+    pass 
+
+
+
+
+def fetchItems(request, provider_id):
+    # Retrieve items for the given provider
+    items = Item.objects.filter(providerid=provider_id).values('itemid', 'name', 'price', 'description')
+    
+    # Convert the queryset to a list of dictionaries
+    items_list = list(items)
+    
+    return JsonResponse(items_list, safe=False)
+
+
+def fetchItemDetails(request, item_id):
+    # Retrieve items for the given provider
+    item = Item.objects.filter(itemid=item_id).values('itemid', 'name', 'price', 'description')
+    
+    # Convert the queryset to a list of dictionaries
+    fetcheditem = list(item)[0]
+    
+    return JsonResponse(fetcheditem, safe=False)
+
+
+def editItem(request):
+    if request.method == "POST":
+        itemName = request.POST.get('item-name')
+        itemPrice = request.POST.get('item-price')
+        itemDescription = request.POST.get('item-description')
+        providerid = Provider.objects.get(providerid=request.POST.get('providerid'))
+        itemid = request.POST.get('itemid')
+        print(itemid, type(itemid))
+
+        item = Item.objects.get(itemid=itemid)
+
+
+        item.name = itemName
+        item.price = itemPrice
+        item.description = itemDescription
+
+        item.save()
+
+
+        itemID = itemid
+
+        username = Provider.objects.filter(providerid = providerid.providerid).values('username')[0]['username']
+
+        itemImage = request.FILES.get('add-item-logo-input')
+        provider_folder = os.path.join(settings.MEDIA_ROOT, username) # waseet/media/username
+        item_folder = os.path.join(provider_folder, 'items')
+        os.makedirs(item_folder, exist_ok=True)
+
+        # Save the uploaded image
+        image_path = os.path.join(item_folder, f'item{itemID}.png')
         if itemImage:
             with open(image_path, 'wb+') as destination:
                 for chunk in itemImage.chunks():
