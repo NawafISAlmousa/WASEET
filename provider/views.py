@@ -259,3 +259,15 @@ def editItem(request):
                     destination.write(chunk)
         return redirect('provider:providerPage', provider_id = providerid.providerid)
     pass 
+
+def deleteItem(request):
+    print('eafaefaegfa')
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        print(data,'<---1')
+        item_id = data.get("itemID")
+        providerID = data.get('providerID')
+        print(providerID , '<---2')
+        item = Item.objects.get(itemid=item_id)
+        item.delete()
+    return redirect('provider:providerPage', provider_id = providerID)

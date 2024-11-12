@@ -30,5 +30,6 @@ urlpatterns = [
     path('fetchItemDetails/<str:item_id>/', views.fetchItemDetails, name='fetchItemDetails'),
     path('addItem/',views.addItem , name= 'addItem'),
     path('editItem/',views.editItem , name= 'editItem'),
+    path('deleteItem/' , views.deleteItem ,name = 'deleteItem')
 
 ]
