@@ -1,4 +1,4 @@
-*{
+* {
     font-family: jost, sans-serif;
 }
 
@@ -54,8 +54,9 @@ body {
     position: absolute;
     top: 3px;
     left: 3px;
-    width: calc(25% - 6px); /* Adjusted based on four buttons */
-    height: 30px;
+    width: calc(25% - 6px);
+    /* Adjusted based on four buttons */
+    height: 33px;
     background: #296879;
     border-radius: 25px;
     transition: left 0.3s ease;
@@ -103,10 +104,9 @@ body {
 
 .content-section {
     display: none;
-    
+
 }
 
 .content-section.active {
     display: block;
 }
-

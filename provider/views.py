@@ -246,7 +246,7 @@ def editItem(request):
 
         username = Provider.objects.filter(providerid = providerid.providerid).values('username')[0]['username']
 
-        itemImage = request.FILES.get('add-item-logo-input')
+        itemImage = request.FILES.get('item-logo-input')
         provider_folder = os.path.join(settings.MEDIA_ROOT, username) # waseet/media/username
         item_folder = os.path.join(provider_folder, 'items')
         os.makedirs(item_folder, exist_ok=True)

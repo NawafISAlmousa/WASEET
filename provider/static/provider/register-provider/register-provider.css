@@ -1,13 +1,16 @@
-*{
+* {
     font-family: "Jost", sans-serif;
 }
 
 body {
     padding: 0;
-    background-color: #ffffff; /* Main background color */
+    background-color: #ffffff;
+    /* Main background color */
     display: flex;
     justify-content: center;
     align-items: center;
+    /* background-color: #296879; */
+    background-image: linear-gradient(60deg, #0c2a26, #02ac9d);
 }
 
 .main-container {
@@ -15,12 +18,21 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
 }
 
 .form-container {
-    background-color: #ffffff; /* Form background color */
+    background-color: #ffffff;
+    /* Form background color */
     border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    /* Shadow effect */
     padding: 20px 40px;
     max-width: 1100px;
     width: 90%;
@@ -50,12 +62,12 @@ header {
     margin: 0 40px;
 }
 
-.form-flex{
+.form-flex {
     display: flex;
     justify-content: space-between;
 }
 
-.dividing-line{
+.dividing-line {
     width: 1px;
     height: auto;
     background-color: rgb(170, 170, 170);
@@ -77,7 +89,8 @@ textarea {
     border-radius: 4px;
     resize: none;
 }
-.showpass{
+
+.showpass {
     padding-bottom: 10px;
 }
 
@@ -105,12 +118,13 @@ input[type="file"] {
     cursor: pointer;
     width: 35%;
     margin: auto 10px;
-    
+
 }
 
 .register-button-container {
     display: flex;
-    justify-content: center; /* Center the button horizontally */
+    justify-content: center;
+    /* Center the button horizontally */
     margin-top: 20px;
 }
 
@@ -118,11 +132,11 @@ input[type="file"] {
     background-color: #296879;
 }
 
-.upload-logo{
+.upload-logo {
     display: flex;
 }
 
-.logo-input{
+.logo-input {
     width: 90px;
     display: block;
     margin-top: 10px;
@@ -193,7 +207,7 @@ footer a:hover {
     gap: 5px;
 }
 
-.selected-tags{
+.selected-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
