@@ -6,6 +6,7 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from django.utils import timezone
 
 
 class Admin(models.Model):
@@ -197,6 +198,16 @@ class FavoriteProviders(models.Model):
         unique_together = (('customerid', 'providerid'),)
 
 
+class LocationImpressions(models.Model):
+    impressionid = models.AutoField(db_column='ImpressionID', primary_key=True)
+    customerid = models.ForeignKey('Customer', on_delete=models.CASCADE, db_column='CustomerID')
+    locationid = models.ForeignKey('Location', on_delete=models.CASCADE, db_column='LocationID')
+    impressiontimestamp = models.DateTimeField(db_column='ImpressionTimeStamp', default=timezone.now)
+
+    class Meta:
+        db_table = 'location_impressions'
+
+
 class Item(models.Model):
     itemid = models.AutoField(db_column='ItemID', primary_key=True)  # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=100, blank=True, null=True)  # Field name made lowercase.
@@ -212,7 +223,7 @@ class Item(models.Model):
 class Location(models.Model):
     locationid = models.AutoField(db_column='LocationID', primary_key=True)  # Field name made lowercase.
     providerid = models.ForeignKey('Provider', models.DO_NOTHING, db_column='ProviderID', blank=True, null=True)  # Field name made lowercase.
-    coordinates = models.CharField(db_column='Coordinates', max_length=25, blank=True, null=True)  # Field name made lowercase.
+    coordinates = models.CharField(db_column='Coordinates', max_length=100, blank=True, null=True)  # Field name made lowercase.
     phonenumber = models.CharField(db_column='PhoneNumber', max_length=14, blank=True, null=True)  # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=150, blank=True, null=True)  # Field name made lowercase.
 
@@ -222,8 +233,8 @@ class Location(models.Model):
 
 
 class LocationHasItem(models.Model):
-    locationid = models.OneToOneField(Location, models.DO_NOTHING, db_column='LocationID', primary_key=True)  # Field name made lowercase. The composite primary key (LocationID, ItemID) found, that is not supported. The first column is selected.
-    itemid = models.ForeignKey(Item, models.DO_NOTHING, db_column='ItemID')  # Field name made lowercase.
+    locationid = models.ForeignKey(Location, on_delete=models.CASCADE, db_column='LocationID')  # Changed to ForeignKey
+    itemid = models.ForeignKey(Item, on_delete=models.CASCADE, db_column='ItemID')  # Changed to ForeignKey
 
     class Meta:
         managed = False
@@ -272,11 +283,12 @@ class Report(models.Model):
 
 
 class Review(models.Model):
-    reviewid = models.AutoField(db_column='ReviewID', primary_key=True)  # Field name made lowercase.
-    reviewtext = models.TextField(db_column='ReviewText', blank=True, null=True)  # Field name made lowercase.
-    locationid = models.ForeignKey(Location, models.DO_NOTHING, db_column='LocationID', blank=True, null=True)  # Field name made lowercase.
-    customerid = models.ForeignKey(Customer, models.DO_NOTHING, db_column='CustomerID', blank=True, null=True)  # Field name made lowercase.
-    rating = models.IntegerField(db_column='Rating', blank=True, null=True)  # Field name made lowercase.
+    reviewid = models.AutoField(db_column='ReviewID', primary_key=True)
+    reviewtext = models.TextField(db_column='ReviewText', blank=True, null=True)
+    locationid = models.ForeignKey(Location, models.DO_NOTHING, db_column='LocationID', blank=True, null=True)
+    customerid = models.ForeignKey(Customer, models.DO_NOTHING, db_column='CustomerID', blank=True, null=True)
+    rating = models.IntegerField(db_column='Rating', blank=True, null=True)
+    postdate = models.DateField(db_column='postDate', blank=True, null=True)  # New field added
 
     class Meta:
         managed = False

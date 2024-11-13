@@ -116,6 +116,92 @@ document.addEventListener("DOMContentLoaded", function(){
 
   locationAddButton.addEventListener("click", function () {
     locationPopUpShadow.style.display = 'block';
+    fetchProviderItems(providerid)
     locationPopUp.style.display = 'block';
   })
+
+
+
+
+
+
+  // ============ fetch items for location =================
+  const selectbutton = document.getElementById("select-all")
+  const deselectbutton = document.getElementById("deselect-all")
+
+  selectbutton.addEventListener("click", function(){
+    let checklist = document.querySelectorAll('.checkbox-item')
+    for(let item of checklist)
+        item.checked = true
+  })
+
+  deselectbutton.addEventListener("click", function(){
+    let checklist = document.querySelectorAll('.checkbox-item')
+    for(let item of checklist)
+        item.checked = false
+  })
+
+  async function fetchProviderItems(providerId) {
+    try{
+        const response = await fetch(`/provider/fetchItems/${providerId}/`)
+          if (response.ok){
+            const items = await response.json();
+            let checklistHTML = ""
+            items.forEach(item => {
+                checklistHTML += `
+
+              <div class="checklist-item">
+                <input class= "checkbox-item" type="checkbox" id="item-${item.itemid}" name="items" value="${item.itemid}">
+                <label for="item-${item.itemid}">${item.name}</label>
+              </div>
+
+            `});
+            // Insert the generated HTML into the checklist container
+            document.getElementById('add-items-checklist').innerHTML = checklistHTML;
+          } else {
+            alert(`Error fetching provider items ${response.status}`)
+          }
+        } catch(error){
+            alert(`Error fetching provider items ${error}`)
+        }
+  }
+
+  fetchProviderItems(providerid); 
 });
+
+function getChecked(checkList){
+    let list = []
+    for(let item of checkList)
+        if(item.checked)
+            list.push(item.value)
+    return list
+}
+
+// ====================  add location ======================
+document.getElementById("add-location-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    formData.append('providerid', providerid)
+    const checkItems = getChecked(document.querySelectorAll('.checkbox-item'))
+    formData.append('checkedItems', checkItems)
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    try {
+        const response = await fetch('/provider/addLocation/', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'X-CSRFToken': csrfToken, // Add the CSRF token to the headers
+          },
+        });
+  
+        if (response.ok) {
+          e.target.reset();
+          alert('Location Added successfully!');
+  
+        } else {
+          alert('Error Submitting Item Information.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    });

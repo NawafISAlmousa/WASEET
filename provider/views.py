@@ -1,7 +1,7 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.http import JsonResponse, HttpResponseRedirect
-from main.models import Provider, Location, ProviderRatings, Tags, ProvidersTags, Item, Event
+from main.models import Provider, Location, ProviderRatings, Tags, ProvidersTags, Item, Event, LocationHasItem
 import time,os
 from django.db.models import Subquery, OuterRef
 from django.conf import settings
@@ -261,13 +261,50 @@ def editItem(request):
     pass 
 
 def deleteItem(request):
-    print('eafaefaegfa')
     if request.method == 'POST':
         data = json.loads(request.body)
-        print(data,'<---1')
         item_id = data.get("itemID")
-        providerID = data.get('providerID')
-        print(providerID , '<---2')
-        item = Item.objects.get(itemid=item_id)
+        provider_id = data.get('providerID')
+        
+        # Retrieve the item and provider instances
+        item = get_object_or_404(Item, itemid=item_id)
+        provider = get_object_or_404(Provider, providerid=provider_id)
+        
+        # Construct the file path for the image
+        username = provider.username  # Retrieve provider's username
+        image_path = os.path.join(settings.MEDIA_ROOT, username, 'items', f'item{item_id}.png')
+        
+        # Delete the image file if it exists
+        if os.path.isfile(image_path):
+            os.remove(image_path)
+        
+        # Delete the item from the database
         item.delete()
-    return redirect('provider:providerPage', provider_id = providerID)
+        
+    return redirect('provider:providerPage', provider_id=provider.providerid)
+
+
+def addLocation(request):
+    if request.method == "POST":
+        itemIds = (request.POST.get('checkedItems').split(','))
+        locationName = request.POST.get('add-location-name')
+        locationNumber = request.POST.get('add-location-number')
+        locationlatitude = request.POST.get('add-location-latitude')
+        locationlongitude = request.POST.get('add-location-longitude')
+        locationCoord = f'{locationlatitude},{locationlongitude}'
+        provider = Provider.objects.get(providerid=request.POST.get('providerid'))
+
+        location = Location(name=locationName,phonenumber=locationNumber,coordinates=locationCoord,providerid=provider)
+
+        location.save()
+
+        for itemid in itemIds:
+            item = Item.objects.get(itemid=itemid)
+            link = LocationHasItem(locationid=location,itemid=item)
+            print(link,item)
+            link.save()
+    return redirect('provider:providerPage', provider_id = provider.providerid)
+
+
+        
+

@@ -275,3 +275,5 @@ async function getGPTResponse() {
 
 
 document.getElementById("AIbutton").onclick = () => getGPTResponse();
+
+

@@ -21,6 +21,7 @@ async function fetchItemDetails(itemid) {
       itemIDinput.value = data.itemid
 
     } else {
+      
       alert('Error fetching item details.');
     }
   } catch (error) {
@@ -43,6 +44,7 @@ async function deleteItem(itemID) {
 
     if (response.ok) {
       fetchItemsForProvider(providerid);
+      
       alert('Item Deleted successfully!');
     } else {
       alert('Error Deleting Item.');
@@ -84,7 +86,7 @@ async function fetchItemsForProvider(providerid) {
                                         <p>${item.description}</p>
                                     </div>
                                     <div class="edit-delete-btn">
-                                        <i class="fa-solid fa-trash" onclick=deleteItem(${item.itemid})></i>
+                                        <i class="fa-solid fa-trash" ondblclick=deleteItem(${item.itemid})></i>
                                         <i class="fa-solid fa-pen-to-square" onclick="fetchItemDetails(${item.itemid})"></i>
                                     </div>
                                 </div>
@@ -194,6 +196,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('add-item-logo').src = defaultImage
         e.target.reset();
         fetchItemsForProvider(providerid);
+        fetchProviderItems(providerid);
         alert('Item Added successfully!');
 
       } else {
@@ -240,7 +243,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                         <p>${item.description}</p>
                                     </div>
                                     <div class="edit-delete-btn">
-                                        <i class="fa-solid fa-trash" onclick=deleteItem(${item.itemid})></i>
+                                        <i class="fa-solid fa-trash" ondblclick=deleteItem(${item.itemid})></i>
                                         <i class="fa-solid fa-pen-to-square" onclick="fetchItemDetails(${item.itemid})"></i>
                                     </div>
                                 </div>
