@@ -39,57 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById(sectionId).classList.add('active');
         });
     });
-    // ======================= Map Functions ===============================
-    const fallbackLatitude = 24.7136;  // Riyadh's latitude
-    const fallbackLongitude = 46.6753; // Riyadh's longitude
-    const mapZoomLevel = 13;           // Default zoom level
-
-    // Function to initialize the map and add a draggable marker
-    function initializeMap(latitude, longitude) {
-        // Initialize map centered on given coordinates
-        const map = L.map('map').setView([latitude, longitude], mapZoomLevel);
-
-        // Add OpenStreetMap tiles
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        // Add a draggable marker and set its initial position
-        const marker = L.marker([latitude, longitude], { draggable: true }).addTo(map);
-
-        // Update hidden fields with initial position
-        document.getElementById('latitude').value = latitude;
-        document.getElementById('longitude').value = longitude;
-
-        // Event listener for marker movement
-        marker.on('dragend', function (event) {
-            const { lat, lng } = event.target.getLatLng();
-            document.getElementById('latitude').value = lat;
-            document.getElementById('longitude').value = lng;
-            console.log(`Marker moved to: ${lat}, ${lng}`);
-        });
-    }
-
-    // Try to get the user's current location
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            position => {
-                const { latitude, longitude } = position.coords;
-                initializeMap(latitude, longitude); // Use user's current location
-            },
-            error => {
-                console.warn("Geolocation error:", error);
-                alert("Could not access your location. Defaulting to Riyadh.");
-                initializeMap(fallbackLatitude, fallbackLongitude); // Fallback to Riyadh
-            }
-        );
-    } else {
-        alert("Geolocation is not supported by this browser. Defaulting to Riyadh.");
-        initializeMap(fallbackLatitude, fallbackLongitude); // Fallback to Riyadh
-    }
-});
-
+})
 
 const availableTagsContainer = document.getElementById('available-tags');
 const selectedTagsContainer = document.getElementById('selected-tags');
@@ -275,7 +225,7 @@ providerName = document.getElementById("provider-name")
 
 
 async function getGPTResponse() {
-    const apiKey = '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';  // Replace with your actual API key
+    const apiKey = '';  // Replace with your actual API key
     const modUserInput = `Generate a new short description about 300 characters long based on: 1-name: (${providerName.value}) 2-current description: (${providerDesc.value}) 3-tags: (${selectedTags}) without anything but the generated description please so no 'ofcourse' or 'got it' just the description alone and talk in first-person prespective. if it looks like a business is asking for the description use 'we' else if it looks like a singular provider, say a freelancer, is asking for the description use 'I'`;
     if (providerDesc.value.trim() !== "") {
         try {

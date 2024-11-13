@@ -60,19 +60,21 @@
                     <div class="form-flex">
                         <div class="form-left">
                             <label for="provider-name">Provider Name:</label>
-                            <input type="text" id="provider-name" name="provider-name" required value={{provider.name}}>
+                            <input type="text" id="provider-name" name="provider-name" required value={{provider.name}}
+                            placeholder="Choose a Name (will be displayed to cutomers)">
                             <label class="edit-checkbox" for="edit-provider-name">
                                 <input type="checkbox" id="edit-provider-name" name="edit-provider-name"> Edit
                             </label>
                             
                             <label for="provider-number">Phone Number:</label>
-                            <input type="tel" id="provider-number" name="provider-number" required value = {{provider.phonenumber}}>
+                            <input type="tel" id="provider-number" name="provider-number" required value = {{provider.phonenumber}}
+                            pattern="(\+9665[0-9]{8})|(05[0-9]{8})" placeholder="e.g., +966 5XXXXXXXX">
                             <label class="edit-checkbox" for="edit-provider-number">
                                 <input type="checkbox" id="edit-provider-number" name="edit-provider-number"> Edit 
                             </label>
 
                             <label for="description">Description:</label>
-                            <textarea id="description" name="description" rows="4">{{provider.description}}</textarea>
+                            <textarea id="description" name="description" rows="4" placeholder="Describe what you offer">{{provider.description}}</textarea>
                             <label class="edit-checkbox" for="edit-description">
                                 <input type="checkbox" id="edit-description" name="edit-description"> Edit <button type="button" id="AIbutton" class="AIbutton">Modify Description Using AI</button>
                             </label>
@@ -119,7 +121,7 @@
                                     <img src="{% static '/main/assets/location-dot-solid.svg'%}" alt="" class="loc-logo">
                                 </div>
                                 <div class="loc-info">
-                                    <h1>DeLonghi</h1>
+                                    <h1>location1</h1>
                                     <p>0535001317</p>
                                 </div>
                                 <div class="edit-delete-btn">
@@ -130,13 +132,13 @@
                         </li>
                       
                     </ul>
-                    <button class="add-button">Add New Location</button>
+                    <button class="add-button" id="location-add-button">Add New Location</button>
                 </div>
                 <div class="edit-location-form">
-                    <div class="location-map" id="map"></div>
+                    <div class="location-map" id="location-map"></div>
                     <form action="" class="location-form-container">
-                        <input type="hidden" id="latitude" name="latitude">
-                        <input type="hidden" id="longitude" name="longitude">
+                        <input type="hidden" id="location-latitude" name="location-latitude">
+                        <input type="hidden" id="location-longitude" name="location-longitude">
                         
                         <div>
                             <div class="form-group">
@@ -144,8 +146,8 @@
                                 <input type="text" id="location-name" name="location-name" required>
                             </div>
                             <div class="form-group">
-                                <label for="location-number">Phone Number:</label>
-                                <input type="tel" id="location-number" name="location-number" required>
+                                <input type="tel" id="location-number" name="location-number" required 
+                                pattern="(\+9665[0-9]{8})|(05[0-9]{8})" placeholder="e.g., +966 5XXXXXXXX">
                             </div>
                         </div>
                        
@@ -157,20 +159,36 @@
                 </div>
             </div>
 
-            <div class="pop-up-shadow"></div>
-            <div class="pop-up">
-                <div class="form-wrapper">
-                    <div id="map" class="map-container"></div>
-                    <form class="location-form" action="#">
-                        <div class="form-group">
-                            <label for="locationName" class="form-label">Location name:</label>
-                            <input type="text" id="locationName" name="locationName" class="form-input" required>
+            <!-- ==============================  pop up  ============================== -->
+
+            <div class="location-pop-up-shadow" id="location-pop-up-shadow"></div>
+            <div class="location-pop-up"  id="location-pop-up">
+                <div class="add-location-form">
+                    <h1 class="location-list-header">Add Location</h1>
+                    <div class="breaking-line"></div>
+                    <div class="location-map" id="add-location-map"></div>
+                    
+                    <form action="#" class="location-form-container" id="add-location-form">
+                    
+                        {% csrf_token %}
+                        <input type="hidden" id="add-location-latitude" name="add-location-latitude">
+                        <input type="hidden" id="add-location-longitude" name="add-location-longitude">
+                        <div>
+                            <div class="form-group">
+                                <label for="location-name">location name:</label>
+                                <input type="text" id="add-location-name" name="add-location-name" required
+                                placeholder="Choose a Name for Your Location(will be displayed to cutomers)">
+                            </div>
+                            <div class="form-group">
+                                <label for="location-number">location Phone Number:</label>
+                                <input type="tel" id="add-location-number" name="add-location-number" required
+                                pattern="(\+9665[0-9]{8})|(05[0-9]{8})" placeholder="e.g., +966 5XXXXXXXX">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="phoneNumber" class="form-label">Phone Number:</label>
-                            <input type="tel" id="phoneNumber" name="phoneNumber" class="form-input" required>
+                        <div class="save-button-container">
+                            <button>Save</button>
                         </div>
-                        <button type="submit" class="form-button">Save</button>
+                        
                     </form>
                 </div>
             </div>
@@ -214,33 +232,33 @@
             <form action="" class="item-form-container">
 
                 {% csrf_token %}
-                    <div class="hidden-logo-input">
-                        <input class="logo-input" type="file" id="item-logo-input" name="item-logo-input" accept="image/png, image/jpg, image/jpeg">
-                    </div>
-                    <!-- Image preview container -->
-                    <div class="logo-container">
-                        <div class="change-logo" id="item-change-logo"> {% comment %} /media/{{provider.username}}/{{itemid}}logo.png {% endcomment %}
-                            <img class="logo-preview" id="item-logo" src="{% static '/main/assets/BigLogo.png'%}" alt="Logo Preview">
-                        </div>
-                    </div>
 
-                    <div>
-                        <div class="form-group">
-                            <label for="item-name">Item name:</label>
-                            <input type="text" id="item-name" name="item-name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="item-number">Price:</label>
-                            <input type="number" id="item-price" name="item-price" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="item-name">Description:</label>
-                            <textarea type="text" id="item-description" name="item-description" required class="item-description"></textarea>
-                        </div>
-                        <div class="hidden-input">
-                            <input type="text" name="itemid" id="itemid">
-                        </div>
+                <div class="hidden-logo-input">
+                    <input class="logo-input" type="file" id="item-logo-input" name="item-logo-input" accept="image/png, image/jpg, image/jpeg">
+                </div>
+                <!-- Image preview container -->
+                <div class="logo-container">
+                    <div class="change-logo" id="item-change-logo"> {% comment %} /media/{{provider.username}}/{{itemid}}logo.png {% endcomment %}
+                        <img class="logo-preview" id="item-logo" src="{% static '/main/assets/BigLogo.png'%}" alt="Logo Preview">
                     </div>
+                </div>
+                <div>
+                    <div class="form-group">
+                        <label for="item-name">Item name:</label>
+                        <input type="text" id="item-name" name="item-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="item-number">Price:</label>
+                        <input type="number" id="item-price" name="item-price" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="item-name">Description:</label>
+                        <textarea type="text" id="item-description" name="item-description" required class="item-description"></textarea>
+                    </div>
+                    <div class="hidden-input">
+                        <input type="text" name="itemid" id="itemid">
+                    </div>
+                </div>
                
                 <div class="save-button-container">
                     <button>Save</button>
