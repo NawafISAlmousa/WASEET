@@ -307,4 +307,11 @@ def addLocation(request):
 
 
         
-
+def fetchLocations(request, provider_id):
+    # Retrieve items for the given provider
+    locations = Location.objects.filter(providerid=provider_id).values('locationid', 'name', 'phonenumber', 'coordinates')
+    
+    # Convert the queryset to a list of dictionaries
+    locations_list = list(locations)
+    
+    return JsonResponse(locations_list, safe=False)

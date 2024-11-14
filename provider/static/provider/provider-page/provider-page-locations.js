@@ -167,6 +167,55 @@ document.addEventListener("DOMContentLoaded", function(){
   }
 
   fetchProviderItems(providerid); 
+
+
+
+
+
+
+  async function fetchLocationsForProvider(providerid) {
+    try {
+      const response = await fetch(`/provider/fetchLocations/${providerid}`);
+
+      if (response.ok) {
+        const locations = await response.json();
+        let locationsHTML = '';  // Initialize itemsHTML as an empty string to accumulate HTML for each item
+
+        locations.forEach(location => {
+          console.log(location.locationid)
+          locationsHTML += `
+                              <li>
+                                <div class="loc-container">
+                                    <div class="loc-logo-holder">
+                                        <img src="${locationSymbol}" alt="" class="loc-logo">
+                                    </div>
+                                    <div class="loc-info">
+                                        
+                                        <h1>${location.name}</h1>
+                                        <p>${location.phonenumber}</p>
+                                    </div>
+                                    <div class="edit-delete-btn">
+                                        <i class="fa-solid fa-trash" ondblclick="deleteLocation(${location.locationid})"></i>
+                                        <i class="fa-solid fa-pen-to-square" onclick="fetchLocationDetails(${location.locationid})"></i>
+                                    </div>
+                                </div>
+                              </li>
+                        `;
+
+        });
+
+        // Display items in the specified container
+        document.querySelector(".location-unordered-list").innerHTML = locationsHTML;
+      } else {
+        alert('Error fetching locations.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  // Example usage
+  fetchLocationsForProvider(providerid);
 });
 
 function getChecked(checkList){
@@ -205,3 +254,6 @@ document.getElementById("add-location-form").addEventListener("submit", async (e
         console.error('Error:', error);
       }
     });
+
+  
+    fetchLocationsForProvider(providerid);
