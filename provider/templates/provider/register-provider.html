@@ -26,36 +26,39 @@
                 <div class="form-flex">
                     <div class="form-left">
                         <label for="provider-name">Provider Name:</label>
-                        <input type="text" id="provider-name" name="provider-name" required placeholder="Choose a Name (will be displayed to cutomers)">
+                        <input type="text" id="provider-name" name="provider-name" required
+                            placeholder="Choose a Name (will be displayed to cutomers)">
 
                         <label for="username">Username:</label>
-                        <input type="text" id="username" name="username" required placeholder="Choose a Unique Username">
+                        <input type="text" id="username" name="username" required
+                            placeholder="Choose a Unique Username">
 
                         <label for="email">Email:</label>
                         <input type="email" id="email" name="email" required placeholder="e.g, example@example.com">
 
                         <label for="provider-number">Phone Number:</label>
                         <input type="tel" id="provider-number" name="provider-number" required value="+966"
-                        pattern="(\+9665[0-9]{8})|(05[0-9]{8})" placeholder="e.g., +966 5XXXXXXXX">
+                            pattern="(\+9665[0-9]{8})|(05[0-9]{8})" placeholder="e.g., +966 5XXXXXXXX">
                     </div>
                     <div class="dividing-line"></div>
                     <div class="form-middle">
                         <label for="password">Password:</label>
-                        <input type="password" id="password" name="password" 
-                        placeholder="At least 8 letters including a number" required
-                        pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$">
+                        <input type="password" id="password" name="password"
+                            placeholder="At least 8 letters including a number" required
+                            pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$">
 
                         <label for="confirm-password">Confirm Password:</label>
-                        <input type="password" id="confirm-password" name="confirm-password" 
-                        placeholder="At least 8 letters including a number" required
-                        pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$">
+                        <input type="password" id="confirm-password" name="confirm-password"
+                            placeholder="At least 8 letters including a number" required
+                            pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$">
 
                         <div class="showpass">
-                            <input type="checkbox" id="showpass" name="showpass" >
+                            <input type="checkbox" id="showpass" name="showpass">
                             <label for="showpass">Show Password</label>
                         </div>
                         <label for="description">Description:</label>
-                        <textarea id="description" name="description" rows="4" placeholder="Describe what you offer"></textarea>
+                        <textarea id="description" name="description" rows="4"
+                            placeholder="Describe what you offer"></textarea>
                         <button type="button" id="AIbutton" class="AIbutton">Modify Description Using AI</button>
                     </div>
                     <div class="dividing-line"></div>
@@ -96,9 +99,16 @@
     </div>
 
     <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            errorMessage = '{{error}}'
+            if (errorMessage)
+                alert(errorMessage)
+        })
         const loginurl = "{% url 'main:login' %}";
+
     </script>
-    <script src="{% static 'provider/register-provider/register-provider.js' %}?v={{ time.time|floatformat:0 }}"></script>
+    <script
+        src="{% static 'provider/register-provider/register-provider.js' %}?v={{ time.time|floatformat:0 }}"></script>
 </body>
 
 </html>

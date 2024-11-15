@@ -34,7 +34,7 @@ def login(request):
             try:
                 # Check if the provider exists
                 provider = models.Provider.objects.get(username=username)
-                if password == provider.password:  # Assuming plain text passwords (not recommended)
+                if check_password(password ,provider.password):  # Assuming plain text passwords (not recommended)
                     # Save the provider in the session
                     request.session['user_id'] = provider.providerid
                     request.session['user_type'] = 'provider'

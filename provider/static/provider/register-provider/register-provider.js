@@ -14,48 +14,57 @@ function previewLogo(event) {
 
 document.getElementById('provider-form').addEventListener('submit', async (e) => {
     e.preventDefault();
-    if(document.getElementById('password').value === document.getElementById('confirm-password').value){
-    
-      const formData = new FormData(e.target); // Collect form data
-      formData.append('tags', JSON.stringify(selectedTags));  // Add selected tags to form data
 
-      const file = formData.get('upload-logo')
-      if (!file || file.size === 0) {
-        // If no file was uploaded, assign the default static image
+    // Check if password and confirm password match
+    if (document.getElementById('password').value !== document.getElementById('confirm-password').value) {
+        alert('Password and Confirm Password Do Not Match!');
+        return;
+    }
+
+    const formData = new FormData(e.target); // Collect form data
+    formData.append('tags', JSON.stringify(selectedTags));  // Add selected tags to form data
+
+    const file = formData.get('upload-logo');
+    if (!file || file.size === 0) {
         try {
-            const defaultImage = await fetch('/static/main/assets/BigLogo.png'); // Adjust path if necessary
-            const imageBlob = await defaultImage.blob(); // Convert to Blob
+            const defaultImage = await fetch('/static/main/assets/BigLogo.png');
+            const imageBlob = await defaultImage.blob();
             const defaultFile = new File([imageBlob], 'BigLogo.png', { type: imageBlob.type });
-            formData.set('upload-logo', defaultFile); // Set the default image as a file in FormData
+            formData.set('upload-logo', defaultFile);
         } catch (error) {
             console.error('Error loading default image:', error);
         }
     }
-      const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-      
-      try {
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    try {
         const response = await fetch('/provider/registerProvider/', {
-          method: 'POST',
-          body: formData,
-          headers: {
-            'X-CSRFToken': csrfToken, // Add the CSRF token to the headers
-        },
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': csrfToken,
+            },
         });
-      
-        if (response.ok) {
-          alert('Provider information submitted successfully!');
-          e.target.reset();
-          window.location.href = loginurl;
-        } else {
-          alert('Error submitting provider information.');
+
+        const data = await response.json();
+
+        if (data.status === 'error') {
+            // Display validation errors
+            if (data.errors.username)
+                alert(data.errors.username);
+            if (data.errors.email)
+                alert(data.errors.email);
+
+        } else if (data.status === 'success') {
+            // Clear the form or redirect on success
+            e.target.reset();
+            window.location.href = loginurl;  // Uncomment to redirect
         }
-      } catch (error) {
+    } catch (error) {
         console.error('Error:', error);
-      }
-  }else {
-    alert('Password and Confirm Passord Do Not Match!')
-  }  
-});   
+    }
+});
+
 const availableTagsContainer = document.getElementById('available-tags');
 const selectedTagsContainer = document.getElementById('selected-tags');
 const tagSearchInput = document.getElementById('tag-search');
@@ -109,9 +118,9 @@ function selectTag(tagName) {
         alert('You can only select up to 6 tags.');
         return;
     }
-    
+
     selectedTags.push(tagName);
-    
+
     displaySelectedTags();
 }
 
@@ -133,7 +142,7 @@ function displaySelectedTags() {
 }
 
 function removeTag(tag) {
-   
+
     selectedTags = selectedTags.filter(t => t !== tag);
     displaySelectedTags();
 }
@@ -150,7 +159,7 @@ providerName = document.getElementById("provider-name")
 async function getGPTResponse() {
     const apiKey = '';  // Replace with your actual API key
     const modUserInput = `Generate a new short description about 300 characters long based on: 1-name: (${providerName.value}) 2-current description: (${providerDesc.value}) 3-tags: (${selectedTags}) without anything but the generated description please so no 'ofcourse' or 'got it' just the description alone and talk in first-person prespective. if it looks like a business is asking for the description use 'we' else if it looks like a singular provider, say a freelancer, is asking for the description use 'I'`;
-    if(providerDesc.value.trim() !== ""){
+    if (providerDesc.value.trim() !== "") {
         try {
             // Set up the request to OpenAI API
             const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -167,18 +176,18 @@ async function getGPTResponse() {
                     ]
                 })
             });
-    
+
             // Check if the response was successful
             if (!response.ok) {
                 console.error(`Error: API request failed with status ${response.status}`);
                 alert(`Could not fetch from AI Model: Status ${response.status}`);
                 return `Error: API request failed with status ${response.status}`;
             }
-    
+
             // Parse the JSON response
             const data = await response.json();
             console.log("API Response Data:", data);  // For debugging, log the entire response
-    
+
             // Extract and return the text content of the response
             if (data.choices && data.choices.length > 0) {
                 providerDesc.value = data.choices[0].message.content;
@@ -190,10 +199,10 @@ async function getGPTResponse() {
             console.error("Error fetching response:", error);
             alert("There was an error fetching the response.");
         }
-    }else{
+    } else {
         alert("Please Provide a Description to be Modified.")
     }
-    
+
 }
 
 

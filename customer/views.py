@@ -20,7 +20,6 @@ def registerCustomer(request):
         dob = request.POST['DOB']
 
         if models.Customer.objects.filter(username=username).exists() or models.Customer.objects.filter(email=email).exists():
-
             return render(request,'customer/register-customer.html',{
                 'error':'Username or email already exists. Please try a different one.'
             })

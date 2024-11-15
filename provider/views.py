@@ -6,14 +6,13 @@ import time,os
 from django.db.models import Subquery, OuterRef
 from django.conf import settings
 import json
+from django.contrib.auth.hashers import make_password
 
 
 # Create your views here.
 
 def registerProvider(request):
     if request.method == 'POST':
-        print(request.POST)  # Debugging print
-
         # Collect form data
         username = request.POST.get('username')
         name = request.POST.get('provider-name')
@@ -22,25 +21,37 @@ def registerProvider(request):
         phonenumber = request.POST.get('provider-number')
         description = request.POST.get('description')
 
-        # Convert the tags string into a list
-        tags = json.loads(request.POST.get("tags"))  # Ensure tags is a list
-        print(tags)  # Debugging print
+        # Validation checks
+        errors = {}
+        if Provider.objects.filter(username=username).exists():
+            errors['username'] = 'This username is already taken.'
+        if Provider.objects.filter(email=email).exists():
+            errors['email'] = 'This email is already registered.'
 
-        # Handle image upload
+        # If there are errors, return them as JSON
+        if errors:
+            return JsonResponse({'status': 'error', 'errors': errors})
+
+        # If no errors, continue with form processing
+        tags = json.loads(request.POST.get("tags"))  # Convert tags string into a list
         image = request.FILES.get('upload-logo')
         provider_folder = os.path.join(settings.MEDIA_ROOT, username)
         os.makedirs(provider_folder, exist_ok=True)
 
-        # Save the uploaded image
+        # Handle image upload, default if missing
         image_path = os.path.join(provider_folder, 'logo.png')
         if image:
             with open(image_path, 'wb+') as destination:
                 for chunk in image.chunks():
                     destination.write(chunk)
+        else:
+            # Use default image if no file uploaded
+            default_image_path = os.path.join(settings.STATIC_ROOT, 'main/assets/BigLogo.png')
+            os.system(f'cp {default_image_path} {image_path}')
 
-        # Save provider info in the database
+        # Save provider information
         provider = Provider(
-            name=name, email=email, password=password,
+            name=name, email=email, password=make_password(password),
             description=description, username=username, phonenumber=phonenumber
         )
         provider.save()
@@ -48,15 +59,17 @@ def registerProvider(request):
         # Link tags to the provider
         for tag_name in tags:
             tag = Tags.objects.filter(name=tag_name).first()
-            if tag:  # Only create a link if the tag exists
+            if tag:
                 link = ProvidersTags(tagid=tag, providerid=provider)
                 link.save()
             else:
                 print(f"Tag '{tag_name}' not found.")  # Debugging print
 
-        return redirect('main:login')
+        # Return success response
+        return JsonResponse({'status': 'success'})
+    else:
+        return render(request, 'provider/register-provider.html')
 
-    return render(request, 'provider/register-provider.html')
 
 
 
@@ -286,23 +299,25 @@ def deleteItem(request):
 
 def addLocation(request):
     if request.method == "POST":
-        itemIds = (request.POST.get('checkedItems').split(','))
+       
         locationName = request.POST.get('add-location-name')
         locationNumber = request.POST.get('add-location-number')
         locationlatitude = request.POST.get('add-location-latitude')
         locationlongitude = request.POST.get('add-location-longitude')
         locationCoord = f'{locationlatitude},{locationlongitude}'
         provider = Provider.objects.get(providerid=request.POST.get('providerid'))
-
         location = Location(name=locationName,phonenumber=locationNumber,coordinates=locationCoord,providerid=provider)
 
         location.save()
 
-        for itemid in itemIds:
-            item = Item.objects.get(itemid=itemid)
-            link = LocationHasItem(locationid=location,itemid=item)
-            print(link,item)
-            link.save()
+        
+        if request.POST.get('checkedItems'): 
+            itemIds = (request.POST.get('checkedItems').split(','))
+            for itemid in itemIds:
+                item = Item.objects.get(itemid=itemid)
+                link = LocationHasItem(locationid=location,itemid=item)
+                print(link,item)
+                link.save()
     return redirect('provider:providerPage', provider_id = provider.providerid)
 
 
