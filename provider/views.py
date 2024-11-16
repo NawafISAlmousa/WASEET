@@ -345,3 +345,12 @@ def deleteLocation(request):
         location.delete()
         
     return redirect('provider:providerPage', provider_id=provider_id)
+
+def fetchLocationDetails(request,LocationID):
+    location = Location.objects.filter(locationid=LocationID).values('locationid', 'providerid', 'coordinates', 'phonenumber','name')
+    locationItems = LocationHasItem.objects.filter(locationid = LocationID).values('itemid')
+    print(locationItems)
+
+    location_info = [list(location),list(locationItems)]
+    print(location_info)
+    return JsonResponse(location_info, safe=False)

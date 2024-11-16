@@ -1,5 +1,9 @@
 
 async function fetchItemDetails(itemid) {
+  document.querySelector('.form-curtain').style.display = 'block'
+  document.querySelector('.form-placeholder').style.display = 'none'
+  document.querySelector('.edit-item-form').style.display = 'block'
+
   const itemName = document.getElementById("item-name")
   const itemPrice = document.getElementById("item-price")
   const itemDescription = document.getElementById('item-description')
@@ -21,7 +25,7 @@ async function fetchItemDetails(itemid) {
       itemIDinput.value = data.itemid
 
     } else {
-      
+
       alert('Error fetching item details.');
     }
   } catch (error) {
@@ -44,7 +48,7 @@ async function deleteItem(itemID) {
 
     if (response.ok) {
       fetchItemsForProvider(providerid);
-      
+
       alert('Item Deleted successfully!');
     } else {
       alert('Error Deleting Item.');
@@ -81,9 +85,9 @@ async function fetchItemsForProvider(providerid) {
                                     <div class="item-info">
                                         <div class="item-info-header">
                                             <h1>${item.name}</h1> 
-                                            <p class="price" style="color: #6ee665;">${item.price} SAR</p>
+                                            <p class="price" style="color: #296879; font-weight:bold">${item.price} <span>SAR</span></p>
                                         </div>
-                                        <p>${item.description}</p>
+                                        <p class= 'item-description-card'>${item.description}</p>
                                     </div>
                                     <div class="edit-delete-btn">
                                         <i class="fa-solid fa-trash" ondblclick=deleteItem(${item.itemid})></i>
@@ -238,9 +242,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                     <div class="item-info">
                                         <div class="item-info-header">
                                             <h1>${item.name}</h1> 
-                                            <p class="price" style="color: #6ee665;">${item.price} SAR</p>
+                                            <p class="price" style="color: #296879; font-weight:bold">${item.price} <span>SAR</span></p>
                                         </div>
-                                        <p>${item.description}</p>
+                                        <p class= 'item-description-card'>${item.description}</p>
                                     </div>
                                     <div class="edit-delete-btn">
                                         <i class="fa-solid fa-trash" ondblclick=deleteItem(${item.itemid})></i>
@@ -298,7 +302,10 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('item-logo').src = defaultImage
         e.target.reset();
         fetchItemsForProvider(providerid);
-        alert('Item Added successfully!');
+        document.querySelector('.form-curtain').style.display = 'none'
+        document.querySelector('.form-placeholder').style.display = 'block'
+        document.querySelector('.edit-item-form').style.display = 'flex'
+        alert('Item updated successfully!');
 
       } else {
         alert('Error Submitting Item Information.');

@@ -22,7 +22,7 @@ input[type="file"] {
 }
 
 
-.hidden-logo-input{
+.hidden-logo-input {
     display: none;
 }
 
@@ -43,18 +43,19 @@ input[type="file"] {
     /* padding-top: 20px; */
 }
 
-@keyframes logo{
-    0%{
+@keyframes logo {
+    0% {
         opacity: 1;
-       
+
     }
-    100%{
+
+    100% {
         opacity: 0.7;
-       
+
     }
 }
 
-.change-logo{
+.change-logo {
     display: block;
     width: 150px;
     height: 150px;
@@ -68,29 +69,31 @@ input[type="file"] {
 }
 
 
-.change-logo:hover{
+.change-logo:hover {
     animation: logo forwards 0.2s;
 }
 
-.edit-profile-form{
+.edit-profile-form {
     margin: auto;
 }
 
-.form-flex{
+.form-flex {
     margin-top: 30px;
     display: flex;
     justify-content: space-between;
 }
 
-.dividing-line{
+.dividing-line {
     width: 1px;
     height: auto;
     background-color: rgb(170, 170, 170);
     /* align-self: flex-end; */
 }
+
 .save-button-container {
     display: flex;
-    justify-content: center; /* Center the button horizontally */
+    justify-content: center;
+    /* Center the button horizontally */
     margin-top: 20px;
 }
 
@@ -103,21 +106,23 @@ input[type="file"] {
     cursor: pointer;
     width: 35%;
     margin: auto 10px;
-    
+
 }
 
-.edit-profile-form-container{
-    
-    background-color: #ffffff; /* Form background color */
+.edit-profile-form-container {
+
+    background-color: #ffffff;
+    /* Form background color */
     border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Shadow effect */
-    padding: 20px 100px 130px 100px ;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    /* Shadow effect */
+    padding: 20px 100px 130px 100px;
     max-width: 950px;
     width: 90%;
 }
 
 
-.profile-main-container{
+.profile-main-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -163,7 +168,7 @@ input[type="file"] {
     gap: 5px;
 }
 
-.selected-tags{
+.selected-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
@@ -197,7 +202,8 @@ input[type="file"] {
 
 .edit-checkbox input[type="checkbox"] {
     margin-right: 5px;
-    accent-color: #296879; /* Optional: customize the color of the checkbox */
+    accent-color: #296879;
+    /* Optional: customize the color of the checkbox */
 }
 
 .AIbutton {

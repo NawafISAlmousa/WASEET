@@ -1,13 +1,15 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -19,12 +21,13 @@
 
 
 
-     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
     <title>Provider Main Page</title>
 </head>
+
 <body>
     <header class="header">
         <img src="{% static 'main/assets/SmallLogo.png'%}" alt="WASEET Logo" class="logo">
@@ -44,70 +47,76 @@
     </header>
     <main class="content">
         <section id="profile" class="content-section active">
-           <div class="profile-main-container">
-            <div class="edit-profile-form-container">
-                <form class="edit-profile-form" id="edit-profile-form">
-                    {% csrf_token %}
-                    <div class="hidden-logo-input">
-                        <input class="logo-input" type="file" id="upload-logo" name="upload-logo" accept="image/png, image/jpg, image/jpeg" >
-                    </div>
-                    <!-- Image preview container -->
-                    <div class="logo-container">
-                        <div class="change-logo">
-                            <img class="logo-preview" id="logo" src="/media/{{provider.username}}/logo.png" alt="Logo Preview">
+            <div class="profile-main-container">
+                <div class="edit-profile-form-container">
+                    <form class="edit-profile-form" id="edit-profile-form">
+                        {% csrf_token %}
+                        <div class="hidden-logo-input">
+                            <input class="logo-input" type="file" id="upload-logo" name="upload-logo"
+                                accept="image/png, image/jpg, image/jpeg">
                         </div>
-                    </div>
-                    <div class="form-flex">
-                        <div class="form-left">
-                            <label for="provider-name">Provider Name:</label>
-                            <input type="text" id="provider-name" name="provider-name" required value={{provider.name}}
-                            placeholder="Choose a Name (will be displayed to cutomers)">
-                            <label class="edit-checkbox" for="edit-provider-name">
-                                <input type="checkbox" id="edit-provider-name" name="edit-provider-name"> Edit
-                            </label>
-                            
-                            <label for="provider-number">Phone Number:</label>
-                            <input type="tel" id="provider-number" name="provider-number" required value = {{provider.phonenumber}}
-                            pattern="(\+9665[0-9]{8})|(05[0-9]{8})" placeholder="e.g., +966 5XXXXXXXX">
-                            <label class="edit-checkbox" for="edit-provider-number">
-                                <input type="checkbox" id="edit-provider-number" name="edit-provider-number"> Edit 
-                            </label>
-
-                            <label for="description">Description:</label>
-                            <textarea id="description" name="description" rows="4" placeholder="Describe what you offer">{{provider.description}}</textarea>
-                            <label class="edit-checkbox" for="edit-description">
-                                <input type="checkbox" id="edit-description" name="edit-description"> Edit <button type="button" id="AIbutton" class="AIbutton">Modify Description Using AI</button>
-                            </label>
-    
-                    
-                            <input type="hidden" id="username" name="username" required value = {{provider.username}} >
-                        </div>
-                        <div class="dividing-line"></div>
-                        <div class="form-right">
-
-                            <label>Select to 6 Tags:</label>
-                            <input type="text" id="tag-search" placeholder="Search tags...">
-    
-                            <div id="available-tags" class="available-tags"></div>
-    
-                            <div class="selected-tags-container">
-                                <label>Selected Tags:</label>
-                                <div id="selected-tags" class="selected-tags"></div>
+                        <!-- Image preview container -->
+                        <div class="logo-container">
+                            <div class="change-logo">
+                                <img class="logo-preview" id="logo" src="/media/{{provider.username}}/logo.png"
+                                    alt="Logo Preview">
                             </div>
-
                         </div>
-                    </div>
-                    <div class="save-button-container">
-                        <button type="submit" class="save-button">Save</button>
-                    </div>
-                </form>
+                        <div class="form-flex">
+                            <div class="form-left">
+                                <label for="provider-name">Provider Name:</label>
+                                <input type="text" id="provider-name" name="provider-name" required
+                                    value={{provider.name}} placeholder="Choose a Name (will be displayed to cutomers)">
+                                <label class="edit-checkbox" for="edit-provider-name">
+                                    <input type="checkbox" id="edit-provider-name" name="edit-provider-name"> Edit
+                                </label>
+
+                                <label for="provider-number">Phone Number:</label>
+                                <input type="tel" id="provider-number" name="provider-number" required
+                                    value={{provider.phonenumber}} pattern="(\+9665[0-9]{8})|(05[0-9]{8})"
+                                    placeholder="e.g., +966 5XXXXXXXX">
+                                <label class="edit-checkbox" for="edit-provider-number">
+                                    <input type="checkbox" id="edit-provider-number" name="edit-provider-number"> Edit
+                                </label>
+
+                                <label for="description">Description:</label>
+                                <textarea id="description" name="description" rows="4"
+                                    placeholder="Describe what you offer">{{provider.description}}</textarea>
+                                <label class="edit-checkbox" for="edit-description">
+                                    <input type="checkbox" id="edit-description" name="edit-description"> Edit <button
+                                        type="button" id="AIbutton" class="AIbutton">Modify Description Using
+                                        AI</button>
+                                </label>
+
+
+                                <input type="hidden" id="username" name="username" required value={{provider.username}}>
+                            </div>
+                            <div class="dividing-line"></div>
+                            <div class="form-right">
+
+                                <label>Select to 6 Tags:</label>
+                                <input type="text" id="tag-search" placeholder="Search tags...">
+
+                                <div id="available-tags" class="available-tags"></div>
+
+                                <div class="selected-tags-container">
+                                    <label>Selected Tags:</label>
+                                    <div id="selected-tags" class="selected-tags"></div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="save-button-container">
+                            <button type="submit" class="save-button">Save</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-           </div>
-            
-            
+
+
         </section>
 
-<!-- =================================== Location =========================================================== -->
+        <!-- =================================== Location =========================================================== -->
 
         <section id="locations" class="content-section">
             <div class="locations-container">
@@ -118,7 +127,8 @@
                         <li>
                             <div class="loc-container">
                                 <div class="loc-logo-holder">
-                                    <img src="{% static '/main/assets/location-dot-solid.svg'%}" alt="" class="loc-logo">
+                                    <img src="{% static '/main/assets/location-dot-solid.svg'%}" alt=""
+                                        class="loc-logo">
                                 </div>
                                 <div class="loc-info">
                                     <h1>location1</h1>
@@ -126,66 +136,36 @@
                                 </div>
                                 <div class="edit-delete-btn">
                                     <i class="fa-solid fa-trash"></i>
-                                    <i class="fa-solid fa-pen-to-square" ></i>
+                                    <i class="fa-solid fa-pen-to-square"></i>
                                 </div>
                             </div>
                         </li>
-                      
+
                     </ul>
                     <button class="add-button" id="location-add-button">Add New Location</button>
                 </div>
                 <div class="edit-location-form">
-                    <div class="location-map" id="location-map"></div>
-                    <form action="" class="location-form-container">
-                        <input type="hidden" id="location-latitude" name="location-latitude">
-                        <input type="hidden" id="location-longitude" name="location-longitude">
-                        
-                        <div>
-                            <div class="form-group">
-                                <label for="location-name">Location name:</label>
-                                <input type="text" id="location-name" name="location-name" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="tel" id="location-number" name="location-number" required 
-                                pattern="(\+9665[0-9]{8})|(05[0-9]{8})" placeholder="e.g., +966 5XXXXXXXX">
-                            </div>
-                        </div>
-                       
-                        <div class="save-button-container">
-                            <button>Save</button>
-                        </div>
-                        
-                    </form>
-                </div>
-            </div>
-
-            <!-- ==============================  pop up  ============================== -->
-
-            <div class="location-pop-up-shadow" id="location-pop-up-shadow"></div>
-            <div class="location-pop-up"  id="location-pop-up">
-                <div class="add-location-form">
-                    <h1 class="location-list-header">Add Location</h1>
+                    <h1 class="location-list-header">Edit Location</h1>
                     <div class="breaking-line"></div>
                     <div class="location-map" id="add-location-map"></div>
-                    
-                    <form action="#" class="location-form-container" id="add-location-form">
-                    
+                    <form action="#" class="location-form-container" id="edit-location-form">
+
                         {% csrf_token %}
-                        <input type="hidden" id="add-location-latitude" name="add-location-latitude">
-                        <input type="hidden" id="add-location-longitude" name="add-location-longitude">
+                        <input type="hidden" id="edit-location-latitude" name="edit-location-latitude">
+                        <input type="hidden" id="edit-location-longitude" name="edit-location-longitude">
                         <div>
                             <div class="form-group">
                                 <label for="location-name">location name:</label>
-                                <input type="text" id="add-location-name" name="add-location-name" required
-                                placeholder="Choose a Name for Your Location(will be displayed to cutomers)">
+                                <input type="text" id="edit-location-name" name="edit-location-name" required
+                                    placeholder="Choose a Name for Your Location(will be displayed to cutomers)">
                             </div>
                             <div class="form-group">
                                 <label for="location-number">location Phone Number:</label>
-                                <input type="tel" id="add-location-number" name="add-location-number" required
-                                pattern="(\+9665[0-9]{8})|(05[0-9]{8})" placeholder="e.g., +966 5XXXXXXXX">
+                                <input type="tel" id="edit-location-number" name="edit-location-number" required
+                                    pattern="(\+9665[0-9]{8})|(05[0-9]{8})" placeholder="e.g., +966 5XXXXXXXX">
                             </div>
-                            <div class="form-group add-items-checklist" id="add-items-checklist">
-                                
+                            <div class="form-group add-items-checklist" id="edit-items-checklist">
+
                             </div>
                             <div class="select-buttons-container">
                                 <button type="button" class="select" id="select-all">Select All</button>
@@ -195,238 +175,306 @@
                         <div class="save-button-container">
                             <button type="submit">Save</button>
                         </div>
-                        
+
+                    </form>
+                </div>
+            </div>
+
+            <!-- ==============================  pop up  ============================== -->
+
+            <div class="location-pop-up-shadow" id="location-pop-up-shadow"></div>
+            <div class="location-pop-up" id="location-pop-up">
+                <div class="add-location-form">
+                    <h1 class="location-list-header">Add Location</h1>
+                    <div class="breaking-line"></div>
+                    <div class="location-map" id="add-location-map"></div>
+
+                    <form action="#" class="location-form-container" id="add-location-form">
+
+                        {% csrf_token %}
+                        <input type="hidden" id="add-location-latitude" name="add-location-latitude">
+                        <input type="hidden" id="add-location-longitude" name="add-location-longitude">
+                        <div>
+                            <div class="form-group">
+                                <label for="location-name">location name:</label>
+                                <input type="text" id="add-location-name" name="add-location-name" required
+                                    placeholder="Choose a Name for Your Location(will be displayed to cutomers)">
+                            </div>
+                            <div class="form-group">
+                                <label for="location-number">location Phone Number:</label>
+                                <input type="tel" id="add-location-number" name="add-location-number" required
+                                    pattern="(\+9665[0-9]{8})|(05[0-9]{8})" placeholder="e.g., +966 5XXXXXXXX">
+                            </div>
+                            <div class="form-group add-items-checklist" id="add-items-checklist">
+
+                            </div>
+                            <div class="select-buttons-container">
+                                <button type="button" class="select" id="select-all">Select All</button>
+                                <button type="button" class="select" id="deselect-all">Deselect All</button>
+                            </div>
+                        </div>
+                        <div class="save-button-container">
+                            <button type="submit">Save</button>
+                        </div>
+
                     </form>
                 </div>
             </div>
 
         </section>
 
-<!-- ===================================  Items ============================================================== -->
+        <!-- ===================================  Items ============================================================== -->
 
-<section id="items" class="content-section">
-    <div class="items-container">
-        <div class="items-list">
-            <h1 class="items-list-header">Current Items</h1>
-            <div class="breaking-line"></div>
-            <ul class="item-unordered-list">
-                <li>
-                    <div class="item-container">
-                        <div class="item-logo-holder">
-                            <img src="https://files.sitebuilder.name.tools/14/d7/14d78357-0d51-4e88-bf3c-50d99d7c1e3a.jpg" alt="" class="item-logo">
-                        </div>
-                        <div class="item-info">
-                            <div class="item-info-header">
-                                <h1>DeLonghi</h1> 
-                                <p class="price" style="color: #6ee665;">23.99 SAR</p>
-                            </div>
-                            
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea maxime iure illo ipsa quidem! Eaque quos nihil laboriosam, minima aut voluptates perspiciatis voluptatum omnis velit nostrum ex, architecto cupiditate id.</p>
-                        </div>
-                        <div class="edit-delete-btn">
-                            <i class="fa-solid fa-trash"></i>
-                            <i class="fa-solid fa-pen-to-square" ></i>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-            <button class="add-button" id="item-add-button">Add New item</button>
-        </div>
-        <div class="edit-item-form">
-            <h1 class="items-list-header">Edit Item</h1>
-            <div class="breaking-line"></div>
-            
-            <form action="" class="item-form-container">
-
-                {% csrf_token %}
-
-                <div class="hidden-logo-input">
-                    <input class="logo-input" type="file" id="item-logo-input" name="item-logo-input" accept="image/png, image/jpg, image/jpeg">
-                </div>
-                <!-- Image preview container -->
-                <div class="logo-container">
-                    <div class="change-logo" id="item-change-logo"> {% comment %} /media/{{provider.username}}/{{itemid}}logo.png {% endcomment %}
-                        <img class="logo-preview" id="item-logo" src="{% static '/main/assets/BigLogo.png'%}" alt="Logo Preview">
-                    </div>
-                </div>
-                <div>
-                    <div class="form-group">
-                        <label for="item-name">Item name:</label>
-                        <input type="text" id="item-name" name="item-name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="item-number">Price:</label>
-                        <input type="number" id="item-price" name="item-price" min="0" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="item-name">Description:</label>
-                        <textarea type="text" id="item-description" name="item-description" required class="item-description"></textarea>
-                    </div>
-                    <div class="hidden-input">
-                        <input type="text" name="itemid" id="itemid">
-                    </div>
-                </div>
-               
-                <div class="save-button-container">
-                    <button>Save</button>
-                </div>
-                
-            </form>
-        </div>
-    </div>
-    <!-- pop up section -->
-    <div class="pop-up-shadow" id="item-pop-up-shadow"></div>
-    <div class="pop-up"  id="item-pop-up">
-        <div class="form-wrapper">
-    
-            <div class="edit-item-form">
-                <h1 class="items-list-header">Add New Item</h1>
-                <div class="breaking-line"></div>
-                
-                <form action="#" class="item-form-container" id="add-item-form">
-    
-                    {% csrf_token %}
-                    <div class="hidden-logo-input">
-                        <input class="logo-input" type="file" id="add-item-logo-input" name="add-item-logo-input" accept="image/png, image/jpg, image/jpeg">
-                    </div>
-                    <!-- Image preview container -->
-                    <div class="logo-container">
-                        <div class="change-logo" id="add-item-change-logo"> {% comment %} /media/{{provider.username}}/{{itemid}}logo.png {% endcomment %}
-                            <img class="logo-preview" id="add-item-logo" src="{% static '/main/assets/BigLogo.png'%}" alt="Logo Preview">
-                        </div>
-                    </div>
-    
-                    <div>
-                        <div class="form-group">
-                            <label for="item-name">Item name:</label>
-                            <input type="text" id="add-item-name" name="add-item-name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="item-number">Price:</label>
-                            <input type="number" id="add-item-price" name="add-item-price" min="0" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="item-name">Description:</label>
-                            <textarea type="text" id="add-item-description" name="add-item-description" required class="item-description"></textarea>
-                        </div>
-                    </div>
-                   
-                    <div class="save-button-container">
-                        <button>Save</button>
-                    </div>
-                    
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ============================================================================================== -->
-
-
-        <section id="events" class="content-section"><div class="events-container">
-            <div class="events-list">
-                <h1 class="events-list-header">Current events</h1>
-                <div class="breaking-line"></div>
-                <ul class="event-unordered-list">
-                    <li>
-                        <div class="event-container">
-                            <div class="event-logo-holder">
-                                <img src="https://files.sitebuilder.name.tools/14/d7/14d78357-0d51-4e88-bf3c-50d99d7c1e3a.jpg" alt="" class="event-logo">
-                            </div>
-                            <div class="event-info">
-                                <div class="event-info-header">
-                                    <h1>DeLonghi</h1> 
+        <section id="items" class="content-section">
+            <div class="items-container">
+                <div class="items-list">
+                    <h1 class="items-list-header">Current Items</h1>
+                    <div class="breaking-line"></div>
+                    <ul class="item-unordered-list">
+                        <li>
+                            <div class="item-container">
+                                <div class="item-logo-holder">
+                                    <img src="https://files.sitebuilder.name.tools/14/d7/14d78357-0d51-4e88-bf3c-50d99d7c1e3a.jpg"
+                                        alt="" class="item-logo">
                                 </div>
-                                
-                                <div class="event-details">
-                                    <div class="event-date">
-                                        <i class="fa-regular fa-calendar"></i><p>8/12/24 - 8/15/24</p>
+                                <div class="item-info">
+                                    <div class="item-info-header">
+                                        <h1>DeLonghi</h1>
+                                        <p class="price" style="color: #6ee665;">23.99 SAR</p>
                                     </div>
 
-                                    <div class="event-time">
-                                        <i class="fa-regular fa-clock"></i><p>13:00 - 20:00</p>
-                                    </div>
-
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea maxime iure illo ipsa
+                                        quidem! Eaque quos nihil laboriosam, minima aut voluptates perspiciatis
+                                        voluptatum omnis velit nostrum ex, architecto cupiditate id.</p>
+                                </div>
+                                <div class="edit-delete-btn">
+                                    <i class="fa-solid fa-trash"></i>
+                                    <i class="fa-solid fa-pen-to-square"></i>
                                 </div>
                             </div>
-                            <div class="edit-delete-btn">
-                                <i class="fa-solid fa-trash"></i>
-                                <i class="fa-solid fa-pen-to-square" ></i>
+                        </li>
+                    </ul>
+                    <button class="add-button" id="item-add-button">Add New item</button>
+                </div>
+
+                <div class="edit-item-form">
+                    <div class="form-placeholder">
+                        <h1>Click the Edit button to begin editing.</h1>
+                    </div>
+                    <div class="form-curtain">
+
+                        <h1 class="items-list-header">Edit Item</h1>
+                        <div class="breaking-line"></div>
+
+                        <form action="" class="item-form-container">
+
+                            {% csrf_token %}
+
+                            <div class="hidden-logo-input">
+                                <input class="logo-input" type="file" id="item-logo-input" name="item-logo-input"
+                                    accept="image/png, image/jpg, image/jpeg">
+                            </div>
+                            <!-- Image preview container -->
+                            <div class="logo-container">
+                                <div class="change-logo" id="item-change-logo"> {% comment %}
+                                    /media/{{provider.username}}/{{itemid}}logo.png {% endcomment %}
+                                    <img class="logo-preview" id="item-logo"
+                                        src="{% static '/main/assets/BigLogo.png'%}" alt="Logo Preview">
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-group">
+                                    <label for="item-name">Item name:</label>
+                                    <input type="text" id="item-name" name="item-name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="item-number">Price:</label>
+                                    <input type="number" step="any" id="item-price" name="item-price" min="0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="item-name">Description:</label>
+                                    <textarea type="text" id="item-description" name="item-description" required
+                                        class="item-description"></textarea>
+                                </div>
+                                <div class="hidden-input">
+                                    <input type="text" name="itemid" id="itemid">
+                                </div>
+                            </div>
+
+                            <div class="save-button-container">
+                                <button>Save</button>
+                            </div>
+                    </div>
+                    </form>
+
+
+                </div>
+            </div>
+            <!-- pop up section -->
+            <div class="pop-up-shadow" id="item-pop-up-shadow"></div>
+            <div class="pop-up" id="item-pop-up">
+                <div class="form-wrapper">
+
+                    <div class="add-item-form">
+                        <h1 class="items-list-header">Add New Item</h1>
+                        <div class="breaking-line"></div>
+
+                        <form action="#" class="item-form-container" id="add-item-form">
+
+                            {% csrf_token %}
+                            <div class="hidden-logo-input">
+                                <input class="logo-input" type="file" id="add-item-logo-input"
+                                    name="add-item-logo-input" accept="image/png, image/jpg, image/jpeg">
+                            </div>
+                            <!-- Image preview container -->
+                            <div class="logo-container">
+                                <div class="change-logo" id="add-item-change-logo"> {% comment %}
+                                    /media/{{provider.username}}/{{itemid}}logo.png {% endcomment %}
+                                    <img class="logo-preview" id="add-item-logo"
+                                        src="{% static '/main/assets/BigLogo.png'%}" alt="Logo Preview">
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="form-group">
+                                    <label for="item-name">Item name:</label>
+                                    <input type="text" id="add-item-name" name="add-item-name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="item-number">Price:</label>
+                                    <input type="number" step="any" id="add-item-price" name="add-item-price" min="0"
+                                        required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="item-name">Description:</label>
+                                    <textarea type="text" id="add-item-description" name="add-item-description" required
+                                        class="item-description"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="save-button-container">
+                                <button>Save</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================================================== -->
+
+
+        <section id="events" class="content-section">
+            <div class="events-container">
+                <div class="events-list">
+                    <h1 class="events-list-header">Current events</h1>
+                    <div class="breaking-line"></div>
+                    <ul class="event-unordered-list">
+                        <li>
+                            <div class="event-container">
+                                <div class="event-logo-holder">
+                                    <img src="https://files.sitebuilder.name.tools/14/d7/14d78357-0d51-4e88-bf3c-50d99d7c1e3a.jpg"
+                                        alt="" class="event-logo">
+                                </div>
+                                <div class="event-info">
+                                    <div class="event-info-header">
+                                        <h1>DeLonghi</h1>
+                                    </div>
+
+                                    <div class="event-details">
+                                        <div class="event-date">
+                                            <i class="fa-regular fa-calendar"></i>
+                                            <p>8/12/24 - 8/15/24</p>
+                                        </div>
+
+                                        <div class="event-time">
+                                            <i class="fa-regular fa-clock"></i>
+                                            <p>13:00 - 20:00</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="edit-delete-btn">
+                                    <i class="fa-solid fa-trash"></i>
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </div>
+                            </div>
+                        </li>
+
+                    </ul>
+                    <button class="add-button">Add New event</button>
+                </div>
+                <div class="edit-event-form">
+
+                    <form action="" class="event-form-container">
+
+                        <div class="hidden-logo-input">
+                            <input class="logo-input" type="file" id="upload-logo" name="upload-logo"
+                                accept="image/png, image/jpg, image/jpeg">
+                        </div>
+                        <!-- Image preview container -->
+                        <div class="logo-container">
+                            <div class="change-logo">
+                                <img class="logo-preview" id="logo" src="{% static '/main/assets/BigLogo.png'%}"
+                                    alt="Logo Preview">
                             </div>
                         </div>
-                    </li>
-            
-                </ul>
-                <button class="add-button">Add New event</button>
-            </div>
-            <div class="edit-event-form">
-                
-                <form action="" class="event-form-container">
-        
-                    <div class="hidden-logo-input">
-                        <input class="logo-input" type="file" id="upload-logo" name="upload-logo" accept="image/png, image/jpg, image/jpeg">
-                    </div>
-                    <!-- Image preview container -->
-                    <div class="logo-container">
-                        <div class="change-logo">
-                            <img class="logo-preview" id="logo" src="{% static '/main/assets/BigLogo.png'%}" alt="Logo Preview">
+
+                        <div>
+                            <div class="form-group">
+                                <label for="event-name">Event name:</label>
+                                <input type="text" id="event-name" name="event-name" required>
+                            </div>
+                            <div class="form-group date-container">
+                                <label for="event-number">Start date:</label>
+                                <input type="date" id="event-number" name="event-start-date" required>
+                                <label for="event-number">End date:</label>
+                                <input type="date" id="event-number" name="event-end-date" required>
+                            </div>
+                            <div class="form-group time-container">
+                                <label for="event-number">Start time:</label>
+                                <input type="time" id="event-number" name="event-start-time" required>
+                                <label for="event-number">End time:</label>
+                                <input type="time" id="event-number" name="event-end-time" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="event-name">Locations:</label>
+                                <input type="text" id="event-name" name="event-name" required>
+                            </div>
+
                         </div>
-                    </div>
-        
-                    <div>
+
+                        <div class="save-button-container">
+                            <button>Save</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <!-- pop up section -->
+            <div class="pop-up-shadow"></div>
+            <div class="pop-up">
+                <div class="form-wrapper">
+
+                    <form class="event-form" action="#">
                         <div class="form-group">
-                            <label for="event-name">Event name:</label>
-                            <input type="text" id="event-name" name="event-name" required>
+                            <label for="eventName" class="form-label">event name:</label>
+                            <input type="text" id="eventName" name="eventName" class="form-input" required>
                         </div>
-                        <div class="form-group date-container">
-                            <label for="event-number">Start date:</label>
-                            <input type="date" id="event-number" name="event-start-date" required>
-                            <label for="event-number">End date:</label>
-                            <input type="date" id="event-number" name="event-end-date" required>
+                        <div class="form-group">
+                            <label for="phoneNumber" class="form-label">Phone Number:</label>
+                            <input type="tel" id="phoneNumber" name="phoneNumber" class="form-input" required>
                         </div>
-                        <div class="form-group time-container">
-                            <label for="event-number">Start time:</label>
-                            <input type="time" id="event-number" name="event-start-time" required>
-                            <label for="event-number">End time:</label>
-                            <input type="time" id="event-number" name="event-end-time" required>
-                        </div>
-                          <div class="form-group">
-                            <label for="event-name">Locations:</label>
-                            <input type="text" id="event-name" name="event-name" required>
-                        </div>
-                        
-                    </div>
-                   
-                    <div class="save-button-container">
-                        <button>Save</button>
-                    </div>
-                    
-                </form>
+                        <button type="submit" class="form-button">Save</button>
+                    </form>
+                </div>
             </div>
-        </div>
-        <!-- pop up section -->
-        <div class="pop-up-shadow"></div>
-        <div class="pop-up">
-            <div class="form-wrapper">
-        
-                <form class="event-form" action="#">
-                    <div class="form-group">
-                        <label for="eventName" class="form-label">event name:</label>
-                        <input type="text" id="eventName" name="eventName" class="form-input" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="phoneNumber" class="form-label">Phone Number:</label>
-                        <input type="tel" id="phoneNumber" name="phoneNumber" class="form-input" required>
-                    </div>
-                    <button type="submit" class="form-button">Save</button>
-                </form>
-            </div>
-        </div></section>
+        </section>
     </main>
-    
+
     <script>
-        const providerid = {{provider.providerid}}
+        const providerid = {{ provider.providerid }}
         const defaultImage = '{%static "/main/assets/BigLogo.png"%}'
         const providerUsername = "{{provider.username}}"
         const locationSymbol = "{% static '/main/assets/location-dot-solid.svg'%}"
@@ -437,4 +485,5 @@
     <script src="{% static 'provider/provider-page/provider-page-locations.js'%}?v={{ timestamp }}"></script>
 
 </body>
+
 </html>

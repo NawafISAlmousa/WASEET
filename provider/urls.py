@@ -33,6 +33,7 @@ urlpatterns = [
     path('deleteItem/' , views.deleteItem ,name = 'deleteItem'),
     path('addLocation/',views.addLocation, name= 'addLocation'),
     path('deleteLocation/' , views.deleteLocation ,name = 'deleteLocation'),
-    path('fetchLocations/<str:provider_id>/', views.fetchLocations, name='fetchLocations')
+    path('fetchLocations/<str:provider_id>/', views.fetchLocations, name='fetchLocations'),
+    path('fetchLocationDetails/<str:LocationID>/', views.fetchLocationDetails, name='fetchLocationDetails'),
 
 ]
