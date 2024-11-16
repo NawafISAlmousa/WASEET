@@ -168,66 +168,19 @@ document.addEventListener("DOMContentLoaded", function(){
 
   fetchProviderItems(providerid); 
 
-
-
-
-
-
-  async function fetchLocationsForProvider(providerid) {
-    try {
-      const response = await fetch(`/provider/fetchLocations/${providerid}`);
-
-      if (response.ok) {
-        const locations = await response.json();
-        let locationsHTML = '';  // Initialize itemsHTML as an empty string to accumulate HTML for each item
-
-        locations.forEach(location => {
-          console.log(location.locationid)
-          locationsHTML += `
-                              <li>
-                                <div class="loc-container">
-                                    <div class="loc-logo-holder">
-                                        <img src="${locationSymbol}" alt="" class="loc-logo">
-                                    </div>
-                                    <div class="loc-info">
-                                        
-                                        <h1>${location.name}</h1>
-                                        <p>${location.phonenumber}</p>
-                                    </div>
-                                    <div class="edit-delete-btn">
-                                        <i class="fa-solid fa-trash" ondblclick="deleteLocation(${location.locationid})"></i>
-                                        <i class="fa-solid fa-pen-to-square" onclick="fetchLocationDetails(${location.locationid})"></i>
-                                    </div>
-                                </div>
-                              </li>
-                        `;
-
-        });
-
-        // Display items in the specified container
-        document.querySelector(".location-unordered-list").innerHTML = locationsHTML;
-      } else {
-        alert('Error fetching locations.');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  }
-
-  // Example usage
   fetchLocationsForProvider(providerid);
-});
 
-function getChecked(checkList){
+  
+  function getChecked(checkList){
     let list = []
     for(let item of checkList)
         if(item.checked)
             list.push(item.value)
     return list
-}
+  }
 
-// ====================  add location ======================
-document.getElementById("add-location-form").addEventListener("submit", async (e) => {
+  // ====================  add location ======================
+  document.getElementById("add-location-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     formData.append('providerid', providerid)
@@ -242,18 +195,86 @@ document.getElementById("add-location-form").addEventListener("submit", async (e
             'X-CSRFToken': csrfToken, // Add the CSRF token to the headers
           },
         });
-  
+
         if (response.ok) {
           e.target.reset();
+          fetchLocationsForProvider(providerid);
           alert('Location Added successfully!');
-  
+
         } else {
-          alert('Error Submitting Item Information.');
+          alert('Error Submitting Location Information.');
         }
       } catch (error) {
         console.error('Error:', error);
       }
+  });
+
+
+
+
+});
+
+
+async function deleteLocation(locationID) {
+  try {
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const response = await fetch('/provider/deleteLocation/', {
+      method: 'POST',
+      body: JSON.stringify({ locationID: locationID, providerID: providerid }),
+      headers: {
+        'Content-Type': 'application/json',  // Add this to specify JSON content type
+        'X-CSRFToken': csrfToken,  // Add CSRF token
+      },
     });
 
-  
-    fetchLocationsForProvider(providerid);
+    if (response.ok) {
+      fetchLocationsForProvider(providerid);
+      alert('Location Deleted successfully!');
+    } else {
+      alert('Error Deleting Location.');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
+async function fetchLocationsForProvider(providerid) {
+  try {
+    const response = await fetch(`/provider/fetchLocations/${providerid}`);
+
+    if (response.ok) {
+      const locations = await response.json();
+      let locationsHTML = ''; 
+
+      locations.forEach(location => {
+        console.log(location.locationid)
+        locationsHTML += `
+                            <li>
+                              <div class="loc-container">
+                                  <div class="loc-logo-holder">
+                                      <img src="${locationSymbol}" alt="" class="loc-logo">
+                                  </div>
+                                  <div class="loc-info">
+                                      
+                                      <h1>${location.name}</h1>
+                                      <p>${location.phonenumber}</p>
+                                  </div>
+                                  <div class="edit-delete-btn">
+                                      <i class="fa-solid fa-trash" ondblclick="console.log('deleteLocation triggered'); deleteLocation(${location.locationid})"></i>
+                                      <i class="fa-solid fa-pen-to-square" onclick="fetchLocationDetails(${location.locationid})"></i>
+                                  </div>
+                              </div>
+                            </li>
+                      `;
+
+      });
+
+      // Display items in the specified container
+      document.querySelector(".location-unordered-list").innerHTML = locationsHTML;
+    } else {
+      alert('Error fetching locations.');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}

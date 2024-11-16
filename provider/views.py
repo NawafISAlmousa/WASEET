@@ -330,3 +330,18 @@ def fetchLocations(request, provider_id):
     locations_list = list(locations)
     
     return JsonResponse(locations_list, safe=False)
+
+
+def deleteLocation(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        location_id = data.get("locationID")
+        provider_id = data.get('providerID')
+        
+        # Retrieve the item and provider instances
+        location = get_object_or_404(Location, locationid=location_id)
+        
+        # Delete the item from the database
+        location.delete()
+        
+    return redirect('provider:providerPage', provider_id=provider_id)
