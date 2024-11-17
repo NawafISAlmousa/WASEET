@@ -233,13 +233,25 @@ class Location(models.Model):
 
 
 class LocationHasItem(models.Model):
-    locationid = models.ForeignKey(Location, on_delete=models.CASCADE, db_column='LocationID')  # Changed to ForeignKey
-    itemid = models.ForeignKey(Item, on_delete=models.CASCADE, db_column='ItemID')  # Changed to ForeignKey
+    locationitemid = models.AutoField(primary_key=True)  # New auto-incrementing primary key
+    locationid = models.ForeignKey(
+        Location,
+        on_delete=models.CASCADE,
+        db_column='LocationID'
+    )
+    itemid = models.ForeignKey(
+        Item,
+        on_delete=models.CASCADE,
+        db_column='ItemID'
+    )
 
     class Meta:
-        managed = False
+        managed = False  # If you manage the schema manually
         db_table = 'location_has_item'
-        unique_together = (('locationid', 'itemid'),)
+        constraints = [
+            models.UniqueConstraint(fields=['locationid', 'itemid'], name='unique_location_item')
+        ]
+
 
 
 class Provider(models.Model):

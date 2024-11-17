@@ -35,5 +35,7 @@ urlpatterns = [
     path('deleteLocation/' , views.deleteLocation ,name = 'deleteLocation'),
     path('fetchLocations/<str:provider_id>/', views.fetchLocations, name='fetchLocations'),
     path('fetchLocationDetails/<str:LocationID>/', views.fetchLocationDetails, name='fetchLocationDetails'),
+    path('editLocation/',views.editLocation , name= 'editLocation'),
+
 
 ]

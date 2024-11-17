@@ -354,3 +354,30 @@ def fetchLocationDetails(request,LocationID):
     location_info = [list(location),list(locationItems)]
     print(location_info)
     return JsonResponse(location_info, safe=False)
+
+def editLocation(request):
+    if request.method == "POST":
+        name = request.POST.get('edit-location-name')
+        phoneNumber = request.POST.get('edit-location-number')
+        providerID = request.POST.get('providerid')
+        lat = request.POST.get('edit-location-latitude')
+        lon = request.POST.get('edit-location-longitude')
+        locId = request.POST.get('location-id')
+        location = Location.objects.get(locationid = locId)
+
+        location.name = name
+        location.phonenumber = phoneNumber
+        location.coordinates = f"{lat},{lon}"
+        location.save()
+
+        
+        links = LocationHasItem.objects.filter(locationid=location).delete()
+
+        if (request.POST.get('checkedItems')): 
+            itemIds = (request.POST.get('checkedItems').split(','))
+            for itemid in itemIds:
+                item = Item.objects.get(itemid=itemid)
+                link = LocationHasItem(locationid=location,itemid=item)
+                print(link)
+                link.save()
+    return redirect('provider:providerPage', provider_id = providerID)

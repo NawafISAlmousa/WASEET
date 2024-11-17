@@ -147,10 +147,11 @@
                 <div class="edit-location-form">
                     <h1 class="location-list-header">Edit Location</h1>
                     <div class="breaking-line"></div>
-                    <div class="location-map" id="add-location-map"></div>
+                    <div class="location-map" id="edit-location-map"></div>
                     <form action="#" class="location-form-container" id="edit-location-form">
 
                         {% csrf_token %}
+                        <input type="hidden" name="location-id" id="location-id">
                         <input type="hidden" id="edit-location-latitude" name="edit-location-latitude">
                         <input type="hidden" id="edit-location-longitude" name="edit-location-longitude">
                         <div>
@@ -168,8 +169,8 @@
 
                             </div>
                             <div class="select-buttons-container">
-                                <button type="button" class="select" id="select-all">Select All</button>
-                                <button type="button" class="select" id="deselect-all">Deselect All</button>
+                                <button type="button" class="select" id="edit-select-all">Select All</button>
+                                <button type="button" class="select" id="edit-deselect-all">Deselect All</button>
                             </div>
                         </div>
                         <div class="save-button-container">
@@ -209,8 +210,8 @@
 
                             </div>
                             <div class="select-buttons-container">
-                                <button type="button" class="select" id="select-all">Select All</button>
-                                <button type="button" class="select" id="deselect-all">Deselect All</button>
+                                <button type="button" class="select" id="add-select-all">Select All</button>
+                                <button type="button" class="select" id="add-deselect-all">Deselect All</button>
                             </div>
                         </div>
                         <div class="save-button-container">
@@ -230,36 +231,13 @@
                 <div class="items-list">
                     <h1 class="items-list-header">Current Items</h1>
                     <div class="breaking-line"></div>
-                    <ul class="item-unordered-list">
-                        <li>
-                            <div class="item-container">
-                                <div class="item-logo-holder">
-                                    <img src="https://files.sitebuilder.name.tools/14/d7/14d78357-0d51-4e88-bf3c-50d99d7c1e3a.jpg"
-                                        alt="" class="item-logo">
-                                </div>
-                                <div class="item-info">
-                                    <div class="item-info-header">
-                                        <h1>DeLonghi</h1>
-                                        <p class="price" style="color: #6ee665;">23.99 SAR</p>
-                                    </div>
-
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea maxime iure illo ipsa
-                                        quidem! Eaque quos nihil laboriosam, minima aut voluptates perspiciatis
-                                        voluptatum omnis velit nostrum ex, architecto cupiditate id.</p>
-                                </div>
-                                <div class="edit-delete-btn">
-                                    <i class="fa-solid fa-trash"></i>
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+                    <ul class="item-unordered-list"></ul>
                     <button class="add-button" id="item-add-button">Add New item</button>
                 </div>
 
                 <div class="edit-item-form">
                     <div class="form-placeholder">
-                        <h1>Click the Edit button to begin editing.</h1>
+                        <h1>Choose an Item to Edit.</h1>
                     </div>
                     <div class="form-curtain">
 
@@ -295,6 +273,7 @@
                                     <label for="item-name">Description:</label>
                                     <textarea type="text" id="item-description" name="item-description" required
                                         class="item-description"></textarea>
+                                    <button type="button" id="itemAIbutton" class="AIbutton">Modify Description Using AI</button>
                                 </div>
                                 <div class="hidden-input">
                                     <input type="text" name="itemid" id="itemid">
@@ -328,8 +307,7 @@
                             </div>
                             <!-- Image preview container -->
                             <div class="logo-container">
-                                <div class="change-logo" id="add-item-change-logo"> {% comment %}
-                                    /media/{{provider.username}}/{{itemid}}logo.png {% endcomment %}
+                                <div class="change-logo" id="add-item-change-logo">
                                     <img class="logo-preview" id="add-item-logo"
                                         src="{% static '/main/assets/BigLogo.png'%}" alt="Logo Preview">
                                 </div>
