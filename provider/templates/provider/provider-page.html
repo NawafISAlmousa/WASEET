@@ -381,7 +381,7 @@
                         </li>
 
                     </ul>
-                    <button class="add-button">Add New event</button>
+                    <button class="add-button" id="event-add-button">Add New event</button>
                 </div>
                 <div class="edit-event-form">
 
@@ -431,20 +431,52 @@
                 </div>
             </div>
             <!-- pop up section -->
-            <div class="pop-up-shadow"></div>
-            <div class="pop-up">
-                <div class="form-wrapper">
+            <div class="event-pop-up-shadow" id="event-pop-up-shadow"></div>
+            <div class="event-pop-up" id="event-pop-up">
+                <div class="edit-event-form">
 
-                    <form class="event-form" action="#">
-                        <div class="form-group">
-                            <label for="eventName" class="form-label">event name:</label>
-                            <input type="text" id="eventName" name="eventName" class="form-input" required>
+                    <form action="" class="event-form-container" id="add-event-form">
+
+                        <div class="hidden-logo-input">
+                            <input class="logo-input" type="file" id="add-event-upload-logo" name="upload-logo"
+                                accept="image/png, image/jpg, image/jpeg">
                         </div>
-                        <div class="form-group">
-                            <label for="phoneNumber" class="form-label">Phone Number:</label>
-                            <input type="tel" id="phoneNumber" name="phoneNumber" class="form-input" required>
+                        <!-- Image preview container -->
+                        <div class="logo-container">
+                            <div class="change-logo" id="add-event-change-logo">
+                                <img class="logo-preview" id="add-event-logo" src="{% static '/main/assets/BigLogo.png'%}"
+                                    alt="Logo Preview">
+                            </div>
                         </div>
-                        <button type="submit" class="form-button">Save</button>
+
+                        <div>
+                            <div class="form-group">
+                                <label for="event-name">Event name:</label>
+                                <input type="text" id="add-event-name" name="event-name" required>
+                            </div>
+                            <div class="form-group date-container">
+                                <label for="event-number">Start date:</label>
+                                <input type="date" id="add-event-start-date" name="event-start-date" required>
+                                <label for="event-number">End date:</label>
+                                <input type="date" id="add-event-end-date" name="event-end-date" required>
+                            </div>
+                            <div class="form-group time-container">
+                                <label for="event-number">Start time:</label>
+                                <input type="time" id="add-event-start-time" name="event-start-time" required>
+                                <label for="event-number">End time:</label>
+                                <input type="time" id="add-event-end-time" name="event-end-time" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="event-name">Locations:</label>
+                                <input type="text" id="event-name" name="event-name" required>
+                            </div>
+
+                        </div>
+
+                        <div class="save-button-container">
+                            <button>Save</button>
+                        </div>
+
                     </form>
                 </div>
             </div>
