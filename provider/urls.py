@@ -35,5 +35,10 @@ urlpatterns = [
     path('deleteLocation/' , views.deleteLocation ,name = 'deleteLocation'),
     path('fetchLocations/<str:provider_id>/', views.fetchLocations, name='fetchLocations'),
     path('fetchLocationDetails/<str:LocationID>/', views.fetchLocationDetails, name='fetchLocationDetails'),
-
+    path('editLocation/',views.editLocation , name= 'editLocation'),
+    path('addEvent/',views.addEvent , name= 'addEvent'),
+    path("fetchEvents/<str:provider_id>/",views.fetchEvents,name='fetchEvents'),
+    path('deleteEvent/', views.deleteEvent, name = 'deleteEvent'),
+    path('fetchEventDetails/<str:event_id>/', views.fetchEventDetails, name='fetchEventDetails'),
+    path('editEvent/',views.editEvent , name= 'editEvent'),
 ]

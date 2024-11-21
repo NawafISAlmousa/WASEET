@@ -1,36 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // ======================= Map Functions ===============================
   const fallbackLatitude = 24.7136;  // Riyadh's latitude
   const fallbackLongitude = 46.6753; // Riyadh's longitude
-  const mapZoomLevel = 13;           // Default zoom level
-
-  // Function to initialize the map and add a draggable marker
-  function initializeMap(latitude, longitude) {
-    // Initialize map centered on given coordinates
-    const map = L.map('location-map').setView([latitude, longitude], mapZoomLevel);
-
-    // Add OpenStreetMap tiles
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    // Add a draggable marker and set its initial position
-    const marker = L.marker([latitude, longitude], { draggable: true }).addTo(map);
-
-    // Update hidden fields with initial position
-    document.getElementById('location-latitude').value = latitude;
-    document.getElementById('location-longitude').value = longitude;
-
-    // Event listener for marker movement
-    marker.on('dragend', function (event) {
-      const { lat, lng } = event.target.getLatLng();
-      document.getElementById('location-latitude').value = lat;
-      document.getElementById('location-longitude').value = lng;
-      console.log(`Marker moved to: ${lat}, ${lng}`);
-    });
-  }
-
   // Try to get the user's current location
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
@@ -49,38 +19,9 @@ document.addEventListener("DOMContentLoaded", function () {
     initializeMap(fallbackLatitude, fallbackLongitude); // Fallback to Riyadh
   }
 
-
-
-
-
   // ============ add location map ====================
 
 
-  function initializeAddMap(latitude, longitude) {
-    // Initialize map centered on given coordinates
-    const map = L.map('add-location-map').setView([latitude, longitude], mapZoomLevel);
-
-    // Add OpenStreetMap tiles
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    // Add a draggable marker and set its initial position
-    const marker = L.marker([latitude, longitude], { draggable: true }).addTo(map);
-
-    // Update hidden fields with initial position
-    document.getElementById('add-location-latitude').value = latitude;
-    document.getElementById('add-location-longitude').value = longitude;
-
-    // Event listener for marker movement
-    marker.on('dragend', function (event) {
-      const { lat, lng } = event.target.getLatLng();
-      document.getElementById('add-location-latitude').value = lat;
-      document.getElementById('add-location-longitude').value = lng;
-      console.log(`Marker moved to: ${lat}, ${lng}`);
-    });
-  }
 
   // Try to get the user's current location
   if (navigator.geolocation) {
@@ -126,48 +67,40 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // ============ fetch items for location =================
-  const selectbutton = document.getElementById("select-all")
-  const deselectbutton = document.getElementById("deselect-all")
+  const addSelectbutton = document.getElementById("add-select-all")
+  const addDeselectbutton = document.getElementById("add-deselect-all")
+  const editSelectbutton = document.getElementById("edit-select-all")
+  const editDeselectbutton = document.getElementById("edit-deselect-all")
 
-  selectbutton.addEventListener("click", function () {
-    let checklist = document.querySelectorAll('.checkbox-item')
+addSelectbutton.addEventListener("click", function () {
+    console.log("CLICKED!");
+    let checklist = document.querySelectorAll('.add-checkbox-item')
     for (let item of checklist)
       item.checked = true
   })
 
-  deselectbutton.addEventListener("click", function () {
-    let checklist = document.querySelectorAll('.checkbox-item')
+  addDeselectbutton.addEventListener("click", function () {
+    let checklist = document.querySelectorAll('.add-checkbox-item')
     for (let item of checklist)
       item.checked = false
   })
 
-  async function fetchProviderItems(providerId) {
-    try {
-      const response = await fetch(`/provider/fetchItems/${providerId}/`)
-      if (response.ok) {
-        const items = await response.json();
-        let checklistHTML = ""
-        items.forEach(item => {
-          checklistHTML += `
+  editSelectbutton.addEventListener("click", function () {
+    console.log("CLICKED!");
+    let checklist = document.querySelectorAll('.edit-checkbox-item')
+    for (let item of checklist)
+      item.checked = true
+  })
 
-              <div class="checklist-item">
-                <input class= "checkbox-item" type="checkbox" id="item-${item.itemid}" name="items" value="${item.itemid}">
-                <label for="item-${item.itemid}">${item.name}</label>
-              </div>
+  editDeselectbutton.addEventListener("click", function () {
+    let checklist = document.querySelectorAll('.edit-checkbox-item')
+    for (let item of checklist)
+      item.checked = false
+  })
 
-            `});
-        // Insert the generated HTML into the checklist container
-        document.getElementById('add-items-checklist').innerHTML = checklistHTML;
-        document.getElementById('edit-items-checklist').innerHTML = checklistHTML;
-      } else {
-        alert(`Error fetching provider items ${response.status}`)
-      }
-    } catch (error) {
-      alert(`Error fetching provider items ${error}`)
-    }
-  }
 
-  fetchProviderItems(providerid);
+
+  fetchProviderEditItems(providerid);
 
   fetchLocationsForProvider(providerid);
 
@@ -185,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
     e.preventDefault();
     const formData = new FormData(e.target);
     formData.append('providerid', providerid)
-    const checkItems = getChecked(document.querySelectorAll('.checkbox-item'))
+    const checkItems = getChecked(document.querySelectorAll('.add-checkbox-item'))
     formData.append('checkedItems', checkItems)
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
     try {
@@ -200,6 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (response.ok) {
         e.target.reset();
         fetchLocationsForProvider(providerid);
+        fetchProviderEditLocations(providerid)
         alert('Location Added successfully!');
 
       } else {
@@ -211,69 +145,43 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
 
+document.getElementById('edit-location-form').addEventListener('submit', async function(e){
+  e.preventDefault()
+  const formData = new FormData(e.target);
+  formData.append('providerid', providerid)
+  const checkItems = getChecked(document.querySelectorAll('.edit-checkbox-item'))
+  formData.append('checkedItems', checkItems)
+  const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+  try {
+    const response = await fetch('/provider/editLocation/', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'X-CSRFToken': csrfToken, // Add the CSRF token to the headers
+      },
+    });
+
+    if (response.ok) {
+      e.target.reset();
+      fetchLocationsForProvider(providerid);
+      fetchProviderEditLocations(providerid);
+      alert('Location Edited successfully!');
+
+    } else {
+      alert('Error Submitting Location Information.');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+});
 
 
 });
 
 
-async function deleteLocation(locationID) {
-  try {
-    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-    const response = await fetch('/provider/deleteLocation/', {
-      method: 'POST',
-      body: JSON.stringify({ locationID: locationID, providerID: providerid }),
-      headers: {
-        'Content-Type': 'application/json',  // Add this to specify JSON content type
-        'X-CSRFToken': csrfToken,  // Add CSRF token
-      },
-    });
-
-    if (response.ok) {
-      fetchLocationsForProvider(providerid);
-      alert('Location Deleted successfully!');
-    } else {
-      alert('Error Deleting Location.');
-    }
-  } catch (error) {
-    console.error('Error:', error);
-  }
-};
 
 
-async function fetchLocationDetails(LocationID) {
-  try {
-    const reponse = await fetch(`/provider/fetchLocationDetails/${LocationID}/`)
-    const locationName = document.getElementById('edit-location-name')
-    const latitude = document.getElementById('edit-location-latitude')
-    const longitude = document.getElementById('edit-location-longitude')
-    const locationPhoneNumber = document.getElementById('edit-location-number')
-    const itemCheckList = document.querySelectorAll('.checkbox-item')
-    itemCheckList.forEach(function (i) {
-      i.checked = false
-    })
-    if (reponse.ok) {
-      data = await reponse.json()
-      console.log(data)
-      console.log(data[0][0].name)
-      console.log(data[1])
-      locationName.value = data[0][0].name
-      locationPhoneNumber.value = data[0][0].phonenumber
-      coord = data[0][0].coordinates.split(',')
-      latitude.value = coord[0]
-      longitude.value = coord[1]
-      console.log(data[1][0])
-      for (let item of data[1])
-        for (let itemEl of itemCheckList)
-          if (itemEl.value == item.itemid)
-            itemEl.checked = true
 
-    } else {
-      alert('Error fetching location information.');
-    }
-  } catch (error) {
-    console.error('Error:', error);
-  }
-}
 
 
 async function fetchLocationsForProvider(providerid) {
@@ -315,4 +223,181 @@ async function fetchLocationsForProvider(providerid) {
   } catch (error) {
     console.error('Error:', error);
   }
+}
+
+
+
+// ======================= Map Functions ===============================
+
+const mapZoomLevel = 13;           // Default zoom level
+let editMarker;
+let addMarker;
+
+// Function to initialize the map and add a draggable marker
+function initializeMap(latitude, longitude) {
+  // Initialize map centered on given coordinates
+  const map = L.map('edit-location-map').setView([latitude, longitude], mapZoomLevel);
+
+  // Add OpenStreetMap tiles
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  // Add a draggable marker and set its initial position
+  editMarker = L.marker([latitude, longitude], { draggable: true }).addTo(map);
+
+  // Update hidden fields with initial position
+  document.getElementById('edit-location-latitude').value = latitude;
+  document.getElementById('edit-location-longitude').value = longitude;
+
+  // Event listener for marker movement
+  editMarker.on('dragend', function (event) {
+    const { lat, lng } = event.target.getLatLng();
+    console.log(lat,lng,event.target)
+    if(lat)
+    document.getElementById('edit-location-latitude').value = lat;
+    document.getElementById('edit-location-longitude').value = lng;
+    console.log(`Marker moved to: ${lat}, ${lng}`);
+  });
+}
+
+
+async function deleteLocation(locationID) {
+  try {
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const response = await fetch('/provider/deleteLocation/', {
+      method: 'POST',
+      body: JSON.stringify({ locationID: locationID, providerID: providerid }),
+      headers: {
+        'Content-Type': 'application/json',  // Add this to specify JSON content type
+        'X-CSRFToken': csrfToken,  // Add CSRF token
+      },
+    });
+
+    if (response.ok) {
+      fetchLocationsForProvider(providerid);
+      fetchEvent(providerid);
+      alert('Location Deleted successfully!');
+    } else {
+      alert('Error Deleting Location.');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
+async function fetchLocationDetails(LocationID) {
+  try {
+    const reponse = await fetch(`/provider/fetchLocationDetails/${LocationID}/`)
+    const locationName = document.getElementById('edit-location-name')
+    const latitude = document.getElementById('edit-location-latitude')
+    const longitude = document.getElementById('edit-location-longitude')
+    const locationPhoneNumber = document.getElementById('edit-location-number')
+    const itemCheckList = document.querySelectorAll('.edit-checkbox-item')
+    const locationId = document.getElementById('location-id')
+    itemCheckList.forEach(function (i) {
+      i.checked = false
+    })
+    if (reponse.ok) {
+      data = await reponse.json()
+      locationId.value = LocationID
+      locationName.value = data[0][0].name
+      locationPhoneNumber.value = data[0][0].phonenumber
+      coord = data[0][0].coordinates.split(',')
+      latitude.value = coord[0]
+      longitude.value = coord[1]
+      editMarker.setLatLng([Number(coord[0]),Number(coord[1])])
+      editMarker._map.setView([Number(coord[0]),Number(coord[1])], mapZoomLevel);
+
+      for (let item of data[1])
+        for (let itemEl of itemCheckList)
+          if (itemEl.value == item.itemid)
+            itemEl.checked = true
+
+    } else {
+      alert('Error fetching location information.');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+
+async function fetchProviderItems(providerId) {
+  try {
+    const response = await fetch(`/provider/fetchItems/${providerId}/`)
+    if (response.ok) {
+      const items = await response.json();
+      let checklistHTML = ""
+      items.forEach(item => {
+        checklistHTML += `
+
+            <div class="add-checklist-item">
+              <input class= "add-checkbox-item" type="checkbox" id="item-${item.itemid}" name="items" value="${item.itemid}">
+              <label for="item-${item.itemid}">${item.name}</label>
+            </div>
+
+          `});
+      // Insert the generated HTML into the checklist container
+      document.getElementById('add-items-checklist').innerHTML = checklistHTML;
+    } else {
+      alert(`Error fetching provider items ${response.status}`)
+    }
+  } catch (error) {
+    alert(`Error fetching provider items ${error}`)
+  }
+}
+
+
+async function fetchProviderEditItems(providerId) {
+  try {
+    const response = await fetch(`/provider/fetchItems/${providerId}/`)
+    if (response.ok) {
+      const items = await response.json();
+      let checklistHTML = ""
+      items.forEach(item => {
+        checklistHTML += `
+
+            <div class="edit-checklist-item">
+              <input class= "edit-checkbox-item" type="checkbox" id="item-${item.itemid}" name="items" value="${item.itemid}">
+              <label for="item-${item.itemid}">${item.name}</label>
+            </div>
+
+          `});
+      // Insert the generated HTML into the checklist container
+      document.getElementById('edit-items-checklist').innerHTML = checklistHTML;
+    } else {
+      alert(`Error fetching provider items ${response.status}`)
+    }
+  } catch (error) {
+    alert(`Error fetching provider items ${error}`)
+  }
+}
+
+
+function initializeAddMap(latitude, longitude) {
+  // Initialize map centered on given coordinates
+  const map = L.map('add-location-map').setView([latitude, longitude], mapZoomLevel);
+
+  // Add OpenStreetMap tiles
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  // Add a draggable marker and set its initial position
+  addMarker = L.marker([latitude, longitude], { draggable: true }).addTo(map);
+
+  // Update hidden fields with initial position
+  document.getElementById('add-location-latitude').value = latitude;
+  document.getElementById('add-location-longitude').value = longitude;
+
+  // Event listener for marker movement
+  addMarker.on('dragend', function (event) {
+    const { lat, lng } = event.target.getLatLng();
+    document.getElementById('add-location-latitude').value = lat;
+    document.getElementById('add-location-longitude').value = lng;
+    console.log(`Marker moved to: ${lat}, ${lng}`);
+  });
 }

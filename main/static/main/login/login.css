@@ -171,7 +171,7 @@ input[type="password"]:focus {
     padding: 5px 25px;
     background-color: lightcoral;
     color: red;
-    border-radius: 10px;
+    border-radius: 5px;
     margin: 30px auto;
 }
 

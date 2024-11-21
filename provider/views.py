@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.http import JsonResponse, HttpResponseRedirect
-from main.models import Provider, Location, ProviderRatings, Tags, ProvidersTags, Item, Event, LocationHasItem
+from main.models import Provider, Location, ProviderRatings, Tags, ProvidersTags, Item, Event, LocationHasItem, Event
 import time,os
 from django.db.models import Subquery, OuterRef
 from django.conf import settings
@@ -354,3 +354,165 @@ def fetchLocationDetails(request,LocationID):
     location_info = [list(location),list(locationItems)]
     print(location_info)
     return JsonResponse(location_info, safe=False)
+
+def editLocation(request):
+    if request.method == "POST":
+        name = request.POST.get('edit-location-name')
+        phoneNumber = request.POST.get('edit-location-number')
+        providerID = request.POST.get('providerid')
+        lat = request.POST.get('edit-location-latitude')
+        lon = request.POST.get('edit-location-longitude')
+        locId = request.POST.get('location-id')
+        location = Location.objects.get(locationid = locId)
+
+        location.name = name
+        location.phonenumber = phoneNumber
+        location.coordinates = f"{lat},{lon}"
+        location.save()
+
+        
+        links = LocationHasItem.objects.filter(locationid=location).delete()
+
+        if (request.POST.get('checkedItems')): 
+            itemIds = (request.POST.get('checkedItems').split(','))
+            for itemid in itemIds:
+                item = Item.objects.get(itemid=itemid)
+                link = LocationHasItem(locationid=location,itemid=item)
+                print(link)
+                link.save()
+    return redirect('provider:providerPage', provider_id = providerID)
+
+
+
+
+def addEvent(request):
+    if request.method == "POST":
+        eventName = request.POST.get('event-name')
+        eventDesc = request.POST.get('event-description')
+        startDate = request.POST.get('event-start-date')
+        endDate = request.POST.get('event-end-date')
+        startTime = request.POST.get('event-start-time')
+        endTime = request.POST.get('event-end-time')
+
+        provider = Provider.objects.get(providerid=request.POST.get('providerid'))
+
+        location = Location.objects.get(locationid=request.POST.get('event-location'))
+
+        event = Event(name=eventName, description=eventDesc, starttime=startTime, startdate=startDate, enddate=endDate, endtime=endTime, locationid=location)
+
+        event.save()
+
+        eventId = event.eventid
+
+
+        username = Provider.objects.filter(providerid = provider.providerid).values('username')[0]['username']
+
+        eventImage = request.FILES.get('add-event-upload-logo')
+        provider_folder = os.path.join(settings.MEDIA_ROOT, username) # waseet/media/username
+        event_folder = os.path.join(provider_folder, 'events')
+        os.makedirs(event_folder, exist_ok=True)
+
+        # Save the uploaded image
+        image_path = os.path.join(event_folder, f'event{eventId}.png')
+        if eventImage:
+            with open(image_path, 'wb+') as destination:
+                for chunk in eventImage.chunks():
+                    destination.write(chunk)
+        pass
+    return redirect('provider:providerPage', provider_id = provider.providerid)
+
+def fetchEvents(request,provider_id):
+    provider = Provider.objects.get(providerid=provider_id)
+    locations = Location.objects.filter(providerid=provider)
+    eventslist = []
+    for location in locations:
+        events = list(Event.objects.filter(locationid = location).values('name','eventid','startdate','enddate','starttime','endtime'))
+        eventslist+=(events)
+        print(eventslist)
+    
+    return JsonResponse(eventslist, safe=False)
+
+
+
+def deleteEvent(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        event_id = data.get("eventID")
+        provider_id = data.get('providerID')
+        
+        # Retrieve the item and provider instances
+        event = get_object_or_404(Event, eventid=event_id)
+        provider = get_object_or_404(Provider, providerid=provider_id)
+        
+        # Construct the file path for the image
+        username = provider.username  # Retrieve provider's username
+        image_path = os.path.join(settings.MEDIA_ROOT, username, 'events', f'event{event_id}.png')
+        
+        # Delete the image file if it exists
+        if os.path.isfile(image_path):
+            os.remove(image_path)
+        
+        # Delete the item from the database
+        event.delete()
+        
+    return redirect('provider:providerPage', provider_id=provider.providerid)
+
+
+
+
+def fetchEventDetails(request, event_id):
+    # Retrieve items for the given provider
+    event = Event.objects.filter(eventid=event_id).values('eventid', 'name',  'description', 'startdate', 'enddate','starttime','endtime','locationid' )
+    
+    # Convert the queryset to a list of dictionaries
+    fetchedEvent = list(event)[0]
+    
+    return JsonResponse(fetchedEvent, safe=False)
+
+
+
+
+
+def editEvent(request):
+    if request.method == "POST":
+        eventName = request.POST.get('edit-event-name')
+        eventDesc = request.POST.get('edit-event-description')
+        startDate = request.POST.get('edit-event-start-date')
+        endDate = request.POST.get('edit-event-end-date')
+        startTime = request.POST.get('edit-event-start-time')
+        endTime = request.POST.get('edit-event-end-time')
+        eventId = request.POST.get('eventid')
+
+        provider = Provider.objects.get(providerid=request.POST.get('providerid'))
+
+        location = Location.objects.get(locationid=request.POST.get('event-location'))
+
+        event = Event.objects.get(eventid=eventId)
+        event.name = eventName
+        event.description = eventDesc
+        event.startdate = startDate
+        event.enddate = endDate
+        event.starttime = startTime
+        event.endtime = endTime
+        event.locationid = location
+        event.save()
+
+
+        username = Provider.objects.filter(providerid = provider.providerid).values('username')[0]['username']
+
+        eventImage = request.FILES.get('add-event-upload-logo')
+        provider_folder = os.path.join(settings.MEDIA_ROOT, username) # waseet/media/username
+        event_folder = os.path.join(provider_folder, 'events')
+        os.makedirs(event_folder, exist_ok=True)
+
+        # Save the uploaded image
+        image_path = os.path.join(event_folder, f'event{eventId}.png')
+        if eventImage:
+            with open(image_path, 'wb+') as destination:
+                for chunk in eventImage.chunks():
+                    destination.write(chunk)
+        pass
+    return redirect('provider:providerPage', provider_id = provider.providerid)
+
+
+   
