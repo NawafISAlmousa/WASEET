@@ -41,7 +41,7 @@
             </div>
             <div class="nav-links">
                 <a href="#" class="nav-link">Direct Messages</a>
-                <a class="logout-button" href="{% url 'main:index'%}">Logout</a>
+                <a class="logout-button nav-link" href="{% url 'main:index'%}">Logout</a>
             </div>
         </nav>
     </header>
@@ -84,7 +84,7 @@
                                     placeholder="Describe what you offer">{{provider.description}}</textarea>
                                 <label class="edit-checkbox" for="edit-description">
                                     <input type="checkbox" id="edit-description" name="edit-description"> Edit <button
-                                        type="button" id="AIbutton" class="AIbutton">Modify Description Using
+                                        type="button" id="AIbutton" class="AIbutton transitions">Modify Description Using
                                         AI</button>
                                 </label>
 
@@ -107,7 +107,7 @@
                             </div>
                         </div>
                         <div class="save-button-container">
-                            <button type="submit" class="save-button">Save</button>
+                            <button type="submit" class="save-button transitions">Save</button>
                         </div>
                     </form>
                 </div>
@@ -122,7 +122,7 @@
             <div class="locations-container">
                 <div class="locations-list">
                     <h1 class="locations-list-header">Current Locations</h1>
-                    <div class="breaking-line"></div>
+                    <button class="add-button transitions" id="location-add-button">Add New Location</button>
                     <ul class="location-unordered-list">
                         <li>
                             <div class="loc-container">
@@ -142,7 +142,6 @@
                         </li>
 
                     </ul>
-                    <button class="add-button" id="location-add-button">Add New Location</button>
                 </div>
                 <div class="edit-location-form">
                     <h1 class="location-list-header">Edit Location</h1>
@@ -169,12 +168,12 @@
 
                             </div>
                             <div class="select-buttons-container">
-                                <button type="button" class="select" id="edit-select-all">Select All</button>
-                                <button type="button" class="select" id="edit-deselect-all">Deselect All</button>
+                                <button type="button" class="select transitions" id="edit-select-all">Select All</button>
+                                <button type="button" class="select transitions" id="edit-deselect-all">Deselect All</button>
                             </div>
                         </div>
                         <div class="save-button-container">
-                            <button type="submit">Save</button>
+                            <button type="submit" class="transitions">Save</button>
                         </div>
 
                     </form>
@@ -210,12 +209,12 @@
 
                             </div>
                             <div class="select-buttons-container">
-                                <button type="button" class="select" id="add-select-all">Select All</button>
-                                <button type="button" class="select" id="add-deselect-all">Deselect All</button>
+                                <button type="button" class="select transitions" id="add-select-all">Select All</button>
+                                <button type="button" class="select transitions" id="add-deselect-all">Deselect All</button>
                             </div>
                         </div>
                         <div class="save-button-container">
-                            <button type="submit">Save</button>
+                            <button type="submit" class="transitions">Save</button>
                         </div>
 
                     </form>
@@ -230,9 +229,8 @@
             <div class="items-container">
                 <div class="items-list">
                     <h1 class="items-list-header">Current Items</h1>
-                    <div class="breaking-line"></div>
+                    <button class="add-button transitions" id="item-add-button">Add New item</button>
                     <ul class="item-unordered-list"></ul>
-                    <button class="add-button" id="item-add-button">Add New item</button>
                 </div>
 
                 <div class="edit-item-form">
@@ -273,7 +271,7 @@
                                     <label for="item-name">Description:</label>
                                     <textarea type="text" id="item-description" name="item-description" required
                                         class="item-description"></textarea>
-                                    <button type="button" id="itemAIbutton" class="AIbutton">Modify Description Using AI</button>
+                                    <button type="button" id="itemAIbutton" class="AIbutton transitions">Modify Description Using AI</button>
                                 </div>
                                 <div class="hidden-input">
                                     <input type="text" name="itemid" id="itemid">
@@ -281,7 +279,7 @@
                             </div>
 
                             <div class="save-button-container">
-                                <button>Save</button>
+                                <button class="transitions">Save</button>
                             </div>
                     </div>
                     </form>
@@ -331,7 +329,7 @@
                             </div>
 
                             <div class="save-button-container">
-                                <button>Save</button>
+                                <button class="transitions">Save</button>
                             </div>
 
                         </form>
@@ -346,12 +344,9 @@
         <section id="events" class="content-section">
             <div class="events-container">
                 <div class="events-list">
-                    <h1 class="events-list-header">Current events</h1>
-                    <div class="breaking-line"></div>
-
+                    <h1 class="events-list-header">Current Events</h1>
+                    <button class="add-button transitions" id="event-add-button">Add New event</button>
                     <ul class="event-unordered-list" id ='event-unordered-list'></ul>
-
-                    <button class="add-button" id="event-add-button">Add New event</button>
                 </div>
                 <div class="edit-event-form">
 
@@ -372,12 +367,12 @@
                         <div>
                             <div class="form-group">
                                 <label for="event-name">Event name:</label>
-                                <input type="text" id="edit-event-name" name="event-name" required>
+                                <input type="text" id="edit-event-name" name="edit-event-name" required>
                             </div>
-                            <div class="hidden-input">
-                                <input type="hidden" name="eventid" id="eventid">
-                                <input type="hidden" name="locationid" id="locationid">
-                            </div>
+
+                            <input type="hidden" name="eventid" id="editeventid">
+                            <input type="hidden" name="locationid" id="locationid">
+
                             <div class="form-group date-container">
                                 <label for="event-number">Start date:</label>
                                 <input type="date" id="edit-event-start-date" name="edit-event-start-date" required>
@@ -392,8 +387,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="event-description">Description:</label>
-                                <textarea name="event-description" id="edit-event-description" class="event-description"></textarea>
-                                <button type="button" id="eventAIbutton" class="eventAIbutton">Modify Description Using AI</button>
+                                <textarea name="edit-event-description" id="edit-event-description" class="event-description"></textarea>
+                                <button type="button" id="eventAIbutton" class="eventAIbutton transitions">Modify Description Using AI</button>
                                 <label for="event-name">Locations:</label>
                                 <div class="select-wrapper" >
                                     <select class="edit-location-drop-down" id="event-location-name" name="event-location" required></select>
@@ -402,7 +397,7 @@
                         </div>
 
                         <div class="save-button-container">
-                            <button type="submit">Save</button>
+                            <button type="submit" class="transitions">Save</button>
                         </div>
 
                     </form>
@@ -411,7 +406,7 @@
             <!-- pop up section -->
             <div class="event-pop-up-shadow" id="event-pop-up-shadow"></div>
             <div class="event-pop-up" id="event-pop-up">
-                <div class="edit-event-form">
+                <div class="add-event-form">
 
                     <form action="" class="event-form-container" id="add-event-form">
 
@@ -447,7 +442,6 @@
                             <div class="form-group">
                                 <label for="event-description">Description:</label>
                                 <textarea name="event-description" id="add-event-description" class="event-description"></textarea>
-                                <button type="button" id="eventAIbutton" class="eventAIbutton">Modify Description Using AI</button>
                                 <label for="event-name">Locations:</label>
                                 <div class="select-wrapper" >
                                     <select class="location-drop-down" id="add-event-location-name" name="event-location" required></select>
@@ -456,7 +450,7 @@
                         </div>
 
                         <div class="save-button-container">
-                            <button type="submit">Save</button>
+                            <button type="submit" class="transitions">Save</button>
                         </div>
 
                     </form>

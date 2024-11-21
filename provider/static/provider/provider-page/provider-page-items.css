@@ -25,7 +25,6 @@
 }
 
 
-
 .items-container {
     display: flex;
     width: 1200px;
@@ -45,7 +44,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-shadow: 0px 9px 20px grey;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 
 }
 
@@ -62,8 +61,8 @@
     width: 550px;
     border-radius: 5px;
     padding: 0px 25px;
-    box-shadow: 1px 2px 15px grey;
-    height: 620px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    height: 570px;
 }
 
 .add-item-form {
@@ -71,8 +70,8 @@
     width: 550px;
     border-radius: 5px;
     padding: 0px 25px;
-    box-shadow: 1px 2px 15px grey;
-    height: 620px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    height: 550px;
 }
 
 .item-form-container {
@@ -127,14 +126,14 @@
     background-color: #ffffff;
     width: 600px;
     height: 500px;
-    top: 0;
+    top: -50px;
     left: 0;
     right: 0;
     bottom: 0;
     margin: auto;
     z-index: 11;
     display: none;
-    box-shadow: 1px 2px 15px grey;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .pop-up .items-list-header {
@@ -147,7 +146,7 @@
     background-color: black;
     opacity: 0.2;
     width: 100%;
-    height: 140%;
+    height: 100%;
     top: 0;
     left: 0;
     right: 0;
@@ -201,7 +200,7 @@
     background-color: #ffffff;
     border-radius: 5px;
     display: flex;
-    box-shadow: 1px 2px 15px grey;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 

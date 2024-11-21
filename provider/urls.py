@@ -40,4 +40,5 @@ urlpatterns = [
     path("fetchEvents/<str:provider_id>/",views.fetchEvents,name='fetchEvents'),
     path('deleteEvent/', views.deleteEvent, name = 'deleteEvent'),
     path('fetchEventDetails/<str:event_id>/', views.fetchEventDetails, name='fetchEventDetails'),
+    path('editEvent/',views.editEvent , name= 'editEvent'),
 ]

@@ -472,4 +472,47 @@ def fetchEventDetails(request, event_id):
 
 
 
+
+def editEvent(request):
+    if request.method == "POST":
+        eventName = request.POST.get('edit-event-name')
+        eventDesc = request.POST.get('edit-event-description')
+        startDate = request.POST.get('edit-event-start-date')
+        endDate = request.POST.get('edit-event-end-date')
+        startTime = request.POST.get('edit-event-start-time')
+        endTime = request.POST.get('edit-event-end-time')
+        eventId = request.POST.get('eventid')
+
+        provider = Provider.objects.get(providerid=request.POST.get('providerid'))
+
+        location = Location.objects.get(locationid=request.POST.get('event-location'))
+
+        event = Event.objects.get(eventid=eventId)
+        event.name = eventName
+        event.description = eventDesc
+        event.startdate = startDate
+        event.enddate = endDate
+        event.starttime = startTime
+        event.endtime = endTime
+        event.locationid = location
+        event.save()
+
+
+        username = Provider.objects.filter(providerid = provider.providerid).values('username')[0]['username']
+
+        eventImage = request.FILES.get('add-event-upload-logo')
+        provider_folder = os.path.join(settings.MEDIA_ROOT, username) # waseet/media/username
+        event_folder = os.path.join(provider_folder, 'events')
+        os.makedirs(event_folder, exist_ok=True)
+
+        # Save the uploaded image
+        image_path = os.path.join(event_folder, f'event{eventId}.png')
+        if eventImage:
+            with open(image_path, 'wb+') as destination:
+                for chunk in eventImage.chunks():
+                    destination.write(chunk)
+        pass
+    return redirect('provider:providerPage', provider_id = provider.providerid)
+
+
    

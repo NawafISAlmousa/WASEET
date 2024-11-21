@@ -302,6 +302,8 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('item-logo').src = defaultImage
         e.target.reset();
         fetchItemsForProvider(providerid);
+        fetchProviderItems(providerid);
+        fetchProviderEditItems(providerid);
         document.querySelector('.form-curtain').style.display = 'none'
         document.querySelector('.form-placeholder').style.display = 'block'
         document.querySelector('.edit-item-form').style.display = 'flex'
@@ -321,11 +323,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ====================================== AI button ==================================================
 
-  itemDesc = document.getElementById("item-description")
-  itemName = document.getElementById("item-name")
+
 
 
   async function getGPTResponseForItem() {
+      let itemDesc = document.getElementById("item-description")
+      let itemName = document.getElementById("item-name")
       const apiKey = '';  // Replace with your actual API key
       const modUserInput = `Generate a new short description about 300 characters long for an item based on: 1-name: (${itemName.value}) 2-current description: (${itemDesc.value}) without anything but the generated description please so no 'ofcourse' or 'got it' just the description alone `;
       if (providerDesc.value.trim() !== "") {

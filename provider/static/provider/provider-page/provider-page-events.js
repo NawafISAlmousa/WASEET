@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // ======================= add logo ==================================
 
-    function previewItemLogo(event) {
+    function previewEventLogo(event) {
         const [file] = event.target.files;
         if (file) {
             const preview = document.getElementById('add-event-logo');
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
     // console.error(document.getElementById("add-event-change-logo"))
-    document.getElementById("add-event-upload-logo").addEventListener("change", previewItemLogo)
+    document.getElementById("add-event-upload-logo").addEventListener("change", previewEventLogo)
 
     document.getElementById("add-event-change-logo").addEventListener("click", triggerAddEventFileInput)
 
@@ -39,6 +39,29 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+
+
+
+
+    // ======================== edit logo
+
+
+    function previewEditEventLogo(event) {
+      const [file] = event.target.files;
+      if (file) {
+          const preview = document.getElementById('edit-event-logo');
+          preview.src = URL.createObjectURL(file);
+      }
+  }
+  // console.error(document.getElementById("add-event-change-logo"))
+  document.getElementById("edit-event-upload-logo").addEventListener("change", previewEditEventLogo)
+
+  document.getElementById("edit-event-change-logo").addEventListener("click", triggerEditEventFileInput)
+
+
+  function triggerEditEventFileInput() {
+      document.getElementById('edit-event-upload-logo').click();
+  }
 
 
 
@@ -95,6 +118,58 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
         }
     })
+
+
+
+
+
+    // =================== ai button call ============================================================
+
+    document.getElementById("eventAIbutton").onclick = () => getGPTResponseForEvent();
+
+
+
+
+    // ========================= edit event ============================================================
+
+    document.getElementById("edit-event-form").addEventListener("submit",  async (e) =>{
+      e.preventDefault();
+      let startTime = document.getElementById("edit-event-start-time").value
+      let endTime = document.getElementById("edit-event-end-time").value
+      let startDate = document.getElementById("edit-event-start-date").value
+      let endDate = document.getElementById("edit-event-end-date").value
+      if (validateEventDates(startDate, endDate, startTime, endTime)){
+          
+          const formData = new FormData(e.target); // Collect form data
+          formData.append('providerid', providerid)
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        
+              try {
+                  const response = await fetch('/provider/editEvent/', {
+                  method: 'POST',
+                  body: formData,
+                  headers: {
+                      'X-CSRFToken': csrfToken, // Add the CSRF token to the headers
+                  },
+                  });
+        
+                  if (response.ok) {
+                      document.getElementById('add-event-logo').src = defaultImage
+                      e.target.reset();
+                      // fetchItemsForProvider(providerid);
+                      // fetchProviderItems(providerid);
+                      fetchEvent(providerid)
+                      alert('Event Added successfully!');
+        
+                  } else {
+                      alert('Error Submitting Event Information.');
+                  }
+              } catch (error) {
+                  console.error('Error:', error);
+              }
+      }
+    })
+
 })
 
 
@@ -252,7 +327,7 @@ async function fetchEventDetails(eventid) {
   const eventEndDate = document.getElementById('edit-event-end-date')
   const eventImage = document.getElementById('edit-event-upload-logo')
   const eventStartTime = document.getElementById('edit-event-start-time')
-  const eventIDinput = document.getElementById('eventid')
+  const eventIDinput = document.getElementById('editeventid')
   const eventEndTime = document.getElementById('edit-event-end-time')
   const eventDescription = document.getElementById('edit-event-description')
   const eventImagePreview = document.getElementById('edit-event-logo')
@@ -267,11 +342,13 @@ async function fetchEventDetails(eventid) {
       console.log(data)
       let eventImagePath = `/media/${providerUsername}/events/event&.png`;
       let imageFilePath = eventImagePath.replace("&", data.eventid);
-      eventName.value = data.name
-      eventStartDate.value = data.startdate
-      eventEndDate.value = data.enddate
-      eventStartTime.value = data.starttime
-      eventEndTime.value = data.endtime
+      eventName.value = data.name;
+      eventStartDate.value = data.startdate;
+      eventEndDate.value = data.enddate;
+      eventStartTime.value = data.starttime;
+      eventEndTime.value = data.endtime;
+      console.log(eventIDinput)
+      eventIDinput.value = data.eventid;
       // eventLocationId.value = data.locationid
       console.log(data.locationid)
       // for(let locId of document.querySelectorAll('#event-location-name option'))
@@ -283,7 +360,6 @@ async function fetchEventDetails(eventid) {
       eventDescription.value = data.description
       eventImagePreview.src = imageFilePath
       eventImage.src = imageFilePath
-      eventIDinput.value = data.itemid
 
     } else {
 
@@ -291,5 +367,58 @@ async function fetchEventDetails(eventid) {
     }
   } catch (error) {
     console.error('Error:', error);
+  }
+}
+
+
+
+
+async function getGPTResponseForEvent() {
+  const descEvent = document.getElementById("edit-event-description").value
+  const nameEvent = document.getElementById("edit-event-name").value
+  const apiKey = '';  // Replace with your actual API key
+  const modUserInput = `Generate a new short description about 300 characters long for an event based on: 1-name: (${nameEvent}) 2-current description: (${descEvent}) without anything but the generated description please so no 'ofcourse' or 'got it' just the description alone `;
+  if (descEvent.trim() !== "") {
+      try {
+          // Set up the request to OpenAI API
+          const response = await fetch("https://api.openai.com/v1/chat/completions", {
+              method: "POST",
+              headers: {
+                  "Authorization": `Bearer ${apiKey}`,
+                  "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                  model: "gpt-4o",  // Switching to the more basic gpt-3.5-turbo model
+                  messages: [
+                      { "role": "system", "content": "You are assisting a service provider or a merchant to describe an event they are advertising." },
+                      { "role": "user", "content": modUserInput }
+                  ]
+              })
+          });
+
+          // Check if the response was successful
+          if (!response.ok) {
+              console.error(`Error: API request failed with status ${response.status}`);
+              alert(`Could not fetch from AI Model: Status ${response.status}`);
+              return `Error: API request failed with status ${response.status}`;
+          }
+
+          // Parse the JSON response
+          const data = await response.json();
+          console.log("API Response Data:", data);  // For debugging, log the entire response
+
+          // Extract and return the text content of the response
+          if (data.choices && data.choices.length > 0) {
+              document.getElementById("edit-event-description").value = data.choices[0].message.content;
+          } else {
+              console.error("Unexpected response format:", data);
+              alert("Could not fetch from AI Model: Invalid response structure.");
+          }
+      } catch (error) {
+          console.error("Error fetching response:", error);
+          alert("There was an error fetching the response.");
+      }
+  } else {
+      alert("Please Provide a Description to be Modified.")
   }
 }

@@ -133,6 +133,7 @@ addSelectbutton.addEventListener("click", function () {
       if (response.ok) {
         e.target.reset();
         fetchLocationsForProvider(providerid);
+        fetchProviderEditLocations(providerid)
         alert('Location Added successfully!');
 
       } else {
@@ -163,6 +164,7 @@ document.getElementById('edit-location-form').addEventListener('submit', async f
     if (response.ok) {
       e.target.reset();
       fetchLocationsForProvider(providerid);
+      fetchProviderEditLocations(providerid);
       alert('Location Edited successfully!');
 
     } else {
@@ -275,6 +277,7 @@ async function deleteLocation(locationID) {
 
     if (response.ok) {
       fetchLocationsForProvider(providerid);
+      fetchEvent(providerid);
       alert('Location Deleted successfully!');
     } else {
       alert('Error Deleting Location.');

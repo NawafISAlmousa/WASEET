@@ -88,12 +88,21 @@ body {
     transition: background-color 0.3s;
 }
 
+.transitions {
+    transition: background-color 0.3s;
+}
+
+.transitions:hover{
+    background-color: #255d6d;
+    cursor: pointer;
+}
+
 .logout-button:hover {
-    background-color: #296879;
+    background-color: #255d6d;
 }
 
 .content {
-    padding-top: 30px;
+    padding-top: 15px;
     width: 90%;
     margin: auto;
     /* display: flex;
