@@ -14,10 +14,9 @@ document.addEventListener("DOMContentLoaded", function () {
       itemPopUp.style.display = 'block';
     })
 
-
-
-
-
+    fetchProviderEditLocations(providerid)
+    fetchEvent(providerid)
+    
 
 
       // ======================= add logo ==================================
@@ -58,11 +57,42 @@ document.addEventListener("DOMContentLoaded", function () {
             
             const formData = new FormData(e.target); // Collect form data
             formData.append('providerid', providerid)
-            // continue later
-
-
-
-
+            // if (!file || file.size === 0) {
+            //     // If no file was uploaded, assign the default static image
+            //     try {
+            //       const defaultImageFile = await fetch(defaultImage); // Adjust path if necessary
+            //       const imageBlob = await defaultImageFile.blob(); // Convert to Blob
+            //       const defaultFile = new File([imageBlob], 'BigLogo.png', { type: imageBlob.type });
+            //       formData.set('add-event-upload-logo', defaultFile); // Set the default image as a file in FormData
+            //     } catch (error) {
+            //       console.error('Error loading default image:', error);
+            //     }
+            //   }
+              const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+          
+                try {
+                    const response = await fetch('/provider/addEvent/', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': csrfToken, // Add the CSRF token to the headers
+                    },
+                    });
+          
+                    if (response.ok) {
+                        document.getElementById('add-event-logo').src = defaultImage
+                        e.target.reset();
+                        // fetchItemsForProvider(providerid);
+                        // fetchProviderItems(providerid);
+                        fetchEvent(providerid)
+                        alert('Event Added successfully!');
+          
+                    } else {
+                  alert('Error Submitting Event Information.');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
         }
     })
 })
@@ -106,10 +136,160 @@ function compareTimes(startTime, endTime) {
     const startMinutes = timeToMinutes(startTime);
     const endMinutes = timeToMinutes(endTime);
 
-    if (startMinutes < endMinutes) {
-        alert("Start time is earlier than end time.");
+    if (startMinutes > endMinutes) {
+        alert("Start time is later than end time.");
         return false;
     }
 
     return true;
+}
+
+
+async function fetchProviderEditLocations(providerId) {
+    try {
+      const response = await fetch(`/provider/fetchLocations/${providerId}/`)
+      if (response.ok) {
+        const locations = await response.json();
+        console.log(locations)
+        let HTML = ""
+        locations.forEach(location => {
+          HTML += `
+              <option value="${location.locationid}">${location.name}</option>"
+            `});
+        // Insert the generated HTML into the checklist container
+        document.getElementById('add-event-location-name').innerHTML = HTML;
+        document.getElementById('event-location-name').innerHTML = HTML;
+      } else {
+        alert(`Error fetching provider Locations ${response.status}`)
+      }
+    } catch (error) {
+      alert(`Error fetching provider locations ${error}`)
+    }
+  }
+
+// ============================= display events list ===================================
+async function fetchEvent(providerid) {
+  try {
+      const response = await fetch(`/provider/fetchEvents/${providerid}/`)
+      if (response.ok) {
+          const events = await response.json();
+          let html = ""
+          let eventImagePath = `/media/${providerUsername}/events/event&.png`;
+          events.forEach(event =>{
+              const imageFilePath = eventImagePath.replace("&", event.eventid);
+              html += `
+                      <li>
+                          <div class="event-container">
+                              <div class="event-logo-holder">
+                                  <img src="${imageFilePath}" alt="" class="event-logo" onerror="this.src='${defaultImage}'">
+                              </div>
+                              <div class="event-info">
+                                  <div class="event-info-header">
+                                      <h1>${event.name}</h1>
+                                  </div>
+                                  <div class="event-details">
+                                      <div class="event-date">
+                                          <i class="fa-regular fa-calendar"></i>
+                                          <p>${event.startdate} - ${event.enddate}</p>
+                                      </div>
+                                      <div class="event-time">
+                                          <i class="fa-regular fa-clock"></i>
+                                          <p>${event.starttime.slice(0,5)} - ${event.endtime.slice(0,5)}</p>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="edit-delete-btn">
+                                  <i class="fa-solid fa-trash" ondblclick=deleteEvent(${event.eventid})></i>
+                                  <i class="fa-solid fa-pen-to-square" onclick=fetchEventDetails(${event.eventid})></i>
+                              </div>
+                          </div>
+                      </li>
+                      `
+       })
+       document.getElementById('event-unordered-list').innerHTML = html
+        // Insert the generated HTML into the checklist container
+      } else {
+        alert(`Error fetching provider Locations ${response.status}`)
+      }
+    } catch (error) {
+      alert(`Error fetching provider locations ${error}`)
+    }
+}
+
+
+
+
+async function deleteEvent(eventID) {
+  try {
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const response = await fetch('/provider/deleteEvent/', {
+      method: 'POST',
+      body: JSON.stringify({ eventID: eventID, providerID: providerid }),
+      headers: {
+        'Content-Type': 'application/json',  // Add this to specify JSON content type
+        'X-CSRFToken': csrfToken,  // Add CSRF token
+      },
+    });
+
+    if (response.ok) {
+      fetchEvent(providerid);
+
+      alert('Event Deleted successfully!');
+    } else {
+      alert('Error Deleting Event.');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
+
+
+async function fetchEventDetails(eventid) {
+  
+  const eventName = document.getElementById("edit-event-name")
+  const eventStartDate = document.getElementById("edit-event-start-date")
+  const eventEndDate = document.getElementById('edit-event-end-date')
+  const eventImage = document.getElementById('edit-event-upload-logo')
+  const eventStartTime = document.getElementById('edit-event-start-time')
+  const eventIDinput = document.getElementById('eventid')
+  const eventEndTime = document.getElementById('edit-event-end-time')
+  const eventDescription = document.getElementById('edit-event-description')
+  const eventImagePreview = document.getElementById('edit-event-logo')
+  const eventLocationId = document.getElementById('locationid')
+  try {
+    const response = await fetch(`/provider/fetchEventDetails/${eventid}`);
+
+    if (response.ok) {
+      
+      const data = await response.json();
+      
+      console.log(data)
+      let eventImagePath = `/media/${providerUsername}/events/event&.png`;
+      let imageFilePath = eventImagePath.replace("&", data.eventid);
+      eventName.value = data.name
+      eventStartDate.value = data.startdate
+      eventEndDate.value = data.enddate
+      eventStartTime.value = data.starttime
+      eventEndTime.value = data.endtime
+      // eventLocationId.value = data.locationid
+      console.log(data.locationid)
+      // for(let locId of document.querySelectorAll('#event-location-name option'))
+      //     if(locId.value == data.locationid)
+      //       locId.selected = true
+      document.querySelector(`#event-location-name option[value="${data.locationid}"]`).selected = true;
+
+
+      eventDescription.value = data.description
+      eventImagePreview.src = imageFilePath
+      eventImage.src = imageFilePath
+      eventIDinput.value = data.itemid
+
+    } else {
+
+      alert('Error fetching item details.');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
 }

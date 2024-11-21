@@ -257,7 +257,7 @@
                                 <div class="change-logo" id="item-change-logo"> {% comment %}
                                     /media/{{provider.username}}/{{itemid}}logo.png {% endcomment %}
                                     <img class="logo-preview" id="item-logo"
-                                        src="{% static '/main/assets/BigLogo.png'%}" alt="Logo Preview">
+                                        src="{% static '/main/assets/BigLogo.png'%}" alt="Logo Preview" onerror='this.src=defaultImage'>
                                 </div>
                             </div>
                             <div>
@@ -340,7 +340,7 @@
             </div>
         </section>
 
-        <!-- ============================================================================================== -->
+        <!-- ====================================Event========================================================== -->
 
 
         <section id="events" class="content-section">
@@ -348,83 +348,61 @@
                 <div class="events-list">
                     <h1 class="events-list-header">Current events</h1>
                     <div class="breaking-line"></div>
-                    <ul class="event-unordered-list">
-                        <li>
-                            <div class="event-container">
-                                <div class="event-logo-holder">
-                                    <img src="https://files.sitebuilder.name.tools/14/d7/14d78357-0d51-4e88-bf3c-50d99d7c1e3a.jpg"
-                                        alt="" class="event-logo">
-                                </div>
-                                <div class="event-info">
-                                    <div class="event-info-header">
-                                        <h1>DeLonghi</h1>
-                                    </div>
 
-                                    <div class="event-details">
-                                        <div class="event-date">
-                                            <i class="fa-regular fa-calendar"></i>
-                                            <p>8/12/24 - 8/15/24</p>
-                                        </div>
+                    <ul class="event-unordered-list" id ='event-unordered-list'></ul>
 
-                                        <div class="event-time">
-                                            <i class="fa-regular fa-clock"></i>
-                                            <p>13:00 - 20:00</p>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="edit-delete-btn">
-                                    <i class="fa-solid fa-trash"></i>
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </div>
-                            </div>
-                        </li>
-
-                    </ul>
                     <button class="add-button" id="event-add-button">Add New event</button>
                 </div>
                 <div class="edit-event-form">
 
-                    <form action="" class="event-form-container">
+                    <form action="" class="event-form-container" id="edit-event-form">
 
                         <div class="hidden-logo-input">
-                            <input class="logo-input" type="file" id="upload-logo" name="upload-logo"
+                            <input class="logo-input" type="file" id="edit-event-upload-logo" name="edit-event-upload-logo"
                                 accept="image/png, image/jpg, image/jpeg">
                         </div>
                         <!-- Image preview container -->
                         <div class="logo-container">
-                            <div class="change-logo">
-                                <img class="logo-preview" id="logo" src="{% static '/main/assets/BigLogo.png'%}"
-                                    alt="Logo Preview">
+                            <div class="change-logo" id="edit-event-change-logo">
+                                <img class="logo-preview" id="edit-event-logo" src="{% static '/main/assets/BigLogo.png'%}"
+                                    alt="Logo Preview" onerror='this.src=defaultImage' >
                             </div>
                         </div>
 
                         <div>
                             <div class="form-group">
                                 <label for="event-name">Event name:</label>
-                                <input type="text" id="event-name" name="event-name" required>
+                                <input type="text" id="edit-event-name" name="event-name" required>
+                            </div>
+                            <div class="hidden-input">
+                                <input type="hidden" name="eventid" id="eventid">
+                                <input type="hidden" name="locationid" id="locationid">
                             </div>
                             <div class="form-group date-container">
                                 <label for="event-number">Start date:</label>
-                                <input type="date" id="event-number" name="event-start-date" required>
+                                <input type="date" id="edit-event-start-date" name="edit-event-start-date" required>
                                 <label for="event-number">End date:</label>
-                                <input type="date" id="event-number" name="event-end-date" required>
+                                <input type="date" id="edit-event-end-date" name="edit-event-end-date" required>
                             </div>
                             <div class="form-group time-container">
                                 <label for="event-number">Start time:</label>
-                                <input type="time" id="event-number" name="event-start-time" required>
+                                <input type="time" id="edit-event-start-time" name="edit-event-start-time" required>
                                 <label for="event-number">End time:</label>
-                                <input type="time" id="event-number" name="event-end-time" required>
+                                <input type="time" id="edit-event-end-time" name="edit-event-end-time" required>
                             </div>
                             <div class="form-group">
+                                <label for="event-description">Description:</label>
+                                <textarea name="event-description" id="edit-event-description" class="event-description"></textarea>
+                                <button type="button" id="eventAIbutton" class="eventAIbutton">Modify Description Using AI</button>
                                 <label for="event-name">Locations:</label>
-                                <input type="text" id="event-name" name="event-name" required>
+                                <div class="select-wrapper" >
+                                    <select class="edit-location-drop-down" id="event-location-name" name="event-location" required></select>
+                                </div>
                             </div>
-
                         </div>
 
                         <div class="save-button-container">
-                            <button>Save</button>
+                            <button type="submit">Save</button>
                         </div>
 
                     </form>
@@ -438,7 +416,7 @@
                     <form action="" class="event-form-container" id="add-event-form">
 
                         <div class="hidden-logo-input">
-                            <input class="logo-input" type="file" id="add-event-upload-logo" name="upload-logo"
+                            <input class="logo-input" type="file" id="add-event-upload-logo" name="add-event-upload-logo"
                                 accept="image/png, image/jpg, image/jpeg">
                         </div>
                         <!-- Image preview container -->
@@ -467,14 +445,18 @@
                                 <input type="time" id="add-event-end-time" name="event-end-time" required>
                             </div>
                             <div class="form-group">
+                                <label for="event-description">Description:</label>
+                                <textarea name="event-description" id="add-event-description" class="event-description"></textarea>
+                                <button type="button" id="eventAIbutton" class="eventAIbutton">Modify Description Using AI</button>
                                 <label for="event-name">Locations:</label>
-                                <input type="text" id="event-name" name="event-name" required>
+                                <div class="select-wrapper" >
+                                    <select class="location-drop-down" id="add-event-location-name" name="event-location" required></select>
+                                </div>
                             </div>
-
                         </div>
 
                         <div class="save-button-container">
-                            <button>Save</button>
+                            <button type="submit">Save</button>
                         </div>
 
                     </form>
