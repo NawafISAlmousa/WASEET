@@ -17,9 +17,10 @@
 <body>
     <div class="main-container">
         <div class="form-container">
+            <a href="{% url 'main:index'%}" class="back-button">←</a>
             <header>
                 <img src="{% static 'main/assets/SmallLogo.png' %} " alt="Logo" class="logo">
-                <h1>Register as a Customer</h1>
+                <h1 class="register-header">Register as a Customer</h1>
             </header>
             <form class="register-form" id="registrationForm" action="{% url 'customer:register-customer' %}"
                 method="POST">
@@ -93,8 +94,8 @@
             </form>
 
             <footer>
-                <p>Already a Customer? <a href="{%url 'main:login'%}">Login Now!</a></p>
-                <p><a href="{% url 'provider:registerProvider'%}">Register as a Provider instead</a></p>
+                <p class="footer-register">Already a Customer? <a href="{%url 'main:login'%}">Login Now!</a></p>
+                <p class="footer-register"><a href="{% url 'provider:registerProvider'%}">Register as a Provider instead</a></p>
             </footer>
         </div>
     </div>

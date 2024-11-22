@@ -8,6 +8,13 @@ const usernameInput = document.getElementById("username")
 const passwordInput = document.getElementById("password")
 const registerLink = document.querySelector(".register-link a")
 const userType = document.getElementById('userType')
+const checkbox = document.getElementById('showpass');
+
+
+checkbox.addEventListener('click', () => {
+    const type = checkbox.checked ? 'text' : 'password';
+    passwordInput.type = type;
+});
 
 
 // Function to activate Customer option

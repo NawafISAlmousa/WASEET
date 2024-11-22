@@ -17,9 +17,10 @@
 <body>
     <div class="main-container">
         <div class="form-container">
+            <a href="{% url 'main:index'%}" class="back-button">←</a>
             <header>
                 <img src="{% static 'main/assets/SmallLogo.png' %}" alt="Logo" class="logo">
-                <h1>Register as a Provider</h1>
+                <h1 class="register-header">Register as a Provider</h1>
             </header>
             <form class="register-form" id="provider-form">
                 {% csrf_token %}
@@ -92,8 +93,8 @@
             </form>
 
             <footer>
-                <p>Already a Provider? <a href="{% url 'main:login' %}">Login Now!</a></p>
-                <p><a href="{% url 'customer:register-customer' %}">Register As A Customer Instead</a></p>
+                <p class="footer-register">Already a Provider? <a href="{% url 'main:login' %}">Login Now!</a></p>
+                <p class="footer-register"><a href="{% url 'customer:register-customer' %}">Register As A Customer Instead</a></p>
             </footer>
         </div>
     </div>
