@@ -148,16 +148,22 @@ def providerPage(request, provider_id):
 
 def fetchProvider(request):
 
-    providers_with_location_and_ratings = Provider.objects.annotate(
-    providerrating=Subquery(
-        ProviderRatings.objects.filter(providerid=OuterRef('providerid')).values('providerrating')[:1]
-    )
-    ).prefetch_related('location').values('username',
-    'name', 'description', 'location__coordinates', 'location__phonenumber', 'providerrating',"location__name"
+    locations_with_provider_and_ratings = Location.objects.annotate(
+        providerrating=Subquery(
+            ProviderRatings.objects.filter(providerid=OuterRef('providerid')).values('providerrating')[:1]
+        )
+    ).select_related('providerid').values(
+        'name', 
+        'coordinates', 
+        'phonenumber', 
+        'providerid__username', 
+        'providerid__name', 
+        'providerid__description', 
+        'providerrating'
     )
     
     
-    data = list(providers_with_location_and_ratings)
+    data = list(locations_with_provider_and_ratings)
     
     return JsonResponse(data,safe=False)
 

@@ -47,7 +47,7 @@
 
         <!-- Toggle Buttons -->
         <div class="toggle-container">
-            <button class="toggle-option active" id="providers">Providers</button>
+            <button class="toggle-option active-toggle" id="providers">Providers</button>
             <button class="toggle-option" id="events">Events</button>
             <button class="toggle-option" id="map">Map</button>
             <div class="toggle-slider"></div>
@@ -55,8 +55,15 @@
 
         <!-- Dynamic Content View -->
     </div>
-    <div class="dynamic-content" id="dynamicContent"></div>
+    <div class="dynamic-container">
+    <section class="dynamic-content active" id="dynamic-providers">
+        <div class="provider-cards" id="provider-cards"></div>
+    </section>
 
+    <section class="dynamic-content" id="dynamic-events"></section>
+    
+    <section class="dynamic-content" id="dynamic-map"></section>
+    </div>
     <script src="{% static 'customer/customerMainPage/customerMainPage.js' %}?v={{ timestamp }}">
     </script>
 </body>
