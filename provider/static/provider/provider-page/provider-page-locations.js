@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const editSelectbutton = document.getElementById("edit-select-all")
   const editDeselectbutton = document.getElementById("edit-deselect-all")
 
-addSelectbutton.addEventListener("click", function () {
+  addSelectbutton.addEventListener("click", function () {
     console.log("CLICKED!");
     let checklist = document.querySelectorAll('.add-checkbox-item')
     for (let item of checklist)
@@ -145,35 +145,38 @@ addSelectbutton.addEventListener("click", function () {
   });
 
 
-document.getElementById('edit-location-form').addEventListener('submit', async function(e){
-  e.preventDefault()
-  const formData = new FormData(e.target);
-  formData.append('providerid', providerid)
-  const checkItems = getChecked(document.querySelectorAll('.edit-checkbox-item'))
-  formData.append('checkedItems', checkItems)
-  const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-  try {
-    const response = await fetch('/provider/editLocation/', {
-      method: 'POST',
-      body: formData,
-      headers: {
-        'X-CSRFToken': csrfToken, // Add the CSRF token to the headers
-      },
-    });
+  document.getElementById('edit-location-form').addEventListener('submit', async function (e) {
+    e.preventDefault()
+    const formData = new FormData(e.target);
+    formData.append('providerid', providerid)
+    const checkItems = getChecked(document.querySelectorAll('.edit-checkbox-item'))
+    formData.append('checkedItems', checkItems)
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    try {
+      const response = await fetch('/provider/editLocation/', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-CSRFToken': csrfToken, // Add the CSRF token to the headers
+        },
+      });
 
-    if (response.ok) {
-      e.target.reset();
-      fetchLocationsForProvider(providerid);
-      fetchProviderEditLocations(providerid);
-      alert('Location Edited successfully!');
+      if (response.ok) {
+        e.target.reset();
+        document.querySelector('.edit-location-form .form-curtain').style.display = 'none'
+        document.querySelector('.edit-location-form .form-placeholder').style.display = 'block'
+        document.querySelector('.edit-location-form').style.display = 'flex'
+        fetchLocationsForProvider(providerid);
+        fetchProviderEditLocations(providerid);
+        alert('Location Edited successfully!');
 
-    } else {
-      alert('Error Submitting Location Information.');
+      } else {
+        alert('Error Submitting Location Information.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
     }
-  } catch (error) {
-    console.error('Error:', error);
-  }
-});
+  });
 
 
 });
@@ -254,9 +257,9 @@ function initializeMap(latitude, longitude) {
   // Event listener for marker movement
   editMarker.on('dragend', function (event) {
     const { lat, lng } = event.target.getLatLng();
-    console.log(lat,lng,event.target)
-    if(lat)
-    document.getElementById('edit-location-latitude').value = lat;
+    console.log(lat, lng, event.target)
+    if (lat)
+      document.getElementById('edit-location-latitude').value = lat;
     document.getElementById('edit-location-longitude').value = lng;
     console.log(`Marker moved to: ${lat}, ${lng}`);
   });
@@ -288,7 +291,14 @@ async function deleteLocation(locationID) {
 };
 
 async function fetchLocationDetails(LocationID) {
+  console.log('aefaefaefaefaefaefaerthe6e56e45')
+
+  document.querySelector('.edit-location-form .form-curtain').style.display = 'block'
+  document.querySelector('.edit-location-form .form-placeholder').style.display = 'none'
+  document.querySelector('.edit-location-form').style.display = 'block'
   try {
+
+    console.log(document.querySelector('.edit-location-form'))
     const reponse = await fetch(`/provider/fetchLocationDetails/${LocationID}/`)
     const locationName = document.getElementById('edit-location-name')
     const latitude = document.getElementById('edit-location-latitude')
@@ -307,8 +317,8 @@ async function fetchLocationDetails(LocationID) {
       coord = data[0][0].coordinates.split(',')
       latitude.value = coord[0]
       longitude.value = coord[1]
-      editMarker.setLatLng([Number(coord[0]),Number(coord[1])])
-      editMarker._map.setView([Number(coord[0]),Number(coord[1])], mapZoomLevel);
+      editMarker.setLatLng([Number(coord[0]), Number(coord[1])])
+      editMarker._map.setView([Number(coord[0]), Number(coord[1])], mapZoomLevel);
 
       for (let item of data[1])
         for (let itemEl of itemCheckList)

@@ -84,7 +84,8 @@
                                     placeholder="Describe what you offer">{{provider.description}}</textarea>
                                 <label class="edit-checkbox" for="edit-description">
                                     <input type="checkbox" id="edit-description" name="edit-description"> Edit <button
-                                        type="button" id="AIbutton" class="AIbutton transitions">Modify Description Using
+                                        type="button" id="AIbutton" class="AIbutton transitions">Modify Description
+                                        Using
                                         AI</button>
                                 </label>
 
@@ -144,39 +145,47 @@
                     </ul>
                 </div>
                 <div class="edit-location-form">
-                    <h1 class="location-list-header">Edit Location</h1>
-                    <div class="breaking-line"></div>
-                    <div class="location-map" id="edit-location-map"></div>
-                    <form action="#" class="location-form-container" id="edit-location-form">
+                    <div class="form-placeholder">
+                        <h1>Choose an Location to Edit.</h1>
+                    </div>
+                    <div class="form-curtain">
 
-                        {% csrf_token %}
-                        <input type="hidden" name="location-id" id="location-id">
-                        <input type="hidden" id="edit-location-latitude" name="edit-location-latitude">
-                        <input type="hidden" id="edit-location-longitude" name="edit-location-longitude">
-                        <div>
-                            <div class="form-group">
-                                <label for="location-name">location name:</label>
-                                <input type="text" id="edit-location-name" name="edit-location-name" required
-                                    placeholder="Choose a Name for Your Location(will be displayed to cutomers)">
-                            </div>
-                            <div class="form-group">
-                                <label for="location-number">location Phone Number:</label>
-                                <input type="tel" id="edit-location-number" name="edit-location-number" required
-                                    pattern="(\+9665[0-9]{8})|(05[0-9]{8})" placeholder="e.g., +966 5XXXXXXXX">
-                            </div>
-                            <div class="form-group add-items-checklist" id="edit-items-checklist">
+                        <h1 class="location-list-header">Edit Location</h1>
+                        <div class="breaking-line"></div>
+                        <div class="location-map" id="edit-location-map"></div>
+                        <form action="#" class="location-form-container" id="edit-location-form">
 
-                            </div>
-                            <div class="select-buttons-container">
-                                <button type="button" class="select transitions" id="edit-select-all">Select All</button>
-                                <button type="button" class="select transitions" id="edit-deselect-all">Deselect All</button>
-                            </div>
-                        </div>
-                        <div class="save-button-container">
-                            <button type="submit" class="transitions">Save</button>
-                        </div>
+                            {% csrf_token %}
+                            <input type="hidden" name="location-id" id="location-id">
+                            <input type="hidden" id="edit-location-latitude" name="edit-location-latitude">
+                            <input type="hidden" id="edit-location-longitude" name="edit-location-longitude">
+                            <div>
+                                <div class="form-group">
+                                    <label for="location-name">location name:</label>
+                                    <input type="text" id="edit-location-name" name="edit-location-name" required
+                                        placeholder="Choose a Name for Your Location(will be displayed to cutomers)">
+                                </div>
+                                <div class="form-group">
+                                    <label for="location-number">location Phone Number:</label>
+                                    <input type="tel" id="edit-location-number" name="edit-location-number" required
+                                        pattern="(\+9665[0-9]{8})|(05[0-9]{8})" placeholder="e.g., +966 5XXXXXXXX">
+                                </div>
+                                <div class="form-group add-items-checklist" id="edit-items-checklist">
 
-                    </form>
+                                </div>
+                                <div class="select-buttons-container">
+                                    <button type="button" class="select transitions" id="edit-select-all">Select
+                                        All</button>
+                                    <button type="button" class="select transitions" id="edit-deselect-all">Deselect
+                                        All</button>
+                                </div>
+                            </div>
+                            <div class="save-button-container">
+                                <button type="submit" class="transitions">Save</button>
+                            </div>
+
+                        </form>
+                    </div>
                 </div>
             </div>
 
@@ -209,8 +218,10 @@
 
                             </div>
                             <div class="select-buttons-container">
-                                <button type="button" class="select transitions" id="add-select-all">Select All</button>
-                                <button type="button" class="select transitions" id="add-deselect-all">Deselect All</button>
+                                <button type="button" class="select transitions" id="add-select-all">Select
+                                    All</button>
+                                <button type="button" class="select transitions" id="add-deselect-all">Deselect
+                                    All</button>
                             </div>
                         </div>
                         <div class="save-button-container">
@@ -255,7 +266,8 @@
                                 <div class="change-logo" id="item-change-logo"> {% comment %}
                                     /media/{{provider.username}}/{{itemid}}logo.png {% endcomment %}
                                     <img class="logo-preview" id="item-logo"
-                                        src="{% static '/main/assets/BigLogo.png'%}" alt="Logo Preview" onerror='this.src=defaultImage'>
+                                        src="{% static '/main/assets/BigLogo.png'%}" alt="Logo Preview"
+                                        onerror='this.src=defaultImage'>
                                 </div>
                             </div>
                             <div>
@@ -271,7 +283,8 @@
                                     <label for="item-name">Description:</label>
                                     <textarea type="text" id="item-description" name="item-description" required
                                         class="item-description"></textarea>
-                                    <button type="button" id="itemAIbutton" class="AIbutton transitions">Modify Description Using AI</button>
+                                    <button type="button" id="itemAIbutton" class="AIbutton transitions">Modify
+                                        Description Using AI</button>
                                 </div>
                                 <div class="hidden-input">
                                     <input type="text" name="itemid" id="itemid">
@@ -346,61 +359,71 @@
                 <div class="events-list">
                     <h1 class="events-list-header">Current Events</h1>
                     <button class="add-button transitions" id="event-add-button">Add New event</button>
-                    <ul class="event-unordered-list" id ='event-unordered-list'></ul>
+                    <ul class="event-unordered-list" id='event-unordered-list'></ul>
                 </div>
                 <div class="edit-event-form">
+                    <div class="form-placeholder">
+                        <h1>Choose an Event to Edit.</h1>
+                    </div>
+                    <div class="form-curtain">
 
-                    <form action="" class="event-form-container" id="edit-event-form">
 
-                        <div class="hidden-logo-input">
-                            <input class="logo-input" type="file" id="edit-event-upload-logo" name="edit-event-upload-logo"
-                                accept="image/png, image/jpg, image/jpeg">
-                        </div>
-                        <!-- Image preview container -->
-                        <div class="logo-container">
-                            <div class="change-logo" id="edit-event-change-logo">
-                                <img class="logo-preview" id="edit-event-logo" src="{% static '/main/assets/BigLogo.png'%}"
-                                    alt="Logo Preview" onerror='this.src=defaultImage' >
+                        <form action="" class="event-form-container" id="edit-event-form">
+
+                            <div class="hidden-logo-input">
+                                <input class="logo-input" type="file" id="edit-event-upload-logo"
+                                    name="edit-event-upload-logo" accept="image/png, image/jpg, image/jpeg">
                             </div>
-                        </div>
-
-                        <div>
-                            <div class="form-group">
-                                <label for="event-name">Event name:</label>
-                                <input type="text" id="edit-event-name" name="edit-event-name" required>
-                            </div>
-
-                            <input type="hidden" name="eventid" id="editeventid">
-                            <input type="hidden" name="locationid" id="locationid">
-
-                            <div class="form-group date-container">
-                                <label for="event-number">Start date:</label>
-                                <input type="date" id="edit-event-start-date" name="edit-event-start-date" required>
-                                <label for="event-number">End date:</label>
-                                <input type="date" id="edit-event-end-date" name="edit-event-end-date" required>
-                            </div>
-                            <div class="form-group time-container">
-                                <label for="event-number">Start time:</label>
-                                <input type="time" id="edit-event-start-time" name="edit-event-start-time" required>
-                                <label for="event-number">End time:</label>
-                                <input type="time" id="edit-event-end-time" name="edit-event-end-time" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="event-description">Description:</label>
-                                <textarea name="edit-event-description" id="edit-event-description" class="event-description"></textarea>
-                                <button type="button" id="eventAIbutton" class="eventAIbutton transitions">Modify Description Using AI</button>
-                                <label for="event-name">Locations:</label>
-                                <div class="select-wrapper" >
-                                    <select class="edit-location-drop-down" id="event-location-name" name="event-location" required></select>
+                            <!-- Image preview container -->
+                            <div class="logo-container">
+                                <div class="change-logo" id="edit-event-change-logo">
+                                    <img class="logo-preview" id="edit-event-logo"
+                                        src="{% static '/main/assets/BigLogo.png'%}" alt="Logo Preview"
+                                        onerror='this.src=defaultImage'>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="save-button-container">
-                            <button type="submit" class="transitions">Save</button>
-                        </div>
+                            <div>
+                                <div class="form-group">
+                                    <label for="event-name">Event name:</label>
+                                    <input type="text" id="edit-event-name" name="edit-event-name" required>
+                                </div>
 
-                    </form>
+                                <input type="hidden" name="eventid" id="editeventid">
+                                <input type="hidden" name="locationid" id="locationid">
+
+                                <div class="form-group date-container">
+                                    <label for="event-number">Start date:</label>
+                                    <input type="date" id="edit-event-start-date" name="edit-event-start-date" required>
+                                    <label for="event-number">End date:</label>
+                                    <input type="date" id="edit-event-end-date" name="edit-event-end-date" required>
+                                </div>
+                                <div class="form-group time-container">
+                                    <label for="event-number">Start time:</label>
+                                    <input type="time" id="edit-event-start-time" name="edit-event-start-time" required>
+                                    <label for="event-number">End time:</label>
+                                    <input type="time" id="edit-event-end-time" name="edit-event-end-time" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="event-description">Description:</label>
+                                    <textarea name="edit-event-description" id="edit-event-description"
+                                        class="event-description"></textarea>
+                                    <button type="button" id="eventAIbutton" class="eventAIbutton transitions">Modify
+                                        Description Using AI</button>
+                                    <label for="event-name">Locations:</label>
+                                    <div class="select-wrapper">
+                                        <select class="edit-location-drop-down" id="event-location-name"
+                                            name="event-location" required></select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="save-button-container">
+                                <button type="submit" class="transitions">Save</button>
+                            </div>
+
+                        </form>
+                    </div>
                 </div>
             </div>
             <!-- pop up section -->
@@ -411,14 +434,14 @@
                     <form action="" class="event-form-container" id="add-event-form">
 
                         <div class="hidden-logo-input">
-                            <input class="logo-input" type="file" id="add-event-upload-logo" name="add-event-upload-logo"
-                                accept="image/png, image/jpg, image/jpeg">
+                            <input class="logo-input" type="file" id="add-event-upload-logo"
+                                name="add-event-upload-logo" accept="image/png, image/jpg, image/jpeg">
                         </div>
                         <!-- Image preview container -->
                         <div class="logo-container">
                             <div class="change-logo" id="add-event-change-logo">
-                                <img class="logo-preview" id="add-event-logo" src="{% static '/main/assets/BigLogo.png'%}"
-                                    alt="Logo Preview">
+                                <img class="logo-preview" id="add-event-logo"
+                                    src="{% static '/main/assets/BigLogo.png'%}" alt="Logo Preview">
                             </div>
                         </div>
 
@@ -441,10 +464,12 @@
                             </div>
                             <div class="form-group">
                                 <label for="event-description">Description:</label>
-                                <textarea name="event-description" id="add-event-description" class="event-description"></textarea>
+                                <textarea name="event-description" id="add-event-description"
+                                    class="event-description"></textarea>
                                 <label for="event-name">Locations:</label>
-                                <div class="select-wrapper" >
-                                    <select class="location-drop-down" id="add-event-location-name" name="event-location" required></select>
+                                <div class="select-wrapper">
+                                    <select class="location-drop-down" id="add-event-location-name"
+                                        name="event-location" required></select>
                                 </div>
                             </div>
                         </div>

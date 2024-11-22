@@ -1,24 +1,31 @@
 ::-webkit-scrollbar {
-    width: 10px;  /* Width of the scrollbar */
-    height: 10px; /* Height for horizontal scrollbar */
+    width: 10px;
+    /* Width of the scrollbar */
+    height: 10px;
+    /* Height for horizontal scrollbar */
 }
 
 ::-webkit-scrollbar-track {
-    background: #f4f4f4; /* Background color of the scrollbar track */
-    border-radius: 10px;  /* Rounded corners for the track */
+    background: #f4f4f4;
+    /* Background color of the scrollbar track */
+    border-radius: 10px;
+    /* Rounded corners for the track */
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #296879; /* Color of the draggable scrollbar thumb */
-    border-radius: 10px; /* Rounded corners for the thumb */
+    background: #296879;
+    /* Color of the draggable scrollbar thumb */
+    border-radius: 10px;
+    /* Rounded corners for the thumb */
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #0c4851; /* Color when hovered */
+    background: #0c4851;
+    /* Color when hovered */
 }
 
-.locations-container{
-    display: flex;    
+.locations-container {
+    display: flex;
     width: 1200px;
     height: 550px;
     background: white;
@@ -27,7 +34,7 @@
     position: relative;
 }
 
-.locations-list{
+.locations-list {
     background-color: white;
     width: 570px;
     overflow-y: scroll;
@@ -37,12 +44,15 @@
     align-items: center;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
-.location-unordered-list{
+
+.location-unordered-list {
     list-style-type: none;
     padding: 0;
 }
 
-.edit-location-form{
+.edit-location-form {
+
+    display: flex;
     background-color: white;
     width: 550px;
     height: 610px;
@@ -53,14 +63,14 @@
 
 
 
-.locations-list-header{
+.locations-list-header {
     text-align: center;
     color: #296879;
 }
 
 
 
-.location-map{
+.location-map {
     width: 100%;
     height: 120px;
     background-color: white;
@@ -69,8 +79,8 @@
 }
 
 
-.locations-container{
-    display: flex;    
+.locations-container {
+    display: flex;
     width: 1200px;
     height: 550px;
     background: white;
@@ -79,7 +89,7 @@
     position: relative;
 }
 
-.location-pop-up{
+.location-pop-up {
     position: absolute;
     border-radius: 4px;
     background-color: #ffffff;
@@ -100,7 +110,7 @@
     padding-top: 15px;
 }
 
-.location-pop-up-shadow{
+.location-pop-up-shadow {
     position: absolute;
     background-color: black;
     opacity: 0.2;
@@ -116,14 +126,14 @@
 }
 
 
-.location-unordered-list{
+.location-unordered-list {
     list-style-type: none;
     padding: 0;
 }
 
 
 
-.locations-list-header{
+.locations-list-header {
     text-align: center;
     color: #296879;
 }
@@ -137,7 +147,7 @@
 }
 
 
-.add-location-form{
+.add-location-form {
     background-color: #ffffff;
     width: 550px;
     border-radius: 5px;
@@ -146,13 +156,13 @@
     height: 610px;
 }
 
-.location-list-header{
+.location-list-header {
     text-align: center;
     color: #296879;
     margin-bottom: 5px;
 }
 
-.location-form-container{
+.location-form-container {
     display: block;
     height: 250px;
 }
@@ -192,32 +202,32 @@
     padding: 10px;
 }
 
-.loc-info h1{
+.loc-info h1 {
     margin: 0;
 }
 
-.fa-pen-to-square{
+.fa-pen-to-square {
     color: #296879;
 }
 
-.fa-pen-to-square:hover{
+.fa-pen-to-square:hover {
     color: gold;
     scale: 1.2;
     cursor: pointer;
 }
 
 
-.fa-trash{
+.fa-trash {
     color: #296879;
 }
 
-.fa-trash:hover{
+.fa-trash:hover {
     color: red;
     scale: 1.2;
     cursor: pointer;
 }
 
-.add-button{
+.add-button {
     background-color: #296879;
     color: white;
     border: none;
@@ -260,36 +270,42 @@
 
 
 .form-group {
-    margin-bottom: 15px; /* Adds space between each form group */
+    margin-bottom: 15px;
+    /* Adds space between each form group */
 }
 
 .form-group label,
 .form-group input {
     display: block;
-    width: 100%; /* Optional: makes inputs take the full width of the container */
+    width: 100%;
+    /* Optional: makes inputs take the full width of the container */
 }
 
 
 .form-group input {
     padding: 8px;
-    box-sizing: border-box; /* Ensures padding doesn't affect total width */
+    box-sizing: border-box;
+    /* Ensures padding doesn't affect total width */
 }
-.add-checklist-item, .edit-checklist-item{
+
+.add-checklist-item,
+.edit-checklist-item {
     display: flex;
     justify-content: space-around;
 }
 
-.add-checklist-item .add-checkbox-item, .edit-checklist-item .edit-checkbox-item{
+.add-checklist-item .add-checkbox-item,
+.edit-checklist-item .edit-checkbox-item {
     width: 25px;
 }
 
-.select-buttons-container{
+.select-buttons-container {
     display: flex;
     justify-content: start;
 }
 
 
-.select-buttons-container .select{
+.select-buttons-container .select {
     padding: 10px 20px;
     border-radius: 5px;
     border: none;

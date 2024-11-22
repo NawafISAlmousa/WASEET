@@ -426,7 +426,7 @@ def fetchEvents(request,provider_id):
     locations = Location.objects.filter(providerid=provider)
     eventslist = []
     for location in locations:
-        events = list(Event.objects.filter(locationid = location).values('name','eventid','startdate','enddate','starttime','endtime'))
+        events = list(Event.objects.filter(locationid = location).values('name','eventid','startdate','enddate','starttime','endtime','description'))
         eventslist+=(events)
         print(eventslist)
     
