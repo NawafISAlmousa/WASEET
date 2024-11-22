@@ -155,10 +155,10 @@ h1 {
 
 
 .provider-logo {
-    width: 80px;
-    height: 80px;
+    /* width: 80px; */
+    height: 100px;
     border-radius: 10px;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
 }
 
 .provider-info {
@@ -192,8 +192,8 @@ h1 {
 
 
 .card {
-    width: 380px;
-    height: 280px;
+    width: 400px;
+    /* height: 280px; */
     margin: auto;
     background-color: #ffffff;
     padding: 25px;
@@ -221,6 +221,9 @@ h2 {
     text-align: center;
 }
 
+.card-info h3 {
+    margin: 0;
+}
 
 .top-right {
     display: flex;
@@ -248,8 +251,13 @@ h2 {
 .card-description {
     display: none;
     margin: 0;
+    word-wrap: break-word;
 }
 
+.card-distance {
+    font-weight: bold;
+
+}
 
 
 @keyframes description {

@@ -153,7 +153,7 @@ def fetchProvider(request):
         ProviderRatings.objects.filter(providerid=OuterRef('providerid')).values('providerrating')[:1]
     )
     ).prefetch_related('location').values('username',
-    'name', 'description', 'location__coordinates', 'location__phonenumber', 'providerrating'
+    'name', 'description', 'location__coordinates', 'location__phonenumber', 'providerrating',"location__name"
     )
     
     
