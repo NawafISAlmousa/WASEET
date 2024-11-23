@@ -327,20 +327,22 @@ class Tags(models.Model):
         db_table = 'tags'
 
 class LocationRatings(models.Model):
+    id = models.AutoField(db_column='LocationRatingID', primary_key=True)  # Field name made lowercase.
     providerid = models.IntegerField(db_column='ProviderID')  # Match your MySQL column
     locationid = models.IntegerField(db_column='LocationID')  # Match your MySQL column
     locationrating = models.FloatField(db_column='LocationRating')  # Match your MySQL column
 
     class Meta:
-        managed = False  # This tells Django not to try and create or manage this table/view
+        managed = True  # This tells Django not to try and create or manage this table/view
         db_table = 'LocationRatings'  # The name of your MySQL view
 
 
 
 class ProviderRatings(models.Model):
+    id = models.AutoField(db_column='ProviderRatingID', primary_key=True)  # Field name made lowercase.
     providerid = models.IntegerField(db_column='ProviderID')
     providerrating = models.FloatField(db_column='ProviderRating')
 
     class Meta:
-        managed = False  # Tells Django not to manage or create this table
+        managed = True  # Tells Django not to manage or create this table
         db_table = 'ProviderRatings'  # Name of the MySQL view

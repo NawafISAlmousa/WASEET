@@ -1,0 +1,208 @@
+/* Navigation Bar Styles */
+.navbar {
+    background-color: #fff;
+    padding: 1rem;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.navbar-logo {
+    height: 40px;
+}
+
+.logout-button {
+    background-color: #296879;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+    background-color: #1e4d5c;
+}
+
+/* Main Container Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Jost', sans-serif;
+    background-color: #f5f5f5;
+}
+
+.provider-container {
+    max-width: 1200px;
+    margin: 80px auto 2rem;
+    padding: 0 1rem;
+}
+
+/* Info Section */
+.info-section {
+    background-color: white;
+    border-radius: 10px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.info-header {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.provider-info h1 {
+    margin: 0 0 1rem 0;
+    color: #296879;
+}
+
+.provider-details {
+    color: #666;
+}
+
+.provider-details p {
+    margin: 0.5rem 0;
+    display: flex;
+    align-items: center;
+}
+
+.provider-description {
+    margin-top: 1rem;
+    line-height: 1.6;
+}
+
+.location-info h2 {
+    margin: 0 0 1rem 0;
+    color: #296879;
+}
+
+.location-details {
+    color: #666;
+}
+
+.location-details p {
+    margin: 0.5rem 0;
+    display: flex;
+    align-items: center;
+}
+
+/* Content Grid */
+.content-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Items Section */
+.items-section {
+    background-color: white;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.item-card {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    transition: transform 0.2s;
+}
+
+.item-card:hover {
+    transform: translateY(-5px);
+}
+
+.item-card h3 {
+    margin: 0 0 0.5rem 0;
+    color: #296879;
+}
+
+.price {
+    color: #296879;
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+}
+
+.description {
+    color: #666;
+    margin: 0;
+}
+
+/* Events Section */
+.events-section {
+    background-color: white;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.event-card {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.event-card h3 {
+    margin: 0 0 0.5rem 0;
+    color: #296879;
+}
+
+.event-date {
+    color: #666;
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.event-description {
+    color: #666;
+    margin: 0;
+}
+
+/* Reviews Section */
+.reviews-section {
+    background-color: white;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Section Headers */
+h2 {
+    color: #296879;
+    margin: 0 0 1.5rem 0;
+}
+
+/* Icons */
+.fa-solid {
+    margin-right: 0.5rem;
+    color: #296879;
+}

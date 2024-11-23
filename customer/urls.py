@@ -22,5 +22,7 @@ app_name = "customer"
 
 urlpatterns = [
     path('register-customer/', views.registerCustomer, name='register-customer'),
-    path('<int:customer_id>/',views.mainPage,name='mainPage')
+    path('<int:customer_id>/',views.mainPage,name='mainPage'),
+    path('view-provider/<int:location_id>/', views.viewProviderPage, name='viewProviderPage'),
+     
 ]

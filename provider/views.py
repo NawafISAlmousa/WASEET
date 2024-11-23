@@ -153,7 +153,8 @@ def fetchProvider(request):
             ProviderRatings.objects.filter(providerid=OuterRef('providerid')).values('providerrating')[:1]
         )
     ).select_related('providerid').values(
-        'name', 
+        'name',
+        'locationid',
         'coordinates', 
         'phonenumber', 
         'providerid__username', 

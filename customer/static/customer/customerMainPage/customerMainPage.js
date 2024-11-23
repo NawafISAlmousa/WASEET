@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const providerContent = document.getElementById('provider-cards');
     // const providerCardsContainer = document.getElementById('providerCards');
 
-
+    document.getElementById("sort").addEventListener("change", fetchProviders)
     //Fetch providers from API and render cards
     async function fetchProviders() {
         try {
@@ -41,7 +41,25 @@ document.addEventListener("DOMContentLoaded", function () {
     // Render provider cards
     function renderProviderCards(providers) {
         providerContent.innerHTML = "";
-        providers.forEach(provider => {
+        let selectedSort = document.getElementById('sort').value
+
+        if(selectedSort == 'distance'){
+            providers.sort((a,b) => {
+                coordA = a.coordinates.split(',')
+                coordB = b.coordinates.split(',')
+                return calculateDistance(userlocation[0], userlocation[1], coordA[0], coordA[1]) - calculateDistance(userlocation[0], userlocation[1], coordB[0], coordB[1])
+            })
+        }else{
+            providers.sort((a,b) => a.providerrating - b.providerrating)
+        }
+
+
+
+
+
+
+
+        providers.forEach(provider => { 
             const card = document.createElement('div');
             card.classList.add('card');
             providerCoord = provider.coordinates.split(',')
@@ -53,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div class="top-right">
                     <div> <i class="fa-regular fa-bookmark fa-xl" style="color: #00796b; margin-bottom: 25px;"></i>
                     </div>                                                            
-                    <div class="card-distance"><span class="span-km">${userDistance > 0.01 ? `${userDistance} Km` : ""}</span> ${userDistance > 0.01 ? 'away from you' : "Right next to you"}</div>
+                    <div class="card-distance"><span class="span-km">${userDistance > 0.05 ? `${userDistance} Km` : ""}</span> ${userDistance > 0.05 ? 'away from you' : "Right next to you"}</div>
                 </div>
             </div>
             <div class="card-info">
@@ -63,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <p class="card-rating">${Math.round(provider.providerrating * 100) / 100}<i class="fa-solid fa-star" style="color:  #00796b;"></i></p>
                 <div class="provider-buttons" id="that">
                     <button class="map-button">Check on map</button>
-                    <button class="more-button">See more</button>
+                    <button class="more-button" onclick="window.location.href='${providerURL.replace('0', provider.locationid)}'">See more</button>
                 </div>
             </div>
             
@@ -107,6 +125,8 @@ document.addEventListener("DOMContentLoaded", function () {
             providerContent.appendChild(message);
         }
     }
+
+    
 
 
     // Infinite scroll to load more cards

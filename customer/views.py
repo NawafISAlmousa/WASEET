@@ -2,9 +2,35 @@ from django.shortcuts import render, redirect
 from main import models
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
-from main.models import Customer
+from main.models import Customer, Provider, Location, LocationHasItem, LocationRatings, ProviderRatings, Event
 
+def viewProviderPage(request, location_id):
+    # Get location and related provider
+    location = Location.objects.get(locationid=location_id)
+    provider = Provider.objects.filter(providerid=location.providerid.providerid).values('providerid', 'username', 'email', 'name', 'phonenumber', 'description')[0]
+    # Get events associated with this location
+    location_events = Event.objects.filter(locationid=location)
+    # Get items available at this location
+    location_items = LocationHasItem.objects.filter(locationid=location)
+    
+    # # Get ratings for this location
+    # location_ratings = LocationRatings.objects.get(locationid=location.locationid)
+    # location_avg_rating = location_ratings.locationrating or 0
+    
+    # # Get ratings for the provider
+    # provider_ratings = ProviderRatings.objects.get(providerid=provider.providerid)
+    # provider_avg_rating = provider_ratings.providerrating or 0
 
+    return render(request, 'customer/viewProviderPage.html',{
+        "location": location,
+        "provider": provider,
+        "location_items": location_items,
+        "location_events": location_events,
+        # "location_ratings": location_ratings,
+        # "location_avg_rating": location_avg_rating,
+        # "provider_ratings": provider_ratings,
+        # "provider_avg_rating": provider_avg_rating
+    })
 
 # Create your views here.
 

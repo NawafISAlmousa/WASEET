@@ -137,7 +137,7 @@ h1 {
     z-index: 1;
 }
 
-.toggle-option .active-toggle {
+.active-toggle {
     color: white;
 }
 

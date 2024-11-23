@@ -32,9 +32,8 @@
             <div class="sort-container">
                 <label for="sort">Sort by:</label>
                 <select id="sort" class="sort-select">
-                    <option value="rating">Rating</option>
                     <option value="distance">Distance</option>
-                    <option value="popularity">Popularity</option>
+                    <option value="rating">Rating</option>
                 </select>
             </div>
             <div class="search-container">
@@ -64,6 +63,9 @@
     
     <section class="dynamic-content" id="dynamic-map"></section>
     </div>
+    <script>
+        const providerURL = "{% url 'customer:viewProviderPage' 0 %}"
+    </script>
     <script src="{% static 'customer/customerMainPage/customerMainPage.js' %}?v={{ timestamp }}">
     </script>
 </body>

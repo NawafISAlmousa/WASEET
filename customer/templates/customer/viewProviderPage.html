@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main</title>
+    <link rel="stylesheet" href="{% static 'customer/viewProviderPage/viewProviderPage.css' %}?v={{ timestamp }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="navbar-container">
+                <img src="{% static 'main/assets/SmallLogo.png' %}" alt="Logo" class="navbar-logo">
+                <a class="logout-button" href="{% url 'main:logout' %}">Logout</a>
+            </div>
+        </nav>
+    </header>
+    <main class="provider-container">
+        <!-- Provider & Location Info Section -->
+        <section class="info-section">
+            <div class="info-header">
+                <div class="provider-info">
+                    <h1>{{ provider.name }}</h1>
+                    <div class="provider-details">
+                        <p><i class="fa-solid fa-phone" aria-hidden="true"></i> {{ provider.phonenumber }}</p>
+                        <p><i class="fa-solid fa-envelope" aria-hidden="true"></i> {{ provider.email }}</p>
+                        <p class="provider-description">{{ provider.description }}</p>
+                    </div>
+                </div>
+
+                <div class="location-info">
+                    <h2>{{ location.name }}</h2>
+                    <div class="location-details">
+                        <p><i class="fa-solid fa-location-dot" aria-hidden="true"></i> {{ location.coordinates }}</p>
+                        <p><i class="fa-solid fa-phone" aria-hidden="true"></i> {{ location.phonenumber }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Items & Events Section -->
+        <div class="content-grid">
+            <!-- Items Section -->
+            <section class="items-section">
+                <h2>Available Items</h2>
+                <div class="items-grid">
+                    {% for item in location_items %}
+                    <article class="item-card">
+                        <h3>{{ item.itemid.name }}</h3>
+                        <p class="price">${{ item.itemid.price }}</p>
+                        <p class="description">{{ item.itemid.description }}</p>
+                    </article>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- Events Section -->
+            <section class="events-section">
+                <h2>Upcoming Events</h2>
+                <div class="events-list">
+                    {% for event in location_events %}
+                    <article class="event-card">
+                        <h3>{{ event.name }}</h3>
+                        <time class="event-date" datetime="{{ event.eventdate|date:'Y-m-d' }}">{{ event.eventdate }}</time>
+                        <p class="event-description">{{ event.description }}</p>
+                    </article>
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
+
+        <!-- Reviews Section -->
+        <section class="reviews-section">
+            <h2>Reviews</h2>
+            <!-- Review system will be added here later -->
+        </section>
+    </main>
+</body>
+</html>
