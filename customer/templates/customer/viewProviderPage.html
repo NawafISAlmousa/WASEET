@@ -6,7 +6,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="stylesheet" href="{% static 'customer/viewProviderPage/viewProviderPage.css' %}?v={{ timestamp }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -28,22 +31,44 @@
         <!-- Provider & Location Info Section -->
         <section class="info-section">
             <div class="info-header">
-                <div class="provider-info">
-                    <h1>{{ provider.name }}</h1>
-                    <div class="provider-details">
-                        <p><i class="fa-solid fa-phone" aria-hidden="true"></i> {{ provider.phonenumber }}</p>
-                        <p><i class="fa-solid fa-envelope" aria-hidden="true"></i> {{ provider.email }}</p>
-                        <p class="provider-description">{{ provider.description }}</p>
+                <div class="info-content">
+                    <div class="left-column">
+                        <img class="provider-logo" src="/media/{{ provider.username }}/logo.png" alt="Provider Logo" onerror="this.src='{% static 'main/assets/BigLogo.png' %}'">
+                        <div class="location-info">
+                            <h2>Location</h2>
+                            <div class="location-details">
+                                <div class="hidden"><p><i class="fa-solid fa-location-dot" aria-hidden="true"></i> {{ location.coordinates }}</p></div>
+                                <p>
+                                    <i class="fa-solid fa-location-dot" aria-hidden="true"></i> 
+                                    {{ location.name }}
+                                    <span class="rating">
+                                        <i class="fa-solid fa-star"></i>
+                                        {{ location.rating|default:"N/A" }}
+                                    </span>
+                                </p>
+                                <p><i class="fa-solid fa-phone" aria-hidden="true"></i> {{ location.phonenumber }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="right-column">
+                        <div class="provider-details-wrapper">
+                            <h1>
+                                {{ provider.name }}
+                                <span class="rating">
+                                    <i class="fa-solid fa-star"></i>
+                                    {{ provider.rating|default:"N/A" }}
+                                </span>
+                            </h1>
+                            <div class="provider-details">
+                                <p><i class="fa-solid fa-phone" aria-hidden="true"></i> {{ provider.phonenumber }}</p>
+                                <p><i class="fa-solid fa-envelope" aria-hidden="true"></i> {{ provider.email }}</p>
+                                <p class="provider-description">{{ provider.description }}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <div class="location-info">
-                    <h2>{{ location.name }}</h2>
-                    <div class="location-details">
-                        <p><i class="fa-solid fa-location-dot" aria-hidden="true"></i> {{ location.coordinates }}</p>
-                        <p><i class="fa-solid fa-phone" aria-hidden="true"></i> {{ location.phonenumber }}</p>
-                    </div>
-                </div>
+                <div id="map" class="map"></div>
             </div>
         </section>
 
@@ -55,9 +80,19 @@
                 <div class="items-grid">
                     {% for item in location_items %}
                     <article class="item-card">
-                        <h3>{{ item.itemid.name }}</h3>
-                        <p class="price">${{ item.itemid.price }}</p>
-                        <p class="description">{{ item.itemid.description }}</p>
+                        <img class="item-logo" src="/media/{{ provider.username }}/items/item{{ item.itemid.itemid }}.png" alt="Item Image" 
+                             onerror="this.src='{% static 'main/assets/BigLogo.png' %}'">
+                        <div class="item-content">
+                            <div class="provider-details-wrapper">
+                                <h3>
+                                    {{ item.itemid.name }}
+                                    <span class="price">
+                                        <span>SAR</span>{{ item.itemid.price }}
+                                    </span>
+                                </h3>
+                                <p class="description">{{ item.itemid.description }}</p>
+                            </div>
+                        </div>
                     </article>
                     {% endfor %}
                 </div>
@@ -69,8 +104,25 @@
                 <div class="events-list">
                     {% for event in location_events %}
                     <article class="event-card">
+                        <img class="event-logo" src="/media/{{ provider.username }}/events/event{{ event.eventid }}.png" alt="Event Image"
+                             onerror="this.src='{% static 'main/assets/BigLogo.png' %}'">
                         <h3>{{ event.name }}</h3>
-                        <time class="event-date" datetime="{{ event.eventdate|date:'Y-m-d' }}">{{ event.eventdate }}</time>
+                        <div class="event-timing">
+                            <p class="event-dates">
+                                <i class="fa-regular fa-calendar"></i>
+                                <span>{{ event.startdate|date:"M d, Y" }}</span>
+                                {% if event.enddate and event.enddate != event.startdate %}
+                                    - <span>{{ event.enddate|date:"M d, Y" }}</span>
+                                {% endif %}
+                            </p>
+                            <p class="event-times">
+                                <i class="fa-regular fa-clock"></i>
+                                <span>{{ event.starttime|time:"g:i A" }}</span>
+                                {% if event.endtime %}
+                                    - <span>{{ event.endtime|time:"g:i A" }}</span>
+                                {% endif %}
+                            </p>
+                        </div>
                         <p class="event-description">{{ event.description }}</p>
                     </article>
                     {% endfor %}
@@ -84,5 +136,7 @@
             <!-- Review system will be added here later -->
         </section>
     </main>
+    <script src="{% static 'customer/viewProviderPage/viewProviderPage.js' %}?v={{ timestamp }}"></script>
+    <script> const logoURL = "/media/{{ provider.username }}/logo.png"</script>
 </body>
 </html>

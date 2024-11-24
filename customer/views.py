@@ -3,6 +3,7 @@ from main import models
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from main.models import Customer, Provider, Location, LocationHasItem, LocationRatings, ProviderRatings, Event
+from django.db.models import OuterRef
 
 def viewProviderPage(request, location_id):
     # Get location and related provider
@@ -13,23 +14,24 @@ def viewProviderPage(request, location_id):
     # Get items available at this location
     location_items = LocationHasItem.objects.filter(locationid=location)
     
-    # # Get ratings for this location
-    # location_ratings = LocationRatings.objects.get(locationid=location.locationid)
-    # location_avg_rating = location_ratings.locationrating or 0
+    # Get ratings using raw SQL
+    location_ratings = LocationRatings.objects.raw(
+        'SELECT * FROM location_ratings_view WHERE locationid = %s', 
+        [location_id]
+    )
     
-    # # Get ratings for the provider
-    # provider_ratings = ProviderRatings.objects.get(providerid=provider.providerid)
-    # provider_avg_rating = provider_ratings.providerrating or 0
+    provider_ratings = ProviderRatings.objects.raw(
+        'SELECT * FROM provider_ratings_view WHERE providerid = %s', 
+        [location.providerid.providerid]
+    )
 
     return render(request, 'customer/viewProviderPage.html',{
         "location": location,
         "provider": provider,
         "location_items": location_items,
         "location_events": location_events,
-        # "location_ratings": location_ratings,
-        # "location_avg_rating": location_avg_rating,
-        # "provider_ratings": provider_ratings,
-        # "provider_avg_rating": provider_avg_rating
+        "location_ratings": location_ratings,
+        "provider_ratings": provider_ratings
     })
 
 # Create your views here.
