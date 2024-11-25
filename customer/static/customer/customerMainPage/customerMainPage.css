@@ -60,8 +60,15 @@ body {
     height: 40px;
 }
 
-.logout-button {
-    padding: 8px 16px;
+.nav-buttons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.nav-button {
+    height: 35.2px;
+    padding: 0 16px;
     background-color: #00796b;
     border: none;
     border-radius: 5px;
@@ -69,10 +76,45 @@ body {
     cursor: pointer;
     transition: background-color 0.3s;
     text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.logout-button:hover {
+.nav-button:hover {
     background-color: #005f54;
+}
+
+.nav-button.active {
+    background-color: #005f54;
+}
+
+.profile-button {
+    padding: 8px;
+    background-color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35.2px;
+    border: none;
+}
+
+.profile-button i {
+    color: #00796b;
+    font-size: 20px;
+}
+
+.profile-button:hover {
+    background-color: #f5f5f5;
+}
+
+.profile-button:hover i {
+    color: #005f54;
 }
 
 /* Dynamic Content Container */

@@ -9,6 +9,7 @@ import json
 from django.views.decorators.http import require_http_methods
 from django.core.serializers import serialize
 from datetime import date
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 def viewProviderPage(request, customer_id, location_id):
     # Get location and related provider
@@ -161,5 +162,119 @@ def submit_review(request, location_id):
             }
         })
     except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+   
+
+def manage_profile(request, customer_id):
+    if request.session.get('user_type') != 'customer' or request.session.get('user_id') != customer_id:
+        request.session.flush()
+        return redirect('main:login')
+
+    customer = Customer.objects.get(customerid=customer_id)
+    return render(request, 'customer/manage-profile.html', {
+        "customer": customer
+    })
+
+@require_http_methods(["POST"])
+def update_profile(request, customer_id):
+    try:
+        data = json.loads(request.body)
+        customer = Customer.objects.get(customerid=customer_id)
+
+        # Only update fields that were enabled and changed
+        if 'firstName' in data:
+            customer.firstname = data['firstName']
+        if 'lastName' in data:
+            customer.lastname = data['lastName']
+        if 'email' in data:
+            customer.email = data['email']
+        if 'dob' in data:
+            customer.dob = data['dob']
+            
+        customer.save()
+
+        return JsonResponse({'message': 'Profile updated successfully'})
+    except Customer.DoesNotExist:
+        return JsonResponse({'error': 'Customer not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+   
+
+def favorites_page(request, customer_id):
+    if request.session.get('user_type') != 'customer' or request.session.get('user_id') != customer_id:
+        request.session.flush()
+        return redirect('main:login')
+
+    customer = Customer.objects.get(customerid=customer_id)
+    return render(request, 'customer/favorites.html', {
+        "customer": customer,
+        "customer_id": customer_id
+    })
+
+@require_http_methods(["DELETE"])
+def remove_favorite(request, customer_id, location_id):
+    try:
+        # Get the customer and location objects
+        customer = Customer.objects.get(customerid=customer_id)
+        location = Location.objects.get(locationid=location_id)
+        
+        # Find the specific favorite with both customer and location
+        favorite = FavoriteLocations.objects.get(
+            customerid=customer,  # Use the Customer object
+            locationid=location   # Use the Location object
+        )
+        favorite.delete()
+        return JsonResponse({'message': 'Favorite removed successfully'})
+    except (Customer.DoesNotExist, Location.DoesNotExist):
+        return JsonResponse({'error': 'Customer or Location not found'}, status=404)
+    except FavoriteLocations.DoesNotExist:
+        return JsonResponse({'error': 'Favorite not found'}, status=404)
+    except Exception as e:
+        print(f"Error removing favorite: {str(e)}")  # Add logging
+        return JsonResponse({'error': str(e)}, status=500)
+   
+
+@require_http_methods(["GET"])
+@ensure_csrf_cookie
+def get_favorites(request, customer_id):
+    try:
+        if not request.session.get('user_id'):
+            return JsonResponse({'error': 'Not logged in'}, status=401)
+            
+        if int(request.session.get('user_id')) != customer_id:
+            return JsonResponse({'error': 'Unauthorized access'}, status=403)
+
+        # Get the customer object
+        customer = Customer.objects.get(customerid=customer_id)
+        
+        # Filter favorites using the customer object
+        favorites = FavoriteLocations.objects.filter(
+            customerid=customer  # Use the customer object instead of just the ID
+        ).select_related(
+            'locationid', 
+            'locationid__providerid'
+        ).annotate(
+            locationrating=Subquery(
+                LocationRatings.objects.filter(
+                    locationid=OuterRef('locationid__locationid')
+                ).values('locationrating')[:1]
+            )
+        )
+        
+        print(f"Found {favorites.count()} favorites for customer {customer_id}")
+        
+        favorites_data = [{
+            'locationid': fav.locationid.locationid,
+            'name': fav.locationid.name,
+            'description': fav.locationid.providerid.description,
+            'rating': fav.locationrating if fav.locationrating else 'N/A',
+            'provider_username': fav.locationid.providerid.username,
+        } for fav in favorites]
+        
+        return JsonResponse({'favorites': favorites_data})
+    except Customer.DoesNotExist:
+        return JsonResponse({'error': 'Customer not found'}, status=404)
+    except Exception as e:
+        print(f"Error in get_favorites: {str(e)}")
         return JsonResponse({'error': str(e)}, status=500)
    

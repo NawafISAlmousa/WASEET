@@ -1,0 +1,117 @@
+/* Import existing styles from customerMainPage.css */
+@import url('../customerMainPage/customerMainPage.css');
+
+.favorites-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    justify-content: center;
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.nav-button {
+    height: 35.2px;
+    padding: 0 16px;
+    background-color: #00796b;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-button:hover {
+    background-color: #005f54;
+}
+
+.nav-button.active {
+    background-color: #005f54;
+}
+
+.profile-button {
+    padding: 8px;
+    background-color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35.2px;
+    border: none;
+}
+
+.profile-button i {
+    color: #00796b;
+    font-size: 20px;
+}
+
+.profile-button:hover {
+    background-color: #f5f5f5;
+}
+
+.profile-button:hover i {
+    color: #005f54;
+}
+
+.provider-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.more-button, .remove-favorite {
+    height: 35.2px;
+    padding: 0 16px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Jost', sans-serif;
+}
+
+.more-button {
+    background-color: #00796b;
+}
+
+.more-button:hover {
+    background-color: #005f54;
+}
+
+.remove-favorite {
+    background-color: #d32f2f;  /* Red color for remove button */
+}
+
+.remove-favorite:hover {
+    background-color: #b71c1c;  /* Darker red on hover */
+}
+
+/* Add hover effect for both buttons */
+.more-button:hover, .remove-favorite:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Add active/click effect for both buttons */
+.more-button:active, .remove-favorite:active {
+    transform: translateY(0);
+    box-shadow: none;
+} 

@@ -23,12 +23,16 @@
         <nav class="navbar">
             <div class="navbar-container">
                 <div class="nav-left">
-                    <a href="{% url 'customer:mainPage' customer_id=customer_id %}" class="back-button">
-                        <i class="fa-solid fa-arrow-left"></i> Back
-                    </a>
                     <img src="{% static 'main/assets/SmallLogo.png' %}" alt="Logo" class="navbar-logo">
                 </div>
-                <a class="logout-button" href="{% url 'main:logout' %}">Logout</a>
+                <div class="nav-buttons">
+                    <a class="nav-button" href="{% url 'customer:mainPage' customer_id=customer_id %}">Main Page</a>
+                    <a class="nav-button" href="{% url 'customer:favorites' customer_id %}">Favorites</a>
+                    <a class="nav-button" href="{% url 'main:logout' %}">Logout</a>
+                    <a class="profile-button" href="{% url 'customer:manage-profile' customer_id %}">
+                        <i class="fas fa-user-circle"></i>
+                    </a>
+                </div>
             </div>
         </nav>
     </header>

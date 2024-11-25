@@ -21,7 +21,13 @@
     <nav class="navbar">
         <div class="navbar-container">
             <img src="{% static 'main/assets/SmallLogo.png' %}" alt="Logo" class="navbar-logo">
-            <a class="logout-button" href="{% url 'main:logout' %}">Logout</a>
+            <div class="nav-buttons">
+                <a class="nav-button" href="{% url 'customer:favorites' customer.customerid %}">Favorites</a>
+                <a class="nav-button" href="{% url 'main:logout' %}">Logout</a>
+                <a class="profile-button" href="{% url 'customer:manage-profile' customer.customerid %}">
+                    <i class="fas fa-user-circle"></i>
+                </a>
+            </div>
         </div>
     </nav>
 

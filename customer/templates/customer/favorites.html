@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Favorites</title>
+    <link rel="stylesheet" href="{% static 'customer/favorites/favorites.css' %}?v={{ timestamp }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <img src="{% static 'main/assets/SmallLogo.png' %}" alt="Logo" class="navbar-logo">
+            <div class="nav-buttons">
+                <a class="nav-button" href="{% url 'customer:mainPage' customer.customerid %}">Main Page</a>
+                <a class="nav-button" href="{% url 'main:logout' %}">Logout</a>
+                <a class="profile-button" href="{% url 'customer:manage-profile' customer.customerid %}">
+                    <i class="fas fa-user-circle"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="content-container">
+        <h1>My Favorite Locations</h1>
+        <div id="favorites-container" class="favorites-container">
+            <input type="hidden" id="customer-id" value="{{ customer.id }}">
+            <!-- Favorites will be loaded here dynamically -->
+        </div>
+    </div>
+
+    <script>
+        const customerId = {{ customer.customerid }};
+        const csrfToken = "{{ csrf_token }}";
+    </script>
+    <script src="{% static 'customer/favorites/favorites.js' %}?v={{ timestamp }}"></script>
+</body>
+</html> 

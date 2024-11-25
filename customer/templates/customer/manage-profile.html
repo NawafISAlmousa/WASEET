@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Profile</title>
+    <link rel="stylesheet" href="{% static 'customer/manageProfile/manageProfile.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <img src="{% static 'main/assets/SmallLogo.png' %}" alt="Logo" class="navbar-logo">
+            <div class="nav-buttons">
+                <a class="nav-button" href="{% url 'customer:mainPage' customer.customerid %}">Main Page</a>
+                <a class="nav-button" href="{% url 'customer:favorites' customer.customerid %}">Favorites</a>
+                <a class="nav-button" href="{% url 'main:logout' %}">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="content-container">
+        <h1>Manage Profile</h1>
+        <div class="profile-form">
+            <form id="profileForm">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="input-header">
+                        <label for="firstName">First Name</label>
+                        <div class="edit-toggle">
+                            <input type="checkbox" id="editFirstName" class="edit-checkbox">
+                            <label for="editFirstName">Edit</label>
+                        </div>
+                    </div>
+                    <input type="text" id="firstName" name="firstName" value="{{ customer.firstname }}" disabled>
+                </div>
+                <div class="form-group">
+                    <div class="input-header">
+                        <label for="lastName">Last Name</label>
+                        <div class="edit-toggle">
+                            <input type="checkbox" id="editLastName" class="edit-checkbox">
+                            <label for="editLastName">Edit</label>
+                        </div>
+                    </div>
+                    <input type="text" id="lastName" name="lastName" value="{{ customer.lastname }}" disabled>
+                </div>
+                <div class="form-group">
+                    <div class="input-header">
+                        <label for="email">Email</label>
+                        <div class="edit-toggle">
+                            <input type="checkbox" id="editEmail" class="edit-checkbox">
+                            <label for="editEmail">Edit</label>
+                        </div>
+                    </div>
+                    <input type="email" id="email" name="email" value="{{ customer.email }}" disabled>
+                </div>
+                <div class="form-group">
+                    <div class="input-header">
+                        <label for="dob">Date of Birth</label>
+                        <div class="edit-toggle">
+                            <input type="checkbox" id="editDob" class="edit-checkbox">
+                            <label for="editDob">Edit</label>
+                        </div>
+                    </div>
+                    <input type="date" id="dob" name="dob" value="{{ customer.dob|date:'Y-m-d' }}" disabled>
+                </div>
+                <button type="submit" class="save-button" disabled>Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const customerId = {{ customer.customerid }};
+        const csrfToken = "{{ csrf_token }}";
+    </script>
+    <script src="{% static 'customer/manageProfile/manageProfile.js' %}"></script>
+</body>
+</html> 

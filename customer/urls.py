@@ -27,4 +27,9 @@ urlpatterns = [
     path('<int:customerid>/<int:locationid>/add-bookmark/', views.add_bookmark, name='add_bookmark'),
     path('location/<int:location_id>/reviews/', views.get_location_reviews, name='get_location_reviews'),
     path('location/<int:location_id>/submit-review/', views.submit_review, name='submit_review'),
+    path('<int:customer_id>/manage-profile/', views.manage_profile, name='manage-profile'),
+    path('<int:customer_id>/update-profile/', views.update_profile, name='update-profile'),
+    path('<int:customer_id>/favorites/', views.favorites_page, name='favorites'),
+    path('favorites/<int:customer_id>/<int:location_id>/remove/', views.remove_favorite, name='remove-favorite'),
+    path('api/<int:customer_id>/favorites/', views.get_favorites, name='get_favorites'),
 ]
