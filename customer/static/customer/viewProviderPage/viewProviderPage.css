@@ -243,6 +243,9 @@ body {
     flex-wrap: wrap;
     gap: 1.5rem;
     margin-top: 1rem;
+    max-height: 600px;
+    overflow-y: auto;
+    padding-right: 10px;
 }
 
 .item-card {
@@ -327,6 +330,9 @@ body {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    max-height: 600px;
+    overflow-y: auto;
+    padding-right: 10px;
 }
 
 .event-card {
@@ -706,4 +712,26 @@ h2 {
 
 .back-button:hover {
     background-color: #f0f0f0;
+}
+
+.review-button {
+    background-color: #00796b;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+}
+
+.review-button:hover {
+    background-color: #005f54;
+}
+
+.review-button i {
+    color: #fff;
+    margin-right: 0.5rem;
 }

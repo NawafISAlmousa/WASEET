@@ -69,6 +69,9 @@
                                 <p><i class="fa-solid fa-phone" aria-hidden="true"></i> {{ provider.phonenumber }}</p>
                                 <p><i class="fa-solid fa-envelope" aria-hidden="true"></i> {{ provider.email }}</p>
                                 <p class="provider-description">{{ provider.description }}</p>
+                                <button class="review-button" onclick="document.querySelector('.reviews-section').scrollIntoView({behavior: 'smooth'})">
+                                    <i class="fa-solid fa-comment"></i> Leave a Review
+                                </button>
                             </div>
                         </div>
                     </div>

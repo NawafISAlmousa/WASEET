@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from main import models
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
-from main.models import Customer, Provider, Location, LocationHasItem, LocationRatings, ProviderRatings, Event, FavoriteLocations, Review
+from main.models import Customer, Provider, Location, LocationHasItem, LocationRatings, ProviderRatings, Event, FavoriteLocations, Review, LocationImpressions
 from django.db.models import OuterRef, Subquery
 from django.http import JsonResponse
 import json
@@ -21,6 +21,14 @@ def viewProviderPage(request, customer_id, location_id):
         )
     ).get(locationid=location_id)
     
+    # Create impression record using save()
+    customer = Customer.objects.get(customerid=customer_id)
+    impression = LocationImpressions(
+        customerid=customer,
+        locationid=location
+    )
+    impression.save()
+    
     provider = Provider.objects.filter(providerid=location.providerid.providerid).values(
         'providerid', 'username', 'email', 'name', 'phonenumber', 'description'
     )[0]
@@ -29,6 +37,9 @@ def viewProviderPage(request, customer_id, location_id):
     location_events = Event.objects.filter(locationid=location)
     # Get items available at this location
     location_items = LocationHasItem.objects.filter(locationid=location)
+
+
+    
     
     return render(request, 'customer/viewProviderPage.html',{
         "location": location,

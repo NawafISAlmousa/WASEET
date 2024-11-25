@@ -17,6 +17,7 @@
 </head>
 
 <body>
+    <canvas id="particleCanvas"></canvas>
     <header>
         <img src="{% static 'main/assets/SmallLogo.png'%}" alt="Small WASEET Logo">
         <nav>
@@ -30,6 +31,7 @@
         </nav>
     </header>
     <main>
+        
         <section class="main">
             <div class="main-logo">
                 <img src="{% static 'main/assets/BigLogo.png'%}" alt="Big WASEET Logo">
@@ -86,5 +88,6 @@
     </footer>
 </body>
 <script src="{% static 'main/main-page/main-script.js' %}?v={{ timestamp }}"></script>
+<script src="{% static 'main/login/particles.js' %}"></script>
 
 </html>
