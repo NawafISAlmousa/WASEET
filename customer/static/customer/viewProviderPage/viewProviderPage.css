@@ -218,6 +218,8 @@ body {
     margin: 0.5rem 0;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
 
 /* Content Grid */
@@ -331,6 +333,12 @@ body {
     background-color: #f8f9fa;
     padding: 1.5rem;
     border-radius: 8px;
+    transition: transform 0.2s;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
 }
 
 .event-card h3 {
@@ -372,6 +380,193 @@ body {
     border-radius: 10px;
     padding: 2rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-top: 2rem;
+}
+
+/* Review Form Styles */
+.review-form-container {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.review-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.rating-input {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.rating-input label {
+    color: #333;
+    font-weight: 500;
+}
+
+.star-rating {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.star-rating i {
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    color: #ccc;
+}
+
+.star-rating i.fa-solid {
+    color: #00796b;
+}
+
+.star-rating i:hover {
+    transform: scale(1.1);
+}
+
+#reviewText {
+    width: 96%;
+    min-height: 120px;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    resize: none;
+    transition: border-color 0.2s ease;
+}
+
+#reviewText:focus {
+    outline: none;
+    border-color: #00796b;
+}
+
+.submit-review {
+    align-self: flex-start;
+    background-color: #00796b;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.submit-review:hover {
+    background-color: #005f54;
+    transform: translateY(-1px);
+}
+
+.submit-review:active {
+    transform: translateY(0);
+}
+
+/* Reviews Display Styles */
+.reviews-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.review-card {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: transform 0.2s ease;
+}
+
+.review-card:hover {
+    transform: translateY(-2px);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.reviewer-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.reviewer-name {
+    color: #00796b;
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+.review-date {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.review-rating {
+    display: flex;
+    gap: 0.3rem;
+}
+
+.review-rating i {
+    color: #00796b;
+    font-size: 1rem;
+}
+
+.review-rating i.fa-regular {
+    color: #ccc;
+}
+
+.review-text {
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    font-size: 1rem;
+}
+
+/* Empty State */
+.no-reviews {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+    font-style: italic;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .review-header {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .review-rating {
+        margin-top: 0.5rem;
+    }
+    
+    .submit-review {
+        width: 100%;
+    }
+}
+
+/* Animation for new reviews */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.review-card {
+    animation: fadeIn 0.3s ease-out;
 }
 
 /* Section Headers */
@@ -437,14 +632,15 @@ h2 {
     background-color: #f8f9fa;
     padding: 0.3rem 0.6rem;
     border-radius: 5px;
-    position: absolute;
-    right: 0;
-    top: 0;
+    display: inline-flex;
+    align-items: center;
+    margin-left: 0.5rem;
 }
 
 .rating i {
     font-size: 0.8rem;
     margin-right: 0.3rem;
+    color: #00796b;
 }
 
 .info-content {
@@ -489,4 +685,25 @@ h2 {
 
 .item-card:hover .price {
     display: block;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.back-button {
+    color: #333;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.back-button:hover {
+    background-color: #f0f0f0;
 }

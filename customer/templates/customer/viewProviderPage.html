@@ -22,7 +22,12 @@
     <header>
         <nav class="navbar">
             <div class="navbar-container">
-                <img src="{% static 'main/assets/SmallLogo.png' %}" alt="Logo" class="navbar-logo">
+                <div class="nav-left">
+                    <a href="{% url 'customer:mainPage' customer_id=customer_id %}" class="back-button">
+                        <i class="fa-solid fa-arrow-left"></i> Back
+                    </a>
+                    <img src="{% static 'main/assets/SmallLogo.png' %}" alt="Logo" class="navbar-logo">
+                </div>
                 <a class="logout-button" href="{% url 'main:logout' %}">Logout</a>
             </div>
         </nav>
@@ -43,7 +48,7 @@
                                     {{ location.name }}
                                     <span class="rating">
                                         <i class="fa-solid fa-star"></i>
-                                        {{ location.rating|default:"N/A" }}
+                                        {{ location.locationrating |default:"N/A" }}
                                     </span>
                                 </p>
                                 <p><i class="fa-solid fa-phone" aria-hidden="true"></i> {{ location.phonenumber }}</p>
@@ -57,7 +62,7 @@
                                 {{ provider.name }}
                                 <span class="rating">
                                     <i class="fa-solid fa-star"></i>
-                                    {{ provider.rating|default:"N/A" }}
+                                    {{ location.providerrating|default:"N/A" }}
                                 </span>
                             </h1>
                             <div class="provider-details">
@@ -133,7 +138,31 @@
         <!-- Reviews Section -->
         <section class="reviews-section">
             <h2>Reviews</h2>
-            <!-- Review system will be added here later -->
+            
+            <!-- Review Form -->
+            <div class="review-form-container">
+                <form id="reviewForm" class="review-form" data-location-id="{{ location.locationid }}">
+                    {% csrf_token %}
+                    <div class="rating-input">
+                        <label>Rating:</label>
+                        <div class="star-rating">
+                            <i class="fa-regular fa-star" data-rating="1"></i>
+                            <i class="fa-regular fa-star" data-rating="2"></i>
+                            <i class="fa-regular fa-star" data-rating="3"></i>
+                            <i class="fa-regular fa-star" data-rating="4"></i>
+                            <i class="fa-regular fa-star" data-rating="5"></i>
+                        </div>
+                        <input type="hidden" name="rating" id="ratingInput" required>
+                    </div>
+                    <textarea name="review" id="reviewText" placeholder="Share your experience..." required></textarea>
+                    <button type="submit" class="submit-review">Submit Review</button>
+                </form>
+            </div>
+
+            <!-- Reviews Display -->
+            <div id="reviewsContainer" class="reviews-container">
+                <!-- Reviews will be loaded dynamically -->
+            </div>
         </section>
     </main>
     <script src="{% static 'customer/viewProviderPage/viewProviderPage.js' %}?v={{ timestamp }}"></script>

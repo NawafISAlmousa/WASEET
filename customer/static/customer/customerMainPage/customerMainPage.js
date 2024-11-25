@@ -2,7 +2,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     let lastScrollY = window.scrollY;
     const navbar = document.querySelector('.navbar');
-
     window.addEventListener('scroll', () => {
         if (window.scrollY > lastScrollY) {
             // Scroll down
@@ -25,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
     //Fetch providers from API and render cards
     async function fetchProviders() {
         try {
-
+            // come back here to complete the book mark checks
             await fetch(`/provider/providers/`)
                 .then(response => response.json())
                 .then(data => {
@@ -39,18 +38,18 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Render provider cards
-    function renderProviderCards(providers) {
+    async function renderProviderCards(providers) {
         providerContent.innerHTML = "";
         let selectedSort = document.getElementById('sort').value
 
-        if(selectedSort == 'distance'){
-            providers.sort((a,b) => {
+        if (selectedSort == 'distance') {
+            providers.sort((a, b) => {
                 coordA = a.coordinates.split(',')
                 coordB = b.coordinates.split(',')
                 return calculateDistance(userlocation[0], userlocation[1], coordA[0], coordA[1]) - calculateDistance(userlocation[0], userlocation[1], coordB[0], coordB[1])
             })
-        }else{
-            providers.sort((a,b) => a.providerrating - b.providerrating)
+        } else {
+            providers.sort((a, b) => a.providerrating - b.providerrating)
         }
 
 
@@ -59,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-        providers.forEach(provider => { 
+        providers.forEach(provider => {
             const card = document.createElement('div');
             card.classList.add('card');
             providerCoord = provider.coordinates.split(',')
@@ -69,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="card-header">
                 <img src="/media/${provider.providerid__username}/logo.png" alt="Provider Logo" class="provider-logo">
                 <div class="top-right">
-                    <div> <i class="fa-regular fa-bookmark fa-xl" style="color: #00796b; margin-bottom: 25px;"></i>
+                    <div> <i class="fa-regular fa-bookmark fa-xl" style="color: #00796b; margin-bottom: 25px;" data-location="${provider.locationid}"></i>
                     </div>                                                            
                     <div class="card-distance"><span class="span-km">${userDistance > 0.05 ? `${userDistance} Km` : ""}</span> ${userDistance > 0.05 ? 'away from you' : "Right next to you"}</div>
                 </div>
@@ -78,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <h2 class='provider-name'>${provider.providerid__name}</h2>
                 <h3>${provider.name}</h3>
                 <p class="card-description">${provider.providerid__description}</p>
-                <p class="card-rating">${Math.round(provider.providerrating * 100) / 100}<i class="fa-solid fa-star" style="color:  #00796b;"></i></p>
+                <p class="card-rating">${Math.round(provider.locationrating * 10) / 10}<i class="fa-solid fa-star" style="color:  #00796b;"></i></p>
                 <div class="provider-buttons" id="that">
                     <button class="map-button">Check on map</button>
                     <button class="more-button" onclick="window.location.href='${providerURL.replace('0', provider.locationid)}'">See more</button>
@@ -87,6 +86,31 @@ document.addEventListener("DOMContentLoaded", function () {
             
 
             `;
+
+            // Move the bookmark event listeners inside the loop and target the specific card
+            const bookmarkIcon = card.querySelector('.fa-bookmark');
+            bookmarkIcon.addEventListener('mouseenter', () => {
+                bookmarkIcon.classList.remove('fa-regular');
+                bookmarkIcon.classList.add('fa-solid');
+            });
+            bookmarkIcon.addEventListener('mouseleave', () => {
+                bookmarkIcon.classList.remove('fa-solid');
+                bookmarkIcon.classList.add('fa-regular');
+            });
+
+            bookmarkIcon.addEventListener('click', async () => {
+                console.log(customerId);
+                try {
+                    await addBookmark(customerId, provider.locationid);
+                    // You could add visual feedback here, like:
+                    bookmarkIcon.classList.remove('fa-regular');
+                    bookmarkIcon.classList.add('fa-solid');
+                } catch (error) {
+                    console.error('Error adding bookmark:', error);
+                    // Handle error (maybe show user feedback)
+                }
+            });
+
             // Add mouseenter event listener to each card
             card.addEventListener('mouseenter', () => {
                 // Find the specific description and button container within the hovered card
@@ -126,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    
+
 
 
     // Infinite scroll to load more cards
@@ -171,25 +195,35 @@ document.addEventListener("DOMContentLoaded", function () {
                 const latitude = position.coords.latitude;
                 const longitude = position.coords.longitude;
                 userlocation = [latitude, longitude];
+                fetchProviders(); // Refresh providers with new location
             },
             (error) => {
+                // Default to Riyadh coordinates
+                userlocation = [24.7253, 46.6310];
+                console.log('Using default location (CCIS)');
+                fetchProviders(); // Refresh providers with default location
+                
+                // Log the specific error for debugging
                 switch (error.code) {
                     case error.PERMISSION_DENIED:
-                        output.textContent = "Permission denied. Please allow location access.";
+                        console.log("Permission denied. Using default location.");
                         break;
                     case error.POSITION_UNAVAILABLE:
-                        output.textContent = "Location unavailable.";
+                        console.log("Location unavailable. Using default location.");
                         break;
                     case error.TIMEOUT:
-                        output.textContent = "Request timed out.";
+                        console.log("Request timed out. Using default location.");
                         break;
                     default:
-                        output.textContent = "An unknown error occurred.";
+                        console.log("An unknown error occurred. Using default location.");
                 }
             }
         );
     } else {
-        output.textContent = "Geolocation is not supported by your browser.";
+        // Geolocation not supported, use default coordinates
+        userlocation = [24.7136, 46.6753];
+        console.log('Geolocation not supported. Using default location (Riyadh)');
+        fetchProviders(); // Refresh providers with default location
     }
 
     function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -213,3 +247,29 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 })
+
+async function addBookmark(customerid, locationid) {
+    try {
+        const response = await fetch(`/customer/${customerid}/${locationid}/add-bookmark/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            },
+            body: JSON.stringify({
+                customerid: customerid,
+                locationid: locationid
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            console.log('Bookmark added successfully');
+        } else {
+            console.error(`Failed to add bookmark: ${data.error}`);
+        }
+    } catch (error) {
+        console.error('Error adding bookmark:', error);
+    }
+}

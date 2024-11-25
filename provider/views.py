@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.http import JsonResponse, HttpResponseRedirect
-from main.models import Provider, Location, ProviderRatings, Tags, ProvidersTags, Item, Event, LocationHasItem, Event
+from main.models import Provider, Location, ProviderRatings, Tags, ProvidersTags, Item, Event, LocationHasItem, Event, LocationRatings
 import time,os
 from django.db.models import Subquery, OuterRef
 from django.conf import settings
@@ -150,7 +150,10 @@ def fetchProvider(request):
 
     locations_with_provider_and_ratings = Location.objects.annotate(
         providerrating=Subquery(
-            ProviderRatings.objects.filter(providerid=OuterRef('providerid')).values('providerrating')[:1]
+                ProviderRatings.objects.filter(providerid=OuterRef('providerid')).values('providerrating')[:1]
+        ),
+        locationrating=Subquery(
+            LocationRatings.objects.filter(locationid=OuterRef('locationid')).values('locationrating')[:1]
         )
     ).select_related('providerid').values(
         'name',
@@ -160,7 +163,8 @@ def fetchProvider(request):
         'providerid__username', 
         'providerid__name', 
         'providerid__description', 
-        'providerrating'
+        'providerrating',
+        'locationrating'
     )
     
     

@@ -30,13 +30,22 @@
 
 body {
     padding: 0;
-    background-color: #ffffff;
-    /* Main background color */
+    background-color: transparent;
     display: flex;
     justify-content: center;
     align-items: center;
-    /* background-color: #296879; */
-    background-image: linear-gradient(60deg, #122e42, #0298ac);
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .register-header{
@@ -55,7 +64,9 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-
+    position: relative;
+    z-index: 1;
+    pointer-events: none;
 }
 
 .footer-register{
@@ -81,6 +92,7 @@ body {
     position: fixed;
     top: 10px;
     column-gap: 20px;
+    pointer-events: auto;
 }
 
 header {
@@ -269,4 +281,15 @@ footer a:hover {
     margin-top: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+}
+
+#particles-js {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: #173b55;
+    z-index: -1;
+    cursor: default;
 }

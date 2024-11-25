@@ -198,6 +198,28 @@ class FavoriteProviders(models.Model):
         unique_together = (('customerid', 'providerid'),)
 
 
+
+class FavoriteLocations(models.Model):
+    favorite_location_id = models.AutoField(primary_key=True)  # Auto-incrementing ID for the table
+    customerid = models.ForeignKey(
+        'Customer',  # Reference to the Customer model
+        on_delete=models.CASCADE,  # Ensure deletion cascades
+        db_column='CustomerID'  # Matches the column name in the database
+    )
+    locationid = models.ForeignKey(
+        'Location',  # Reference to the Location model
+        on_delete=models.CASCADE,  # Ensure deletion cascades
+        db_column='LocationID'  # Matches the column name in the database
+    )
+
+    class Meta:
+        managed = False  # Django won't manage this table
+        db_table = 'favorite_locations'  # Match the database table name
+        constraints = [
+            models.UniqueConstraint(fields=['customerid', 'locationid'], name='unique_customer_location')
+        ]
+
+
 class LocationImpressions(models.Model):
     impressionid = models.AutoField(db_column='ImpressionID', primary_key=True)
     customerid = models.ForeignKey('Customer', on_delete=models.CASCADE, db_column='CustomerID')

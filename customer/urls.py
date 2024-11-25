@@ -23,6 +23,8 @@ app_name = "customer"
 urlpatterns = [
     path('register-customer/', views.registerCustomer, name='register-customer'),
     path('<int:customer_id>/',views.mainPage,name='mainPage'),
-    path('view-provider/<int:location_id>/', views.viewProviderPage, name='viewProviderPage'),
-     
+    path('<int:customer_id>/view-provider/<int:location_id>/', views.viewProviderPage, name='viewProviderPage'),
+    path('<int:customerid>/<int:locationid>/add-bookmark/', views.add_bookmark, name='add_bookmark'),
+    path('location/<int:location_id>/reviews/', views.get_location_reviews, name='get_location_reviews'),
+    path('location/<int:location_id>/submit-review/', views.submit_review, name='submit_review'),
 ]

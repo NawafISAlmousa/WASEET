@@ -15,6 +15,7 @@
 </head>
 
 <body>
+    <div id="particles-js"></div>
     <div class="main-container">
         <div class="form-container">
             <a href="{% url 'main:index'%}" class="back-button">←</a>
@@ -99,6 +100,10 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', "{% static 'provider/particles-blue.json' %}");
+    </script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             errorMessage = '{{error}}'

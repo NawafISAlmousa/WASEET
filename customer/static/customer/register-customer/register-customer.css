@@ -5,12 +5,45 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: #ffffff; /* Main background color */
+    background-color: #ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;  /* viewport height */
-    background-image: linear-gradient(60deg, #0d3530, #02ac90);
+    height: 100vh;
+    background: #0d3530;  /* Solid background color instead of gradient */
+}
+
+
+.canvasdiv{
+    height: 96% !important;
+}
+
+
+/* Remove the gradient @keyframes since we won't need it anymore */
+
+/* Add the particles styling */
+#particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #0d3530;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 50%;
+    z-index: 1;
+}
+
+/* Ensure form appears above particles */
+.form-container {
+    z-index: 2;
+    position: relative;  /* Add this if not already present */
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 15px 40px;
+    max-width: 1000px;
+    width: 90%;
+    top: 10px;
 }
 
 .back-button {
@@ -32,17 +65,6 @@ body {
 
 .register-header{
     margin: 0;
-}
-
-.form-container {
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    padding: 15px 40px;
-    max-width: 1000px;
-    width: 90%;
-    position: absolute;
-    top: 10px;
 }
 
 header {

@@ -10,6 +10,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100%;
+    overflow: hidden;  /* Prevent scrollbars from particles */
 }
 
 .centering {
@@ -177,4 +178,14 @@ input[type="password"]:focus {
 
 .error-container p {
     color: rgb(110, 6, 6);
+}
+
+/* Update the canvas styles */
+#particleCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
 }

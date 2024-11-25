@@ -3,6 +3,36 @@
     font-family: "Jost", sans-serif;
 }
 
+
+
+::-webkit-scrollbar {
+    width: 10px;
+    /* Width of the scrollbar */
+    height: 10px;
+    /* Height for horizontal scrollbar */
+}
+
+::-webkit-scrollbar-track {
+    background: #f4f4f4;
+    /* Background color of the scrollbar track */
+    border-radius: 10px;
+    /* Rounded corners for the track */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #00796b;
+    /* Color of the draggable scrollbar thumb */
+    border-radius: 10px;
+    /* Rounded corners for the thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #005f54;
+    /* Color when hovered */
+}
+
+
+
 body {
     margin: 0;
     background-color: #ffffff;
@@ -38,6 +68,7 @@ body {
     color: white;
     cursor: pointer;
     transition: background-color 0.3s;
+    text-decoration: none;
 }
 
 .logout-button:hover {
@@ -141,29 +172,40 @@ h1 {
     color: white;
 }
 
-
+@keyframes wave {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
 
 .dynamic-content {
     padding: 25px 25px 57px 25px;
     height: 100%;
-    background-color: #61a69f;
+    background: #87c4ae;
     display: none;
     row-gap: 20px;
     column-gap: 30px;
-    box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 123, 107, 0.15);
+    border-top: 1px solid rgba(255, 255, 255, 0.8);
 }
 
-.dynamic-container{
-    background-color: #61a69f;
+.dynamic-container {
+    background: #87c4ae;
     row-gap: 20px;
     column-gap: 30px;
-    box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 123, 107, 0.15);
+    border-top: 1px solid rgba(255, 255, 255, 0.8);
 }
 
-.active{
+.active {
     display: block;
 }
-
 
 .provider-cards {
     display: flex;
@@ -172,8 +214,6 @@ h1 {
     width: 100%;
     height: 100%;
 }
-
-
 
 .provider-logo {
     /* width: 80px; */
@@ -209,17 +249,14 @@ h1 {
     background-color: #005f54;
 }
 
-
-
-
 .card {
     width: 400px;
     /* height: 280px; */
     margin: 20px auto;
     background-color: #ffffff;
     padding: 25px;
-    border-radius: 25px;
-    box-shadow: 0 1px 4px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
 }
 
@@ -230,8 +267,6 @@ h1 {
 .card-header {
     display: flex;
     justify-content: space-between;
-
-
 }
 
 h2 {
@@ -250,9 +285,7 @@ h2 {
     display: flex;
     flex-direction: column;
     align-items: end;
-
 }
-
 
 .provider-buttons {
     margin-top: 45px;
@@ -277,19 +310,15 @@ h2 {
 
 .card-distance {
     font-weight: bold;
-
 }
-
 
 @keyframes description {
     0% {
         opacity: 0;
     }
-
     100% {
         opacity: 1;
     }
-
 }
 
 .span-km {
@@ -299,10 +328,6 @@ h2 {
 .card-rating {
     font-weight: bold;
 }
-
-
-
-
 
 .provider-section {
     display: flex;

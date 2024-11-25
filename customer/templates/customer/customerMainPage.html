@@ -64,7 +64,10 @@
     <section class="dynamic-content" id="dynamic-map"></section>
     </div>
     <script>
-        const providerURL = "{% url 'customer:viewProviderPage' 0 %}"
+        const customerId = {{ customer.customerid }}
+        const providerURL = "{% url 'customer:viewProviderPage' customer.customerid 0 %}"
+        
+        const csrfToken = "{{ csrf_token }}"
     </script>
     <script src="{% static 'customer/customerMainPage/customerMainPage.js' %}?v={{ timestamp }}">
     </script>

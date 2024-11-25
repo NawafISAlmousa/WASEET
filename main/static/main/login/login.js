@@ -1,4 +1,3 @@
-
 // Get the toggle buttons, slider, and form elements
 const customerBtn = document.getElementById('customerBtn');
 const providerBtn = document.getElementById('providerBtn');

@@ -15,6 +15,7 @@
 </head>
 
 <body>
+    <div class="canvasdiv" id="particles-js"></div>
     <div class="main-container">
         <div class="form-container">
             <a href="{% url 'main:index'%}" class="back-button">←</a>
@@ -158,6 +159,21 @@
         })
 
 
+    </script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load particles
+            particlesJS.load('particles-js', "{% static 'customer/particles.json' %}", function() {
+                console.log('particles.js loaded');
+            });
+            
+            // Your existing JavaScript code here
+            errorMessage = '{{error}}'
+            if (errorMessage)
+                alert(errorMessage)
+            // ... rest of your existing code ...
+        });
     </script>
 </body>
 

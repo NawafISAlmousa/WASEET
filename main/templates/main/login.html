@@ -12,6 +12,7 @@
 </head>
 
 <body>
+    <canvas id="particleCanvas"></canvas>
     <div class="centering">
         <div class="login-container">
             <div class="login-card">
@@ -69,6 +70,7 @@
         const providerUrl = '{% url "provider:registerProvider"%}'
     </script>
     <script src="{% static 'main/login/login.js'%}?v={{ timestamp }}"></script>
+    <script src="{% static 'main/login/particles.js' %}"></script>
 </body>
 
 </html>
