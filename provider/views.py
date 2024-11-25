@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.http import JsonResponse, HttpResponseRedirect
-from main.models import Provider, Location, ProviderRatings, Tags, ProvidersTags, Item, Event, LocationHasItem, Event, LocationRatings
+from main.models import Provider, Location, ProviderRatings, Tags, ProvidersTags, Item, Event, LocationHasItem, Event, LocationRatings,FavoriteLocations
 import time,os
 from django.db.models import Subquery, OuterRef
 from django.conf import settings
@@ -146,7 +146,7 @@ def providerPage(request, provider_id):
 
 
 
-def fetchProvider(request):
+def fetchProvider(request,customer_id):
 
     locations_with_provider_and_ratings = Location.objects.annotate(
         providerrating=Subquery(
@@ -155,6 +155,8 @@ def fetchProvider(request):
         locationrating=Subquery(
             LocationRatings.objects.filter(locationid=OuterRef('locationid')).values('locationrating')[:1]
         )
+
+
     ).select_related('providerid').values(
         'name',
         'locationid',
@@ -166,12 +168,15 @@ def fetchProvider(request):
         'providerrating',
         'locationrating'
     )
+    favlocation = list(FavoriteLocations.objects.filter(customerid=customer_id).values('locationid'))
     
+    # Combine the two lists into a dictionary
+    data = {
+        'locations': list(locations_with_provider_and_ratings),
+        'favorites': list(favlocation)
+    }
     
-    data = list(locations_with_provider_and_ratings)
-    
-    return JsonResponse(data,safe=False)
-
+    return JsonResponse(data, safe=False)
 
 
 def tags_list(request):

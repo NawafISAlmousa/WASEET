@@ -25,11 +25,11 @@ document.addEventListener("DOMContentLoaded", function () {
     async function fetchProviders() {
         try {
             // come back here to complete the book mark checks
-            await fetch(`/provider/providers/`)
+            await fetch(`/provider/providers/${customerId}`)
                 .then(response => response.json())
                 .then(data => {
                     console.log(data)
-                    renderProviderCards(data)
+                    renderProviderCards(data.locations, data.favorites)
                 })
 
         } catch (error) {
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Render provider cards
-    async function renderProviderCards(providers) {
+    async function renderProviderCards(providers, favorites) {
         providerContent.innerHTML = "";
         let selectedSort = document.getElementById('sort').value
 
@@ -63,8 +63,10 @@ document.addEventListener("DOMContentLoaded", function () {
             card.classList.add('card');
             providerCoord = provider.coordinates.split(',')
             const userDistance = calculateDistance(userlocation[0], userlocation[1], providerCoord[0], providerCoord[1])
+
+
             card.innerHTML = `
-            
+
             <div class="card-header">
                 <img src="/media/${provider.providerid__username}/logo.png" alt="Provider Logo" class="provider-logo">
                 <div class="top-right">
@@ -87,33 +89,61 @@ document.addEventListener("DOMContentLoaded", function () {
 
             `;
 
+            let isFavorite = searchLocations(provider.locationid, favorites)
             // Move the bookmark event listeners inside the loop and target the specific card
             const bookmarkIcon = card.querySelector('.fa-bookmark');
             bookmarkIcon.addEventListener('mouseenter', () => {
-                bookmarkIcon.classList.remove('fa-regular');
-                bookmarkIcon.classList.add('fa-solid');
+                if (!isFavorite) {
+                    bookmarkIcon.classList.remove('fa-regular');
+                    bookmarkIcon.classList.add('fa-solid');
+                } else {
+                    bookmarkIcon.classList.remove('fa-solid');
+                    bookmarkIcon.classList.add('fa-regular');
+                }
             });
             bookmarkIcon.addEventListener('mouseleave', () => {
-                bookmarkIcon.classList.remove('fa-solid');
-                bookmarkIcon.classList.add('fa-regular');
+                if (!isFavorite) {
+                    bookmarkIcon.classList.remove('fa-solid');
+                    bookmarkIcon.classList.add('fa-regular');
+                } else {
+                    bookmarkIcon.classList.remove('fa-regular');
+                    bookmarkIcon.classList.add('fa-solid');
+                }
             });
 
             bookmarkIcon.addEventListener('click', async () => {
                 console.log(customerId);
-                try {
-                    await addBookmark(customerId, provider.locationid);
-                    // You could add visual feedback here, like:
-                    bookmarkIcon.classList.remove('fa-regular');
-                    bookmarkIcon.classList.add('fa-solid');
-                } catch (error) {
-                    console.error('Error adding bookmark:', error);
-                    // Handle error (maybe show user feedback)
+                if (!isFavorite) {
+                    try {
+                        await addBookmark(customerId, provider.locationid);
+                        // You could add visual feedback here, like:
+
+                        bookmarkIcon.classList.remove('fa-regular');
+                        bookmarkIcon.classList.add('fa-solid');
+                        isFavorite = true
+                        console.log("Added to favorites")
+                    } catch (error) {
+                        console.error('Error adding bookmark:', error);
+                        // Handle error (maybe show user feedback)
+                    }
+                } else {
+                    alert("Already in favorites")
                 }
+
+
             });
+            if (isFavorite) {
+                bookmarkIcon.classList.remove('fa-regular');
+                bookmarkIcon.classList.add('fa-solid');
+            } else {
+                bookmarkIcon.classList.remove('fa-solid');
+                bookmarkIcon.classList.add('fa-regular');
+            }
 
             // Add mouseenter event listener to each card
             card.addEventListener('mouseenter', () => {
                 // Find the specific description and button container within the hovered card
+
                 const description = card.querySelector('.card-description');
                 const buttons = card.querySelector('.provider-buttons');
 
@@ -202,7 +232,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 userlocation = [24.7253, 46.6310];
                 console.log('Using default location (CCIS)');
                 fetchProviders(); // Refresh providers with default location
-                
+
                 // Log the specific error for debugging
                 switch (error.code) {
                     case error.PERMISSION_DENIED:
@@ -261,9 +291,9 @@ async function addBookmark(customerid, locationid) {
                 locationid: locationid
             })
         });
-        
+
         const data = await response.json();
-        
+
         if (response.ok) {
             console.log('Bookmark added successfully');
         } else {
@@ -272,4 +302,15 @@ async function addBookmark(customerid, locationid) {
     } catch (error) {
         console.error('Error adding bookmark:', error);
     }
+}
+
+
+
+function searchLocations(locid, favorites) {
+    for (let i = 0; i < favorites.length; i++) {
+        if (favorites[i].locationid == locid) {
+            return true
+        }
+    }
+    return false
 }
