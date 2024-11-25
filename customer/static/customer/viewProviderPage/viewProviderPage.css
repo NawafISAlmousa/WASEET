@@ -782,3 +782,22 @@ h2 {
 .nav-button.active {
     background-color: #005f54;
 }
+
+/* Provider Tags Styling */
+.provider-tags {
+    margin-top: 1rem;
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.tag {
+    padding: 5px 10px;
+    border-radius: 12px;
+    background-color: #00796b;
+    color: white;
+    font-size: 0.9rem;
+}

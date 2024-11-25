@@ -14,6 +14,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
 </head>
 
 <body>
@@ -35,16 +41,9 @@
     <div class="content-container">
         <h1>Services Near You</h1>
         <div class="controls">
-            <div class="sort-container">
-                <label for="sort">Sort by:</label>
-                <select id="sort" class="sort-select">
-                    <option value="distance">Distance</option>
-                    <option value="rating">Rating</option>
-                </select>
-            </div>
             <div class="search-container">
-                <input type="text" placeholder="Search..." class="search-input">
-                <button class="search-button">
+                <input type="text" id="search-input" placeholder="Search..." class="search-input">
+                <button class="search-button" id="search-button">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
@@ -62,12 +61,36 @@
     </div>
     <div class="dynamic-container">
     <section class="dynamic-content active" id="dynamic-providers">
+        <div class="sort-container">
+            <label for="sort">Sort by:</label>
+            <select id="sort" class="sort-select">
+                <option value="distance">Distance</option>
+                <option value="rating">Rating</option>
+            </select>
+        </div>
         <div class="provider-cards" id="provider-cards"></div>
     </section>
 
-    <section class="dynamic-content" id="dynamic-events"></section>
+    <section class="dynamic-content" id="dynamic-events">
+        <div class="sort-container">
+            <label for="sort-events">Sort by:</label>
+            <select id="sort-events" class="sort-select">
+                <option value="distance">Distance</option>
+                <option value="startingtime">Starting Time</option>
+            </select>
+        </div>
+        <div class="event-cards" id="event-cards"></div>
+    </section>
     
-    <section class="dynamic-content" id="dynamic-map"></section>
+    <section class="dynamic-content" id="dynamic-map">
+        <div class="map-container">
+            <div id="leaflet-map"></div>
+            <div class="map-loading-overlay">
+                <div class="loading-spinner"></div>
+                <p>Loading map...</p>
+            </div>
+        </div>
+    </section>
     </div>
     <script>
         const customerId = {{ customer.customerid }}

@@ -66,14 +66,14 @@
                             <div class="form-left">
                                 <label for="provider-name">Provider Name:</label>
                                 <input type="text" id="provider-name" name="provider-name" required
-                                    value={{provider.name}} placeholder="Choose a Name (will be displayed to cutomers)">
+                                    placeholder="Choose a Name (will be displayed to cutomers)">
                                 <label class="edit-checkbox" for="edit-provider-name">
                                     <input type="checkbox" id="edit-provider-name" name="edit-provider-name"> Edit
                                 </label>
 
                                 <label for="provider-number">Phone Number:</label>
                                 <input type="tel" id="provider-number" name="provider-number" required
-                                    value={{provider.phonenumber}} pattern="(\+9665[0-9]{8})|(05[0-9]{8})"
+                                    pattern="(\+9665[0-9]{8})|(05[0-9]{8})"
                                     placeholder="e.g., +966 5XXXXXXXX">
                                 <label class="edit-checkbox" for="edit-provider-number">
                                     <input type="checkbox" id="edit-provider-number" name="edit-provider-number"> Edit
@@ -81,12 +81,12 @@
 
                                 <label for="description">Description:</label>
                                 <textarea id="description" name="description" rows="4"
-                                    placeholder="Describe what you offer">{{provider.description}}</textarea>
+                                    placeholder="Describe what you offer"></textarea>
                                 <label class="edit-checkbox" for="edit-description">
-                                    <input type="checkbox" id="edit-description" name="edit-description"> Edit <button
-                                        type="button" id="AIbutton" class="AIbutton transitions">Modify Description
-                                        Using
-                                        AI</button>
+                                    <input type="checkbox" id="edit-description" name="edit-description"> Edit 
+                                    <button type="button" id="AIbutton" class="AIbutton transitions">
+                                        Modify Description Using AI
+                                    </button>
                                 </label>
 
 
@@ -369,7 +369,7 @@
 
 
                         <form action="" class="event-form-container" id="edit-event-form">
-
+                            {% csrf_token %}
                             <div class="hidden-logo-input">
                                 <input class="logo-input" type="file" id="edit-event-upload-logo"
                                     name="edit-event-upload-logo" accept="image/png, image/jpg, image/jpeg">

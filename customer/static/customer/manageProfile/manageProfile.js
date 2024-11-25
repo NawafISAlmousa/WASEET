@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 saveButton.disabled = true;
                 alert('Profile updated successfully!');
             } else {
-                alert(data.error || 'Failed to update profile');
+                alert("Email already exists" || 'Failed to update profile');
             }
         } catch (error) {
             console.error('Error:', error);

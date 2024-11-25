@@ -55,20 +55,42 @@ function createLocationCard(location) {
 
     card.innerHTML = `
         <div class="card-header">
-            <h2>${location.name}</h2>
+            <img src="${imagePath}" alt="Provider Logo" class="provider-logo">
             <div class="top-right">
-                <span class="card-rating">Rating: ${location.rating || 'N/A'}</span>
+                <div class="card-rating">Rating: ${location.rating || 'N/A'} ${location.rating ? '<i class="fa-solid fa-star" style="color: #00796b;"></i>' : ''}</div>
             </div>
         </div>
         <div class="card-info">
-            <img src="${imagePath}" alt="${location.name}" class="provider-logo">
-            <p>${location.description || 'No description available'}</p>
-        </div>
-        <div class="provider-buttons">
-            <button onclick="viewLocation(${location.locationid})" class="more-button">View Details</button>
-            <button onclick="removeFavorite(${location.locationid})" class="remove-favorite">Remove</button>
+            <h2 class='provider-name'>${location.provider_name || 'Provider Name'}</h2>
+            <h3>${location.name}</h3>
+            <p class="card-description">${location.description || 'No description available'}</p>
+            <div class="provider-buttons">
+                <button onclick="viewLocation(${location.locationid})" class="more-button">View Details</button>
+                <button onclick="removeFavorite(${location.locationid})" class="remove-favorite">Remove</button>
+            </div>
         </div>
     `;
+
+    // Add hover effects matching the main page
+    card.addEventListener('mouseenter', () => {
+        const description = card.querySelector('.card-description');
+        const buttons = card.querySelector('.provider-buttons');
+        
+        description.style.display = 'block';
+        description.style.animation = 'description 0.5s forwards';
+        buttons.style.marginTop = '5px';
+        card.style.margin = 'auto';
+    });
+
+    card.addEventListener('mouseleave', () => {
+        const description = card.querySelector('.card-description');
+        const buttons = card.querySelector('.provider-buttons');
+        
+        description.style.display = 'none';
+        buttons.style.marginTop = '45px';
+        card.style.margin = '20px auto';
+    });
+
     return card;
 }
 

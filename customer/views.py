@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from main import models
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
-from main.models import Customer, Provider, Location, LocationHasItem, LocationRatings, ProviderRatings, Event, FavoriteLocations, Review, LocationImpressions
+from main.models import Customer, Provider, Location, LocationHasItem, LocationRatings, ProviderRatings, Event, FavoriteLocations, Review, LocationImpressions, ProvidersTags, Tags
 from django.db.models import OuterRef, Subquery
 from django.http import JsonResponse
 import json
@@ -12,7 +12,7 @@ from datetime import date
 from django.views.decorators.csrf import ensure_csrf_cookie
 
 def viewProviderPage(request, customer_id, location_id):
-    # Get location and related provider
+    # Get location and related provider with ratings
     location = Location.objects.annotate(
         locationrating=Subquery(
             LocationRatings.objects.filter(locationid=OuterRef('locationid')).values('locationrating')[:1]
@@ -22,7 +22,7 @@ def viewProviderPage(request, customer_id, location_id):
         )
     ).get(locationid=location_id)
     
-    # Create impression record using save()
+    # Create impression record
     customer = Customer.objects.get(customerid=customer_id)
     impression = LocationImpressions(
         customerid=customer,
@@ -30,21 +30,26 @@ def viewProviderPage(request, customer_id, location_id):
     )
     impression.save()
     
+    # Get provider details
     provider = Provider.objects.filter(providerid=location.providerid.providerid).values(
         'providerid', 'username', 'email', 'name', 'phonenumber', 'description'
     )[0]
     
-    # Get events associated with this location
+    # Get provider tags - updated query
+    provider_tags = Tags.objects.filter(
+        tagid__in=ProvidersTags.objects.filter(
+            providerid=location.providerid.providerid
+        ).values('tagid')
+    )
+    
+    # Get events and items
     location_events = Event.objects.filter(locationid=location)
-    # Get items available at this location
     location_items = LocationHasItem.objects.filter(locationid=location)
-
-
     
-    
-    return render(request, 'customer/viewProviderPage.html',{
+    return render(request, 'customer/viewProviderPage.html', {
         "location": location,
         "provider": provider,
+        "provider_tags": provider_tags,
         "location_items": location_items,
         "location_events": location_events,
         "customer_id": customer_id  
@@ -269,6 +274,7 @@ def get_favorites(request, customer_id):
             'description': fav.locationid.providerid.description,
             'rating': fav.locationrating if fav.locationrating else 'N/A',
             'provider_username': fav.locationid.providerid.username,
+            'provider_name': fav.locationid.providerid.name,
         } for fav in favorites]
         
         return JsonResponse({'favorites': favorites_data})

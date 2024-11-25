@@ -145,6 +145,7 @@ h1 {
 .search-container {
     /* padding-right: 30%; */
     margin: auto;
+    position: relative;
 }
 
 .sort-select,
@@ -229,7 +230,7 @@ h1 {
 .dynamic-content {
     padding: 25px 25px 57px 25px;
     height: 100%;
-    background: #07897a;
+    background: #0ba291;
     display: none;
     row-gap: 20px;
     column-gap: 30px;
@@ -238,7 +239,7 @@ h1 {
 }
 
 .dynamic-container {
-    background: #07897a;
+    background: #0ba291;
     row-gap: 20px;
     column-gap: 30px;
     box-shadow: 0 4px 20px rgba(0, 123, 107, 0.15);
@@ -380,4 +381,243 @@ h2 {
 .error-message {
     margin: 150px;
     color: black;
+}
+
+.event-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.event-card {
+    width: 400px;
+    margin: 20px auto;
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.event-card:hover {
+    transform: scale(1.05);
+}
+
+.event-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.event-logo {
+    width: auto;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.event-title {
+    text-align: center;
+    width: 100%;
+}
+
+.event-title h3 {
+    color: #333;
+    margin: 0 0 5px 0;
+    font-size: 1.2rem;
+}
+
+.event-card .provider-name, 
+.event-card .location-name {
+    margin: 2px 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.event-info {
+    margin: 15px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.event-dates, .event-times {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    color: #00796b;
+}
+
+.event-dates span, .event-times span {
+    margin: 0 15px;
+}
+
+.event-description {
+    margin: 15px 0;
+    color: #333;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.view-location-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #00796b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: 500;
+}
+
+.view-location-btn:hover {
+    background-color: #005f54;
+}
+
+.card-info .provider-name {
+    color: #000000;
+    font-size: 1.6rem;
+    margin: 0;
+    font-weight: bold;
+}
+
+.map-container {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+#leaflet-map {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.map-loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.loading-spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #00796b;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Make sure the dynamic content container doesn't interfere with map display */
+#dynamic-map.active {
+    display: block;
+    height: 100%;
+    padding: 20px;
+}
+
+.custom-marker {
+    background: none;
+    border: none;
+}
+
+.marker-container {
+    width: 40px;
+    height: 40px;
+    position: relative;
+    transform: translateY(-20px);
+}
+
+.marker-container img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid #00796b;
+    background-color: white;
+    object-fit: cover;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.custom-popup {
+    text-align: center;
+    padding: 5px;
+}
+
+.custom-popup strong {
+    color: #00796b;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.custom-popup a {
+    display: inline-block;
+    margin-top: 5px;
+    padding: 3px 8px;
+    background-color: #00796b;
+    color: white;
+    text-decoration: none;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+
+.custom-popup a:hover {
+    background-color: #005f54;
+}
+
+.custom-popup-link {
+    color: white !important;
+    text-decoration: none;
+}
+
+.event-distance {
+    color: #00796b;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+.search-suggestions {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    width: 500px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.suggestion-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.suggestion-item:hover {
+    background-color: #f5f5f5;
 }

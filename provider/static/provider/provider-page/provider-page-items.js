@@ -1,7 +1,6 @@
-
 async function fetchItemDetails(itemid) {
-  document.querySelector('.form-curtain').style.display = 'block'
-  document.querySelector('.form-placeholder').style.display = 'none'
+  document.querySelector('.edit-item-form .form-curtain').style.display = 'block'
+  document.querySelector('.edit-item-form .form-placeholder').style.display = 'none'
   document.querySelector('.edit-item-form').style.display = 'block'
 
   const itemName = document.getElementById("item-name")
@@ -15,7 +14,8 @@ async function fetchItemDetails(itemid) {
 
     if (response.ok) {
       const data = await response.json();
-      let itemImagePath = `/media/${providerUsername}/items/item&.png`;
+      const timestamp = new Date().getTime();
+      let itemImagePath = `/media/${providerUsername}/items/item&.png?t=${timestamp}`;
       let imageFilePath = itemImagePath.replace("&", data.itemid);
       itemName.value = data.name
       itemDescription.value = data.description
@@ -72,10 +72,10 @@ async function fetchItemsForProvider(providerid) {
       let itemImagePath = `/media/${providerUsername}/items/item&.png`;
 
       items.forEach(item => {
-        // Set the path for the item image, with a fallback to the default image if it doesn’t exist
-        const imageFilePath = itemImagePath.replace("&", item.itemid);
-        // Add HTML for each item
-        console.log(item.itemid)
+        // Add timestamp to prevent caching
+        const timestamp = new Date().getTime();
+        const imageFilePath = `${itemImagePath.replace("&", item.itemid)}?t=${timestamp}`;
+        
         itemsHTML += `
                             <li>
                                 <div class="item-container">
@@ -229,10 +229,10 @@ document.addEventListener("DOMContentLoaded", function () {
         let itemImagePath = `/media/${providerUsername}/items/item&.png`;
 
         items.forEach(item => {
-          // Set the path for the item image, with a fallback to the default image if it doesn’t exist
-          const imageFilePath = itemImagePath.replace("&", item.itemid);
-          // Add HTML for each item
-          console.log(item.itemid)
+          // Add timestamp to prevent caching
+          const timestamp = new Date().getTime();
+          const imageFilePath = `${itemImagePath.replace("&", item.itemid)}?t=${timestamp}`;
+          
           itemsHTML += `
                             <li>
                                 <div class="item-container">
@@ -302,8 +302,8 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('item-logo').src = defaultImage
         e.target.reset();
         fetchItemsForProvider(providerid);
-        document.querySelector('.form-curtain').style.display = 'none'
-        document.querySelector('.form-placeholder').style.display = 'block'
+        document.querySelector('.edit-item-form .form-curtain').style.display = 'none'
+        document.querySelector('.edit-item-form .form-placeholder').style.display = 'block'
         document.querySelector('.edit-item-form').style.display = 'flex'
         alert('Item updated successfully!');
 

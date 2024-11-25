@@ -40,43 +40,53 @@
         <!-- Provider & Location Info Section -->
         <section class="info-section">
             <div class="info-header">
-                <div class="info-content">
-                    <div class="left-column">
-                        <img class="provider-logo" src="/media/{{ provider.username }}/logo.png" alt="Provider Logo" onerror="this.src='{% static 'main/assets/BigLogo.png' %}'">
-                        <div class="location-info">
-                            <h2>Location</h2>
-                            <div class="location-details">
-                                <div class="hidden"><p><i class="fa-solid fa-location-dot" aria-hidden="true"></i> {{ location.coordinates }}</p></div>
-                                <p>
-                                    <i class="fa-solid fa-location-dot" aria-hidden="true"></i> 
-                                    {{ location.name }}
+                <div class="main-info-wrapper">
+                    <div class="info-content">
+                        <div class="left-column">
+                            <img class="provider-logo" src="/media/{{ provider.username }}/logo.png" alt="Provider Logo" onerror="this.src='{% static 'main/assets/BigLogo.png' %}'">
+                            <div class="location-info">
+                                <h2>Location</h2>
+                                <div class="location-details">
+                                    <div class="hidden"><p><i class="fa-solid fa-location-dot" aria-hidden="true"></i> {{ location.coordinates }}</p></div>
+                                    <p>
+                                        <i class="fa-solid fa-location-dot" aria-hidden="true"></i> 
+                                        {{ location.name }}
+                                        <span class="rating">
+                                            <i class="fa-solid fa-star"></i>
+                                            {{ location.locationrating|floatformat:1|default:"N/A" }}
+                                        </span>
+                                    </p>
+                                    <p><i class="fa-solid fa-phone" aria-hidden="true"></i> {{ location.phonenumber }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="right-column">
+                            <div class="provider-details-wrapper">
+                                <h1>
+                                    {{ provider.name }}
                                     <span class="rating">
                                         <i class="fa-solid fa-star"></i>
-                                        {{ location.locationrating |default:"N/A" }}
+                                        {{ location.providerrating|floatformat:1|default:"N/A" }}
                                     </span>
-                                </p>
-                                <p><i class="fa-solid fa-phone" aria-hidden="true"></i> {{ location.phonenumber }}</p>
+                                </h1>
+                                <div class="provider-details">
+                                    <p><i class="fa-solid fa-phone" aria-hidden="true"></i> {{ provider.phonenumber }}</p>
+                                    <p><i class="fa-solid fa-envelope" aria-hidden="true"></i> {{ provider.email }}</p>
+                                    <p class="provider-description">{{ provider.description }}</p>
+                                    <button class="review-button" onclick="document.querySelector('.reviews-section').scrollIntoView({behavior: 'smooth'})">
+                                        <i class="fa-solid fa-comment"></i> Leave a Review
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="right-column">
-                        <div class="provider-details-wrapper">
-                            <h1>
-                                {{ provider.name }}
-                                <span class="rating">
-                                    <i class="fa-solid fa-star"></i>
-                                    {{ location.providerrating|default:"N/A" }}
-                                </span>
-                            </h1>
-                            <div class="provider-details">
-                                <p><i class="fa-solid fa-phone" aria-hidden="true"></i> {{ provider.phonenumber }}</p>
-                                <p><i class="fa-solid fa-envelope" aria-hidden="true"></i> {{ provider.email }}</p>
-                                <p class="provider-description">{{ provider.description }}</p>
-                                <button class="review-button" onclick="document.querySelector('.reviews-section').scrollIntoView({behavior: 'smooth'})">
-                                    <i class="fa-solid fa-comment"></i> Leave a Review
-                                </button>
-                            </div>
+
+                    <div class="provider-tags">
+                        <div class="tags-container">
+                            {% for tag in provider_tags %}
+                                <span class="tag">{{ tag.name }}</span>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

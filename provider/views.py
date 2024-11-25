@@ -86,7 +86,6 @@ def providerPage(request, provider_id):
         description = request.POST.get('description')
         
         tags = json.loads(request.POST.get("tags"))  # Ensure tags is a list
-        print(tags)  # Debugging print
 
 
         # Handle image upload only if a new logo file is provided
@@ -147,7 +146,6 @@ def providerPage(request, provider_id):
 
 
 def fetchProvider(request,customer_id):
-
     locations_with_provider_and_ratings = Location.objects.annotate(
         providerrating=Subquery(
                 ProviderRatings.objects.filter(providerid=OuterRef('providerid')).values('providerrating')[:1]
@@ -155,8 +153,6 @@ def fetchProvider(request,customer_id):
         locationrating=Subquery(
             LocationRatings.objects.filter(locationid=OuterRef('locationid')).values('locationrating')[:1]
         )
-
-
     ).select_related('providerid').values(
         'name',
         'locationid',
@@ -166,13 +162,31 @@ def fetchProvider(request,customer_id):
         'providerid__name', 
         'providerid__description', 
         'providerrating',
-        'locationrating'
+        'locationrating',
+        'providerid'
     )
+
+    # Create a list to store the enhanced location data
+    enhanced_locations = []
+    
+    for location in locations_with_provider_and_ratings:
+        # Get provider tags
+        provider_tags = list(Tags.objects.filter(
+            tagid__in=ProvidersTags.objects.filter(
+                providerid=location['providerid']
+            ).values('tagid')
+        ).values('name'))
+        
+        # Add tags to location data
+        location_data = dict(location)
+        location_data['tags'] = provider_tags
+        enhanced_locations.append(location_data)
+
     favlocation = list(FavoriteLocations.objects.filter(customerid=customer_id).values('locationid'))
     
     # Combine the two lists into a dictionary
     data = {
-        'locations': list(locations_with_provider_and_ratings),
+        'locations': enhanced_locations,
         'favorites': list(favlocation)
     }
     
@@ -183,18 +197,23 @@ def tags_list(request):
     tags = Tags.objects.all().values('name')
     return JsonResponse(list(tags), safe=False)
 
-def fetchData(request,providerid):
-    # locations = Location.objects.filter(providerid=providerid).values()
-    # items = Item.objects.filter(providerid=providerid).values()
-    # events = [event for location in locations for event in Event.objects.filter(locationid=location.id).values()]
+def fetchData(request, providerid):
+    provider = Provider.objects.get(providerid=providerid)
     tagids = ProvidersTags.objects.filter(providerid=providerid).values('tagid')
-
-    selectedtags = [tagname for id in list(tagids) for tagname in Tags.objects.filter(tagid=id['tagid']).values('name')]
+    selectedtags = [
+        {'name': tag.name} 
+        for id in tagids 
+            for tag in Tags.objects.filter(tagid=id['tagid'])
+    ]
     
-    data = list(selectedtags)
-    # print(data) #Debugging
-
-    return JsonResponse(data,safe=False)
+    data = {
+        'name': provider.name,
+        'phonenumber': provider.phonenumber,
+        'description': provider.description,
+        'tags': selectedtags
+    }
+    
+    return JsonResponse(data)
 
 
 
@@ -365,10 +384,7 @@ def deleteLocation(request):
 def fetchLocationDetails(request,LocationID):
     location = Location.objects.filter(locationid=LocationID).values('locationid', 'providerid', 'coordinates', 'phonenumber','name')
     locationItems = LocationHasItem.objects.filter(locationid = LocationID).values('itemid')
-    print(locationItems)
-
     location_info = [list(location),list(locationItems)]
-    print(location_info)
     return JsonResponse(location_info, safe=False)
 
 def editLocation(request):
@@ -394,7 +410,6 @@ def editLocation(request):
             for itemid in itemIds:
                 item = Item.objects.get(itemid=itemid)
                 link = LocationHasItem(locationid=location,itemid=item)
-                print(link)
                 link.save()
     return redirect('provider:providerPage', provider_id = providerID)
 
@@ -437,18 +452,55 @@ def addEvent(request):
         pass
     return redirect('provider:providerPage', provider_id = provider.providerid)
 
-def fetchEvents(request,provider_id):
+def fetchEvents(request, customer_id):
+    try:
+        events = Event.objects.select_related(
+            'locationid', 
+            'locationid__providerid'
+        ).values(
+            'eventid',
+            'name',
+            'description',
+            'startdate',
+            'enddate',
+            'starttime',
+            'endtime',
+            'locationid',
+            'locationid__providerid__username',
+            'locationid__providerid__name',
+            'locationid__name',
+            'locationid__coordinates'
+        )
+        
+        events_data = {
+            'events': [{
+                'eventid': event['eventid'],
+                'name': event['name'],
+                'description': event['description'],
+                'startdate': event['startdate'],
+                'enddate': event['enddate'],
+                'starttime': event['starttime'],
+                'endtime': event['endtime'],
+                'locationid': event['locationid'],
+                'provider_username': event['locationid__providerid__username'],
+                'provider_name': event['locationid__providerid__name'],
+                'location_name': event['locationid__name'],
+                'coordinates': event['locationid__coordinates']
+            } for event in events]
+        }
+        
+        return JsonResponse(events_data)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+def fetchProviderEvents(request,provider_id):
     provider = Provider.objects.get(providerid=provider_id)
     locations = Location.objects.filter(providerid=provider)
     eventslist = []
     for location in locations:
         events = list(Event.objects.filter(locationid = location).values('name','eventid','startdate','enddate','starttime','endtime','description'))
         eventslist+=(events)
-        print(eventslist)
-    
     return JsonResponse(eventslist, safe=False)
-
-
 
 def deleteEvent(request):
     if request.method == 'POST':
@@ -516,7 +568,7 @@ def editEvent(request):
 
         username = Provider.objects.filter(providerid = provider.providerid).values('username')[0]['username']
 
-        eventImage = request.FILES.get('add-event-upload-logo')
+        eventImage = request.FILES.get('edit-event-upload-logo')
         provider_folder = os.path.join(settings.MEDIA_ROOT, username) # waseet/media/username
         event_folder = os.path.join(provider_folder, 'events')
         os.makedirs(event_folder, exist_ok=True)

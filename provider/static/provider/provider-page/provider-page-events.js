@@ -159,7 +159,7 @@ document.addEventListener("DOMContentLoaded", function () {
           // fetchItemsForProvider(providerid);
           // fetchProviderItems(providerid);
           fetchEvent(providerid)
-          alert('Event Added successfully!');
+          alert('Event Updated successfully!');
           document.querySelector('.edit-event-form .form-curtain').style.display = 'none'
           document.querySelector('.edit-event-form .form-placeholder').style.display = 'block'
           document.querySelector('.edit-event-form').style.display = 'flex'
@@ -254,45 +254,48 @@ async function fetchEvent(providerid) {
       console.log(events)
       let html = ""
       let eventImagePath = `/media/${providerUsername}/events/event&.png`;
+      
       events.forEach(event => {
-        const imageFilePath = eventImagePath.replace("&", event.eventid);
+        // Add timestamp to prevent caching
+        const timestamp = new Date().getTime();
+        const imageFilePath = `${eventImagePath.replace("&", event.eventid)}?t=${timestamp}`;
 
         html += `
-                      <li>
-                          <div class="event-container">
-                              <div class="event-logo-holder">
-                                  <img src="${imageFilePath}" alt="" class="event-logo" onerror="this.src='${defaultImage}'">
-                              </div>
-                              <div class="event-info">
-                                  <div class="event-info-header">
-                                      <h1>${event.name}</h1>
-                                  </div>
-                                  <div class="event-details">
-                                      <div>
-                                        <p class="event-description-card">${event.description}</p>
-                                      </div>
-                                      <div class = 'event-schedule'>
-                                            <div class="event-date">
-                                                <i class="fa-regular fa-calendar"></i>
-                                                <p>${event.startdate} - ${event.enddate}</p>
-                                            </div>
-                                            <div class="event-time">
-                                                <i class="fa-regular fa-clock"></i>
-                                                <p>${event.starttime.slice(0, 5)} - ${event.endtime.slice(0, 5)}</p>
-                                            </div>
-                                        </div>
-                                  </div>
-                              </div>
-                              <div class="edit-delete-btn">
-                                  <i class="fa-solid fa-trash" ondblclick=deleteEvent(${event.eventid})></i>
-                                  <i class="fa-solid fa-pen-to-square" onclick=fetchEventDetails(${event.eventid})></i>
-                              </div>
-                          </div>
-                      </li>
-                      `
-      })
-      document.getElementById('event-unordered-list').innerHTML = html
-      // Insert the generated HTML into the checklist container
+          <li>
+            <div class="event-container">
+              <div class="event-logo-holder">
+                <img src="${imageFilePath}" alt="" class="event-logo" onerror="this.src='${defaultImage}'">
+              </div>
+              <div class="event-info">
+                <div class="event-info-header">
+                  <h1>${event.name}</h1>
+                </div>
+                <div class="event-details">
+                  <div>
+                    <p class="event-description-card">${event.description}</p>
+                  </div>
+                  <div class = 'event-schedule'>
+                    <div class="event-date">
+                      <i class="fa-regular fa-calendar"></i>
+                      <p>${event.startdate} - ${event.enddate}</p>
+                    </div>
+                    <div class="event-time">
+                      <i class="fa-regular fa-clock"></i>
+                      <p>${event.starttime.slice(0, 5)} - ${event.endtime.slice(0, 5)}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="edit-delete-btn">
+                <i class="fa-solid fa-trash" ondblclick=deleteEvent(${event.eventid})></i>
+                <i class="fa-solid fa-pen-to-square" onclick=fetchEventDetails(${event.eventid})></i>
+              </div>
+            </div>
+          </li>
+        `;
+      });
+      
+      document.getElementById('event-unordered-list').innerHTML = html;
     } else {
       alert(`Error fetching provider Locations ${response.status}`)
     }
