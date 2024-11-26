@@ -42,4 +42,10 @@ urlpatterns = [
     path('fetchEventDetails/<str:event_id>/', views.fetchEventDetails, name='fetchEventDetails'),
     path('editEvent/',views.editEvent , name= 'editEvent'),
     path('events/<int:customer_id>', views.fetchEvents, name='fetchEvents'),
+    path('reviews/<int:provider_id>/', views.providerReviews, name='providerReviews'),
+    path('api/reviews/<int:provider_id>/', views.fetchProviderReviews, name='fetchProviderReviews'),
+    path('api/review-response/', views.submitReviewResponse, name='submitReviewResponse'),
+    path('report/<int:provider_id>/<str:reportee_type>/<int:reportee_id>/<str:reported_type>/<int:reported_id>/', 
+         views.report_page, 
+         name='report'),
 ]

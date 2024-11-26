@@ -40,8 +40,9 @@
                 <div class="toggle-slider"></div>
             </div>
             <div class="nav-links">
-                <a href="#" class="nav-link">Direct Messages</a>
-                <a class="logout-button nav-link" href="{% url 'main:index'%}">Logout</a>
+                <a href="{% url 'provider:providerReviews' provider.providerid %}" class="nav-link logout-button">Reviews</a>
+                <a href="#" class="nav-link logout-button">Analytics</a>
+                <a class="nav-link logout-button" href="{% url 'main:index'%}">Logout</a>
             </div>
         </nav>
     </header>

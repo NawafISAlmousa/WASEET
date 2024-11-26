@@ -4,13 +4,25 @@ from .models import (
     Review, Report, Tags, CustomerMessagesProvider,
     FavoriteItems, FavoriteProviders, FavoriteLocations,
     LocationImpressions, LocationHasItem, ProvidersTags,
-    ReviewResponses, LocationRatings, ProviderRatings
+    ReviewResponses, LocationRatings, ProviderRatings,
+    SupportTicket
 )
 
 @admin.register(Admin)
 class AdminAdmin(admin.ModelAdmin):
     list_display = ['adminid', 'firstname', 'lastname', 'email']
     search_fields = ['firstname', 'lastname', 'email']
+
+
+@admin.register(SupportTicket)
+class SupportTicketAdmin(admin.ModelAdmin):
+    list_display = ['ticketID', 'user_email', 'ticket_text', 'created_at']
+    list_filter = ['created_at']
+    search_fields = ['user_email', 'ticket_text']
+    readonly_fields = ['created_at']
+    ordering = ['-created_at']
+
+
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
@@ -47,6 +59,7 @@ class ReviewAdmin(admin.ModelAdmin):
 class ReportAdmin(admin.ModelAdmin):
     list_display = ['reportid', 'reporteetype', 'reportedtype', 'type', 'status']
     list_filter = ['status', 'type']
+    list_editable = ['status']
 
 @admin.register(Tags)
 class TagsAdmin(admin.ModelAdmin):

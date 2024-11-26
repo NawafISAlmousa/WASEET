@@ -105,6 +105,21 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 </div>
                 <p class="review-text">${review.text}</p>
+                ${review.response ? `
+                    <div class="review-response">
+                        <div class="response-header">
+                            <i class="fa-solid fa-reply"></i>
+                            <span class="provider-name">${review.response.provider_name}</span>
+                            <span class="response-date">${review.response.date}</span>
+                        </div>
+                        <p class="response-text">${review.response.text}</p>
+                    </div>
+                ` : ''}
+                <div class="review-actions">
+                    <button class="review-button" onclick="window.location.href='/customer/report/${customerId}/CUSTOMER/${customerId}/CUSTOMER/${review.customer_id}/?location_id=${locationId}'">
+                        <i class="fa-solid fa-flag"></i> Report Review
+                    </button>
+                </div>
             </div>
         `).join('');
     }

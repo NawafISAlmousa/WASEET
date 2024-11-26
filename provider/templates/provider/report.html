@@ -1,0 +1,64 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report</title>
+    <link rel="stylesheet" href="{% static 'provider/report/report.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="navbar-container">
+                <div class="nav-left">
+                    <img src="{% static 'main/assets/SmallLogo.png' %}" alt="Logo" class="navbar-logo">
+                </div>
+                <div class="nav-buttons">
+                    <a class="nav-button" href="{% url 'provider:providerPage' provider_id=provider_id %}">Main Page</a>
+                    <a class="nav-button" href="{% url 'provider:providerReviews' provider_id=provider_id %}">Reviews</a>
+                    <a class="nav-button" href="{% url 'main:logout' %}">Logout</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="report-container">
+        <h2>Submit Report</h2>
+        
+        <div class="report-details">
+            <p>Reporting: {{ display_name }}</p>
+            <p>Type: {{ reported_type }}</p>
+        </div>
+
+        <form method="POST" class="report-form">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="report_type">Report Type:</label>
+                <select name="report_type" id="report_type" required>
+                    <option value="">Select a reason</option>
+                    {% for type in report_types %}
+                    <option value="{{ type }}">{{ type }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea name="description" id="description" rows="5" required 
+                          placeholder="Please provide details about your report..."></textarea>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="submit-button">Submit Report</button>
+                <button type="button" class="cancel-button" 
+                        onclick="window.history.back()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html> 

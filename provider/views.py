@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.http import JsonResponse, HttpResponseRedirect
-from main.models import Provider, Location, ProviderRatings, Tags, ProvidersTags, Item, Event, LocationHasItem, Event, LocationRatings,FavoriteLocations
+from main.models import Provider, Location, ProviderRatings, Tags, ProvidersTags, Item, Event, LocationHasItem, Event, LocationRatings,FavoriteLocations, Review, ReviewResponses, Report, Customer
 import time,os
 from django.db.models import Subquery, OuterRef
 from django.conf import settings
 import json
 from django.contrib.auth.hashers import make_password
+from django.views.decorators.http import require_http_methods
+from django.utils import timezone
+from django.contrib import messages
 
 
 # Create your views here.
@@ -581,6 +584,154 @@ def editEvent(request):
                     destination.write(chunk)
         pass
     return redirect('provider:providerPage', provider_id = provider.providerid)
+
+def providerReviews(request, provider_id):
+    if request.session.get('user_type') != 'provider' or request.session.get('user_id') != provider_id:
+        request.session.flush()
+        return redirect('main:login')
+    
+    provider = Provider.objects.get(providerid=provider_id)
+    return render(request, 'provider/provider-reviews.html', {
+        'provider': provider,
+    })
+
+def fetchProviderReviews(request, provider_id):
+    try:
+        # Get all locations for this provider with their ratings
+        locations = Location.objects.annotate(
+            locationrating=Subquery(
+                LocationRatings.objects.filter(locationid=OuterRef('locationid')).values('locationrating')[:1]
+            )
+        ).filter(providerid=provider_id)
+        
+        reviews_data = []
+        for location in locations:
+            location_data = {
+                'locationId': location.locationid,
+                'name': location.name,
+                'rating': location.locationrating if location.locationrating else 0,
+                'reviews': []
+            }
+            
+            # Get reviews for this location
+            reviews = Review.objects.filter(
+                locationid=location
+            ).select_related('customerid').order_by('-postdate')
+            
+            for review in reviews:
+                review_data = {
+                    'reviewId': review.reviewid,
+                    'text': review.reviewtext,
+                    'rating': review.rating,
+                    'date': review.postdate.strftime('%Y-%m-%d') if review.postdate else None,
+                    'customer_name': f"{review.customerid.firstname} {review.customerid.lastname}",
+                    'customer_id': review.customerid.customerid,
+                    'response': None
+                }
+                
+                # Check if there's a response
+                try:
+                    response = ReviewResponses.objects.get(reviewid=review)
+                    review_data['response'] = {
+                        'text': response.responsetext,
+                        'date': response.responsedate.strftime('%Y-%m-%d') if response.responsedate else None
+                    }
+                except ReviewResponses.DoesNotExist:
+                    pass
+                
+                location_data['reviews'].append(review_data)
+            
+            reviews_data.append(location_data)
+        
+        return JsonResponse(reviews_data, safe=False)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+@require_http_methods(["POST"])
+def submitReviewResponse(request):
+    try:
+        data = json.loads(request.body)
+        review_id = data.get('reviewId')
+        response_text = data.get('responseText')
+        
+        review = Review.objects.get(reviewid=review_id)
+        provider = Provider.objects.get(providerid=request.session.get('user_id'))
+        
+        # Create or update the response
+        response, created = ReviewResponses.objects.update_or_create(
+            reviewid=review,
+            customerid=review.customerid,
+            providerid=provider,
+            defaults={
+                'responsetext': response_text,
+                'responsedate': timezone.now()
+            }
+        )
+        
+        return JsonResponse({
+            'success': True,
+            'message': 'Response submitted successfully',
+            'response': {
+                'text': response_text,
+                'date': timezone.now().strftime('%Y-%m-%d')
+            }
+        })
+        
+    except Review.DoesNotExist:
+        return JsonResponse({
+            'success': False,
+            'error': 'Review not found'
+        }, status=400)
+    except Exception as e:
+        print(f"Error in submitReviewResponse: {str(e)}")  # Add debugging
+        return JsonResponse({
+            'success': False,
+            'error': str(e)
+        }, status=400)
+
+def report_page(request, provider_id, reportee_type, reportee_id, reported_type, reported_id):
+    if request.session.get('user_type') != 'provider' or request.session.get('user_id') != provider_id:
+        request.session.flush()
+        return redirect('main:login')
+    
+    if request.method == 'POST':
+        try:
+            report = Report(
+                reporteeid=reportee_id,
+                reporteetype=reportee_type,
+                reportedid=reported_id,
+                reportedtype=reported_type,
+                type=request.POST.get('report_type'),
+                description=request.POST.get('description'),
+                status='PENDING'
+            )
+            report.save()
+            messages.success(request, 'Report submitted successfully')
+            return redirect('provider:providerReviews', provider_id=provider_id)
+        except Exception as e:
+            messages.error(request, f'Error submitting report: {str(e)}')
+    
+    # Get the reported entity's details
+    reported_entity = None
+    if reported_type == 'CUSTOMER':
+        reported_entity = Customer.objects.get(customerid=reported_id)
+        display_name = f"{reported_entity.firstname} {reported_entity.lastname}"
+    elif reported_type == 'PROVIDER':
+        reported_entity = Provider.objects.get(providerid=reported_id)
+        display_name = reported_entity.name
+
+    context = {
+        'provider_id': provider_id,
+        'reportee_type': reportee_type,
+        'reportee_id': reportee_id,
+        'reported_type': reported_type,
+        'reported_id': reported_id,
+        'reported_entity': reported_entity,
+        'display_name': display_name,
+        'report_types': ['Inappropriate Content', 'Harassment', 'Spam', 'False Information', 'Other']
+    }
+    
+    return render(request, 'provider/report.html', context)
 
 
    

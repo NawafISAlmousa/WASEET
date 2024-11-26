@@ -64,7 +64,7 @@
                         <div class="right-column">
                             <div class="provider-details-wrapper">
                                 <h1>
-                                    {{ provider.name }}
+                                    {{ provider.display_name }}
                                     <span class="rating">
                                         <i class="fa-solid fa-star"></i>
                                         {{ location.providerrating|floatformat:1|default:"N/A" }}
@@ -76,6 +76,9 @@
                                     <p class="provider-description">{{ provider.description }}</p>
                                     <button class="review-button" onclick="document.querySelector('.reviews-section').scrollIntoView({behavior: 'smooth'})">
                                         <i class="fa-solid fa-comment"></i> Leave a Review
+                                    </button>
+                                    <button class="review-button" onclick="window.location.href='{% url 'customer:report' customer_id=customer_id reportee_type='CUSTOMER' reportee_id=customer_id reported_type='PROVIDER' reported_id=provider.providerid %}?location_id={{ location.locationid }}'">
+                                        <i class="fa-solid fa-flag"></i> Report Provider
                                     </button>
                                 </div>
                             </div>
@@ -182,6 +185,9 @@
             </div>
         </section>
     </main>
+    <script>
+        const customerId = {{ customer_id }};
+    </script>
     <script src="{% static 'customer/viewProviderPage/viewProviderPage.js' %}?v={{ timestamp }}"></script>
     <script> const logoURL = "/media/{{ provider.username }}/logo.png"</script>
 </body>

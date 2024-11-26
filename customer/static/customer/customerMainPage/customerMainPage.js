@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <p class="card-description">${provider.providerid__description}</p>
                 <p class="card-rating">${Math.round(provider.locationrating * 10) / 10}<i class="fa-solid fa-star" style="color:  #00796b;"></i></p>
                 <div class="provider-buttons" id="that">
-                    <button class="map-button">Check on map</button>
+                    <button class="map-button" data-coordinates="${provider.coordinates}" data-provider-name="${provider.providerid__name}" data-location-name="${provider.name}">Check on map</button>
                     <button class="more-button" onclick="window.location.href='${providerURL.replace('0', provider.locationid)}'">See more</button>
                 </div>
             </div>
@@ -198,6 +198,33 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Reset the margin of the buttons container
                 buttons.style.marginTop = '45px';
                 card.style.margin = '20px auto';
+            });
+
+            // Add click handler for map button
+            const mapButton = card.querySelector('.map-button');
+            mapButton.addEventListener('click', () => {
+                // Switch to map tab
+                document.getElementById('map').click();
+                
+                // Get coordinates from data attribute
+                const coords = mapButton.dataset.coordinates.split(',');
+                const providerName = mapButton.dataset.providerName;
+                const locationName = mapButton.dataset.locationName;
+                
+                // Wait a brief moment for the map to initialize if needed
+                setTimeout(() => {
+                    // Center map on the provider location
+                    map.setView([coords[0], coords[1]], 15);
+                    
+                    // Find and open the corresponding marker's popup
+                    markers.forEach(marker => {
+                        const markerLatLng = marker.getLatLng();
+                        if (markerLatLng.lat === parseFloat(coords[0]) && 
+                            markerLatLng.lng === parseFloat(coords[1])) {
+                            marker.openPopup();
+                        }
+                    });
+                }, 300);
             });
 
             providerContent.appendChild(card);

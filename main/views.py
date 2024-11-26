@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 from main import models
 from django.contrib.auth.hashers import check_password
+from .models import SupportTicket
+from django.contrib import messages
 
 def index(request):
     return render(request, 'main/index.html')
@@ -73,5 +75,21 @@ def login(request):
 def logout(request):
     request.session.flush()  # Clear all session data
     return redirect('main:index')
+
+def support_view(request):
+    if request.method == 'POST':
+        email = request.POST.get('user_email')
+        text = request.POST.get('ticket_text')
+        
+        # Create new support ticket
+        SupportTicket.objects.create(
+            user_email=email,
+            ticket_text=text
+        )
+        
+        # Redirect to home page after submission
+        return redirect('main:index')
+    
+    return render(request, 'main/support.html')
 
 

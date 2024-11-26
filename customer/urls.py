@@ -32,4 +32,7 @@ urlpatterns = [
     path('<int:customer_id>/favorites/', views.favorites_page, name='favorites'),
     path('favorites/<int:customer_id>/<int:location_id>/remove/', views.remove_favorite, name='remove-favorite'),
     path('api/<int:customer_id>/favorites/', views.get_favorites, name='get_favorites'),
+    path('report/<int:customer_id>/<str:reportee_type>/<int:reportee_id>/<str:reported_type>/<int:reported_id>/', 
+         views.report_page, 
+         name='report'),
 ]

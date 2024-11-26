@@ -1,0 +1,247 @@
+* {
+    font-family: 'Jost', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Updated Navigation Styles */
+.header {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    height: 40px;
+    margin-right: 20px;
+}
+
+.nav-bar {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.nav-link {
+    margin-right: 20px;
+    color: #296879;
+    text-decoration: none;
+}
+
+.logout-button {
+    background-color: #296879;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+    background-color: #255d6d;
+}
+
+/* Container styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+}
+
+/* Location Grid and Cards */
+.locations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.location-card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-width: 400px;
+}
+
+.location-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #eee;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.location-name, .location-rating {
+    color: #296879;
+    font-size: 1.2em;
+}
+
+.location-rating-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.sentiment-badges {
+    display: flex;
+    gap: 10px;
+}
+
+.sentiment-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    color: white;
+    cursor: help;
+}
+
+.sentiment-badge.positive {
+    background-color: #28a745;
+}
+
+.sentiment-badge.negative {
+    background-color: #dc3545;
+}
+
+.unreplied-count {
+    background-color: #ffc107;
+    color: #000;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+}
+
+/* Reviews List */
+.reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.review-card {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.review-customer {
+    font-weight: 500;
+}
+
+.review-date {
+    color: #6c757d;
+    font-size: 0.9em;
+}
+
+.review-text {
+    margin-bottom: 15px;
+    line-height: 1.4;
+}
+
+.response-form {
+    display: none;
+    margin-top: 15px;
+}
+
+.response-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+}
+
+.submit-response, .reply-button {
+    background-color: #296879;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.cancel-button {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.response-date {
+    color: #6c757d;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+}
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f4f4f4;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #296879;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #255d6d;
+}
+
+/* Add to your existing CSS */
+.report-button {
+    background: none;
+    border: none;
+    color: #1B1B1B;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: color 0.2s ease;
+}
+
+.report-button:hover {
+    color: #296879;
+}
+
+.report-button i {
+    font-size: 12px;
+}

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from main import models
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
-from main.models import Customer, Provider, Location, LocationHasItem, LocationRatings, ProviderRatings, Event, FavoriteLocations, Review, LocationImpressions, ProvidersTags, Tags
+from main.models import Customer, Provider, Location, LocationHasItem, LocationRatings, ProviderRatings, Event, FavoriteLocations, Review, LocationImpressions, ProvidersTags, Tags, Report
 from django.db.models import OuterRef, Subquery
 from django.http import JsonResponse
 import json
@@ -35,7 +35,10 @@ def viewProviderPage(request, customer_id, location_id):
         'providerid', 'username', 'email', 'name', 'phonenumber', 'description'
     )[0]
     
-    # Get provider tags - updated query
+    # Use the name field directly as display_name
+    provider['display_name'] = provider['name']
+    
+    # Get provider tags
     provider_tags = Tags.objects.filter(
         tagid__in=ProvidersTags.objects.filter(
             providerid=location.providerid.providerid
@@ -123,13 +126,23 @@ def add_bookmark(request, customerid, locationid):
 @require_http_methods(["GET"])
 def get_location_reviews(request, location_id):
     try:
-        reviews = Review.objects.filter(locationid=location_id).select_related('customerid').order_by('-postdate')
+        reviews = Review.objects.filter(locationid=location_id)\
+            .select_related('customerid')\
+            .prefetch_related('reviewresponses_set')\
+            .order_by('-postdate')
+            
         reviews_data = [{
             'id': review.reviewid,
             'rating': review.rating,
             'text': review.reviewtext,
             'date': review.postdate.strftime('%b %d, %Y') if review.postdate else None,
-            'customer_name': f"{review.customerid.firstname} {review.customerid.lastname}"
+            'customer_name': f"{review.customerid.firstname} {review.customerid.lastname}",
+            'customer_id': review.customerid.customerid,
+            'response': {
+                'text': response.responsetext,
+                'date': response.responsedate.strftime('%b %d, %Y'),
+                'provider_name': response.providerid.name
+            } if (response := review.reviewresponses_set.first()) else None
         } for review in reviews]
         return JsonResponse({'reviews': reviews_data})
     except Exception as e:
@@ -283,4 +296,53 @@ def get_favorites(request, customer_id):
     except Exception as e:
         print(f"Error in get_favorites: {str(e)}")
         return JsonResponse({'error': str(e)}, status=500)
+   
+
+def report_page(request, customer_id, reportee_type, reportee_id, reported_type, reported_id):
+    location_id = request.GET.get('location_id')
+    
+    if request.method == 'POST':
+        try:
+            report = Report(
+                reporteeid=reportee_id,
+                reporteetype=reportee_type,
+                reportedid=reported_id,
+                reportedtype=reported_type,
+                type=request.POST.get('report_type'),
+                description=request.POST.get('description'),
+                status='PENDING'
+            )
+            report.save()
+            messages.success(request, 'Report submitted successfully')
+            
+            # Debug print
+            print(f"Redirecting to view provider page with customer_id={customer_id} and location_id={location_id}")
+            
+            # Make sure this matches your URL pattern name
+            return redirect('customer:viewProviderPage', customer_id=customer_id, location_id=location_id)
+        except Exception as e:
+            messages.error(request, f'Error submitting report: {str(e)}')
+    
+    # Get the reported entity's details
+    reported_entity = None
+    if reported_type == 'PROVIDER':
+        reported_entity = Provider.objects.get(providerid=reported_id)
+        display_name = reported_entity.name
+    elif reported_type == 'CUSTOMER':
+        reported_entity = Customer.objects.get(customerid=reported_id)
+        display_name = f"{reported_entity.firstname} {reported_entity.lastname}"
+
+    context = {
+        'customer_id': customer_id,
+        'reportee_type': reportee_type,
+        'reportee_id': reportee_id,
+        'reported_type': reported_type,
+        'reported_id': reported_id,
+        'reported_entity': reported_entity,
+        'display_name': display_name,
+        'report_types': ['Inappropriate Content', 'Harassment', 'Spam', 'False Information', 'Other'],
+        'location_id': location_id  # Add to context
+    }
+    
+    return render(request, 'customer/report.html', context)
    

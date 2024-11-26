@@ -307,7 +307,6 @@ class Report(models.Model):
     type = models.CharField(db_column='Type', max_length=50, blank=True, null=True)  # Field name made lowercase.
     description = models.TextField(db_column='Description', blank=True, null=True)  # Field name made lowercase.
     status = models.CharField(db_column='Status', max_length=8, blank=True, null=True)  # Field name made lowercase.
-    adminid = models.ForeignKey(Admin, models.DO_NOTHING, db_column='AdminID', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -328,14 +327,29 @@ class Review(models.Model):
 
 
 class ReviewResponses(models.Model):
-    reviewid = models.OneToOneField(Review, models.DO_NOTHING, db_column='ReviewID', primary_key=True)  # Field name made lowercase. The composite primary key (ReviewID, CustomerID, ProviderID) found, that is not supported. The first column is selected.
-    customerid = models.ForeignKey(Customer, models.DO_NOTHING, db_column='CustomerID')  # Field name made lowercase.
-    providerid = models.ForeignKey(Provider, models.DO_NOTHING, db_column='ProviderID')  # Field name made lowercase.
+    reviewid = models.ForeignKey(Review, models.DO_NOTHING, db_column='ReviewID', primary_key=True)
+    customerid = models.ForeignKey(Customer, models.DO_NOTHING, db_column='CustomerID')
+    providerid = models.ForeignKey(Provider, models.DO_NOTHING, db_column='ProviderID')
+    responsetext = models.TextField(db_column='ResponseText', blank=True, null=True)
+    responsedate = models.DateTimeField(db_column='ResponseDate', blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'review_responses'
         unique_together = (('reviewid', 'customerid', 'providerid'),)
+
+
+
+
+class SupportTicket(models.Model):
+    ticketID = models.AutoField(primary_key=True)  
+    created_at = models.DateTimeField(auto_now_add=True) 
+    user_email = models.EmailField()  
+    ticket_text = models.TextField()  
+    
+    class Meta:
+        db_table = 'support_ticket'  
+        managed = False  
 
 
 class Tags(models.Model):
