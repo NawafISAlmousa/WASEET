@@ -127,6 +127,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   document.getElementById("eventAIbutton").onclick = () => getGPTResponseForEvent();
 
+  document.getElementById("add-event-AIbutton").onclick = () => getGPTResponseForAddEvent();
+
 
 
 
@@ -427,6 +429,58 @@ async function getGPTResponseForEvent() {
       // Extract and return the text content of the response
       if (data.choices && data.choices.length > 0) {
         document.getElementById("edit-event-description").value = data.choices[0].message.content;
+      } else {
+        console.error("Unexpected response format:", data);
+        alert("Could not fetch from AI Model: Invalid response structure.");
+      }
+    } catch (error) {
+      console.error("Error fetching response:", error);
+      alert("There was an error fetching the response.");
+    }
+  } else {
+    alert("Please Provide a Description to be Modified.")
+  }
+}
+
+
+
+async function getGPTResponseForAddEvent() {
+  const descEvent = document.getElementById("add-event-description").value
+  const nameEvent = document.getElementById("add-event-name").value
+  const apiKey = '';  // Replace with your actual API key
+  const modUserInput = `Generate a new short description about 300 characters long for an event based on: 1-name: (${nameEvent}) 2-current description: (${descEvent}) without anything but the generated description please so no 'ofcourse' or 'got it' just the description alone `;
+  if (descEvent.trim() !== "") {
+    try {
+      // Set up the request to OpenAI API
+      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${apiKey}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          model: "gpt-4o",  // Switching to the more basic gpt-3.5-turbo model
+          messages: [
+            { "role": "system", "content": "You are assisting a service provider or a merchant to describe an event they are advertising." },
+            { "role": "user", "content": modUserInput }
+          ]
+        })
+      });
+
+      // Check if the response was successful
+      if (!response.ok) {
+        console.error(`Error: API request failed with status ${response.status}`);
+        alert(`Could not fetch from AI Model: Status ${response.status}`);
+        return `Error: API request failed with status ${response.status}`;
+      }
+
+      // Parse the JSON response
+      const data = await response.json();
+      console.log("API Response Data:", data);  // For debugging, log the entire response
+
+      // Extract and return the text content of the response
+      if (data.choices && data.choices.length > 0) {
+        document.getElementById("add-event-description").value = data.choices[0].message.content;
       } else {
         console.error("Unexpected response format:", data);
         alert("Could not fetch from AI Model: Invalid response structure.");

@@ -178,7 +178,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const buttons = card.querySelector('.provider-buttons');
 
                 // Show and animate the description
-                description.style.display = 'block';
+                description.style.display = '-webkit-box';
                 description.style.animation = 'description 0.5s forwards';
 
                 // Adjust the margin of the buttons container
