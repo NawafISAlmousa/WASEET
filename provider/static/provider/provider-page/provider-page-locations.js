@@ -73,7 +73,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const editDeselectbutton = document.getElementById("edit-deselect-all")
 
   addSelectbutton.addEventListener("click", function () {
-    console.log("CLICKED!");
     let checklist = document.querySelectorAll('.add-checkbox-item')
     for (let item of checklist)
       item.checked = true
@@ -86,7 +85,6 @@ document.addEventListener("DOMContentLoaded", function () {
   })
 
   editSelectbutton.addEventListener("click", function () {
-    console.log("CLICKED!");
     let checklist = document.querySelectorAll('.edit-checkbox-item')
     for (let item of checklist)
       item.checked = true
@@ -196,7 +194,6 @@ async function fetchLocationsForProvider(providerid) {
       let locationsHTML = '';
 
       locations.forEach(location => {
-        console.log(location.locationid)
         locationsHTML += `
                             <li>
                               <div class="loc-container">
@@ -291,14 +288,10 @@ async function deleteLocation(locationID) {
 };
 
 async function fetchLocationDetails(LocationID) {
-  console.log('aefaefaefaefaefaefaerthe6e56e45')
-
   document.querySelector('.edit-location-form .form-curtain').style.display = 'block'
   document.querySelector('.edit-location-form .form-placeholder').style.display = 'none'
   document.querySelector('.edit-location-form').style.display = 'block'
   try {
-
-    console.log(document.querySelector('.edit-location-form'))
     const reponse = await fetch(`/provider/fetchLocationDetails/${LocationID}/`)
     const locationName = document.getElementById('edit-location-name')
     const latitude = document.getElementById('edit-location-latitude')

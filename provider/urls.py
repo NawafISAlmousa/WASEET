@@ -48,4 +48,5 @@ urlpatterns = [
     path('report/<int:provider_id>/<str:reportee_type>/<int:reportee_id>/<str:reported_type>/<int:reported_id>/', 
          views.report_page, 
          name='report'),
+    path('analytics/<int:provider_id>/', views.analytics, name='analytics'),
 ]

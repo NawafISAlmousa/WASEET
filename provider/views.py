@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.http import JsonResponse, HttpResponseRedirect
-from main.models import Provider, Location, ProviderRatings, Tags, ProvidersTags, Item, Event, LocationHasItem, Event, LocationRatings,FavoriteLocations, Review, ReviewResponses, Report, Customer
+from main.models import Provider, Location, ProviderRatings, Tags, ProvidersTags, Item, Event, LocationHasItem, Event, LocationRatings,FavoriteLocations, Review, ReviewResponses, Report, Customer, LocationImpressions
 import time,os
 from django.db.models import Subquery, OuterRef
 from django.conf import settings
@@ -10,6 +10,7 @@ from django.contrib.auth.hashers import make_password
 from django.views.decorators.http import require_http_methods
 from django.utils import timezone
 from django.contrib import messages
+from django.core.serializers.json import DjangoJSONEncoder
 
 
 # Create your views here.
@@ -23,6 +24,7 @@ def registerProvider(request):
         password = request.POST.get('password')
         phonenumber = request.POST.get('provider-number')
         description = request.POST.get('description')
+        
 
         # Validation checks
         errors = {}
@@ -728,10 +730,89 @@ def report_page(request, provider_id, reportee_type, reportee_id, reported_type,
         'reported_id': reported_id,
         'reported_entity': reported_entity,
         'display_name': display_name,
+        'timestamp': int(time.time()),
         'report_types': ['Inappropriate Content', 'Harassment', 'Spam', 'False Information', 'Other']
     }
     
     return render(request, 'provider/report.html', context)
+
+def analytics(request, provider_id):
+    if request.session.get('user_type') != 'provider' or request.session.get('user_id') != provider_id:
+        request.session.flush()
+        return redirect('main:login')
+        
+    provider = Provider.objects.get(providerid=provider_id)
+    locations = Location.objects.filter(providerid=provider)
+    
+    analytics_data = []
+    
+    for location in locations:
+        location_data = {
+            'name': str(location.name),  # Ensure string
+            'locationid': str(location.locationid),  # Convert to string
+            'impressions': LocationImpressions.objects.filter(locationid=location).count() or 0,
+            'favorites': FavoriteLocations.objects.filter(locationid=location).count() or 0,
+            
+            # Gender metrics
+            'totalmaleimpressions': LocationImpressions.objects.filter(
+                locationid=location,
+                customerid__gender='M'
+            ).count() or 0,
+            'totalfemaleimpressions': LocationImpressions.objects.filter(
+                locationid=location,
+                customerid__gender='F'
+            ).count() or 0,
+            'totalmalefavorites': FavoriteLocations.objects.filter(
+                locationid=location,
+                customerid__gender='M'
+            ).count() or 0,
+            'totalfemalefavorites': FavoriteLocations.objects.filter(
+                locationid=location,
+                customerid__gender='F'
+            ).count() or 0,
+            
+            # Age metrics
+            'youngadultsimpressionscount': LocationImpressions.objects.filter(
+                locationid=location,
+                customerid__dob__gt=timezone.now().date() - timezone.timedelta(days=25*365)
+            ).count() or 0,
+            'adultsimpressionscount': LocationImpressions.objects.filter(
+                locationid=location,
+                customerid__dob__lte=timezone.now().date() - timezone.timedelta(days=25*365),
+                customerid__dob__gt=timezone.now().date() - timezone.timedelta(days=45*365)
+            ).count() or 0,
+            'seniorimpressionscount': LocationImpressions.objects.filter(
+                locationid=location,
+                customerid__dob__lte=timezone.now().date() - timezone.timedelta(days=45*365)
+            ).count() or 0,
+            'youngadultsfavoritescount': FavoriteLocations.objects.filter(
+                locationid=location,
+                customerid__dob__gt=timezone.now().date() - timezone.timedelta(days=25*365)
+            ).count() or 0,
+            'adultsfavoritescount': FavoriteLocations.objects.filter(
+                locationid=location,
+                customerid__dob__lte=timezone.now().date() - timezone.timedelta(days=25*365),
+                customerid__dob__gt=timezone.now().date() - timezone.timedelta(days=45*365)
+            ).count() or 0,
+            'seniorsfavoritescount': FavoriteLocations.objects.filter(
+                locationid=location,
+                customerid__dob__lte=timezone.now().date() - timezone.timedelta(days=45*365)
+            ).count() or 0,
+            
+            # Reviews metrics
+            'positive_reviews': Review.objects.filter(locationid=location, rating__gte=3).count() or 0,
+            'negative_reviews': Review.objects.filter(locationid=location, rating__lt=3).count() or 0,
+        }
+        analytics_data.append(location_data)
+
+    # Use json.dumps with proper encoding and escaping
+    context = {
+        'provider': provider,
+        'analytics_data': json.dumps(analytics_data, cls=DjangoJSONEncoder),
+        'timestamp': int(time.time())
+    }
+    
+    return render(request, 'provider/analytics.html', context)
 
 
    

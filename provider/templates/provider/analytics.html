@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static 'provider/analytics/analytics.css' %}?v={{ timestamp }}">
+    <title>Analytics</title>
+</head>
+
+<body>
+    <header class="header">
+        <img src="{% static 'main/assets/SmallLogo.png'%}" alt="WASEET Logo" class="logo">
+        <nav class="nav-bar">
+            <div class="nav-links">
+                <a href="{% url 'provider:providerReviews' provider.providerid %}" class="nav-link logout-button">Reviews</a>
+                <a href="{% url 'provider:providerPage' provider.providerid %}" class="nav-link logout-button">Provider Page</a>
+                <a class="nav-link logout-button" href="{% url 'main:index'%}">Logout</a>
+            </div>
+        </nav>
+    </header>
+    <main class="content">
+        <!-- Impressions Section -->
+        <div class="analytics-section">
+            <h2 class="section-title">Impressions Analytics</h2>
+            <div id="views-analytics">
+                <div class="demographics-container">
+                    <div class="chart-wrapper">
+                        <canvas id="impressions-gender"></canvas>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="impressions-age"></canvas>
+                    </div>
+                </div>
+                <div class="location-chart">
+                    <canvas id="impressions-count-by-location"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Favorites Section -->
+        <div class="analytics-section">
+            <h2 class="section-title">Favorites Analytics</h2>
+            <div id="favorites-analytics">
+                <div class="demographics-container">
+                    <div class="chart-wrapper">
+                        <canvas id="favorites-gender"></canvas>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="favorites-age"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews Section -->
+        <div class="analytics-section">
+            <h2 class="section-title">Reviews Analytics</h2>
+            <div id="reviews-analytics">
+                <div class="location-chart">
+                    <canvas id="reviews-count-by-location-with-rating"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+    <input type="hidden" id="analytics-data" value='{{ analytics_data|safe }}'>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<script src="{% static 'provider/analytics/analytics.js' %}"></script>
+</html>

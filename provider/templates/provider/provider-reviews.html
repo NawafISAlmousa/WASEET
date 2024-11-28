@@ -15,7 +15,7 @@
         <nav class="nav-bar">
             <div class="nav-links">
                 <a href="{% url 'provider:providerPage' provider.providerid %}" class="nav-link logout-button">Back to Dashboard</a>
-                <a href="#" class="nav-link logout-button">Analytics</a>
+                <a href="{% url 'provider:analytics' provider.providerid %}" class="nav-link logout-button">Analytics</a>
                 <a class="nav-link logout-button" href="{% url 'main:index'%}">Logout</a>
             </div>
         </nav>

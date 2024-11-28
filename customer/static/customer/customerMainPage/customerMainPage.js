@@ -633,11 +633,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 const normalizedSearchTerm = normalizeText(searchTerm);
                 
                 filteredProviders = filteredProviders.filter(provider => {
-                    // Debug logs
-                    console.log('Provider:', provider.name);
-                    console.log('Provider Tags:', provider.providerid__tags);
-                    console.log('Location Tags:', provider.tags);
-                    
                     // Check basic provider information
                     const basicMatch = 
                         textMatches(provider.name, searchTerm, normalizedSearchTerm) ||
@@ -649,16 +644,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         ...(Array.isArray(provider.providerid__tags) ? provider.providerid__tags : []),
                         ...(Array.isArray(provider.tags) ? provider.tags : [])
                     ];
-                    
-                    console.log('Combined Tags:', providerTags);
-                    
+
                     const tagMatch = providerTags.some(tag => {
-                        console.log('Checking tag:', tag);
                         return textMatches(tag.name, searchTerm, normalizedSearchTerm);
                     });
-
-                    // Debug log
-                    console.log('Tag Match Result:', tagMatch);
 
                     return basicMatch || tagMatch;
                 });
