@@ -201,6 +201,7 @@ document.addEventListener("DOMContentLoaded", function () {
         e.target.reset();
         fetchItemsForProvider(providerid);
         fetchProviderItems(providerid);
+        fetchProviderEditItems(providerid);
         alert('Item Added successfully!');
 
       } else {
