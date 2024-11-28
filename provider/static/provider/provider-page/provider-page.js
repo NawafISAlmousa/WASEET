@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
             preview.src = URL.createObjectURL(file);
         }
     }
-
+    document.getElementById("AIbutton").onclick = () => getGPTResponse();
     document.querySelector(".logo-input").addEventListener("change", previewLogo)
 
     document.querySelector(".change-logo").addEventListener("click", triggerFileInput)
@@ -252,3 +252,55 @@ document.getElementById('edit-profile-form').addEventListener('submit', async (e
 });
 
 
+
+
+
+
+async function getGPTResponse() {
+    const apiKey = '';  // Replace with your actual API key
+    const modUserInput = `Generate a new short description about 300 characters long based on: 1-name: (${providerName.value}) 2-current description: (${providerDesc.value}) 3-tags: (${selectedTags}) without anything but the generated description please so no 'ofcourse' or 'got it' just the description alone and talk in first-person prespective. if it looks like a business is asking for the description use 'we' else if it looks like a singular provider, say a freelancer, is asking for the description use 'I'`;
+    if (providerDesc.value.trim() !== "") {
+        try {
+            // Set up the request to OpenAI API
+            const response = await fetch("https://api.openai.com/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${apiKey}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    model: "gpt-4o",  // Switching to the more basic gpt-3.5-turbo model
+                    messages: [
+                        { "role": "system", "content": "You are assisting a service provider or a merchant to generally describe what they are." },
+                        { "role": "user", "content": modUserInput }
+                    ]
+                })
+            });
+
+            // Check if the response was successful
+            if (!response.ok) {
+                console.error(`Error: API request failed with status ${response.status}`);
+                alert(`Could not fetch from AI Model: Status ${response.status}`);
+                return `Error: API request failed with status ${response.status}`;
+            }
+
+            // Parse the JSON response
+            const data = await response.json();
+            console.log("API Response Data:", data);  // For debugging, log the entire response
+
+            // Extract and return the text content of the response
+            if (data.choices && data.choices.length > 0) {
+                document.getElementById('edit-description').value = data.choices[0].message.content;
+            } else {
+                console.error("Unexpected response format:", data);
+                alert("Could not fetch from AI Model: Invalid response structure.");
+            }
+        } catch (error) {
+            console.error("Error fetching response:", error);
+            alert("There was an error fetching the response.");
+        }
+    } else {
+        alert("Please Provide a Description to be Modified.")
+    }
+
+}
